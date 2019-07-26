@@ -1,4 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<session version="1.0">
-<refactoring comment="Copy element &apos;listUser.jsp&apos; to &apos;pages&apos;&#x0D;&#x0A;- Original project: &apos;usher&apos;&#x0D;&#x0A;- Destination element: &apos;pages&apos;&#x0D;&#x0A;- Original element: &apos;listUser.jsp&apos;" description="Copy file" element1="src/main/webapp/WEB-INF/pages/listUser.jsp" files="1" flags="589830" folders="0" id="org.eclipse.jdt.ui.copy" policy="org.eclipse.jdt.ui.copyResources" stamp="1562981625243" target="/usher/src/main/webapp/WEB-INF/pages" units="0" version="1.0"/>
-</session>
