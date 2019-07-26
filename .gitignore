@@ -2,5 +2,6 @@
 .git/
 .metadata/
 .RemoteSystemsTempFiles/
+RemoteSystemsTempFiles/
 Servers/
 
