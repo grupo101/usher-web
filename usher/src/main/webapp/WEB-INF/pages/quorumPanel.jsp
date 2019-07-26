@@ -223,6 +223,8 @@
         <ul>
 <li><a href="user2">USUARIOS</a></li>
 <li><a href="member2">DIPUTADOS</a></li>
+<li><a href="bench2">BANCAS</a></li>
+<li><a href="block2">BLOQUES</a></li>
 <li><a href="canvas">PANEL QUORUM</a></li>
 
       </ul>

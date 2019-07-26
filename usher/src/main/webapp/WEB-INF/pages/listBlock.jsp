@@ -76,12 +76,12 @@
       <!--\\\\\\\ contentpanel start\\\\\\-->
       <div class="pull-left breadcrumb_admin clear_both">
         <div class="pull-left page_title theme_color">
-          <h1>Listado de Diputados</h1>
+          <h1>Listado de Bloques</h1>
           </div>
         <div class="pull-right">
           <ol class="breadcrumb">
             <li><a href="#">Principal</a></li>
-            <li><a href="#">DIPUTADOS</a></li>
+            <li><a href="#">BLOQUES</a></li>
             
           </ol>
         </div>
@@ -103,21 +103,15 @@
 
  			<thead>
 				<tr>
- 					<th class="sorting" role="columnheader" tabindex="0" aria-controls="dynamic-table" rowspan="1" colspan="1" aria-label="Rendering engine: activate to sort column ascending" style="width: 220px;display:none;">ID</th>
+ 					<th class="sorting" role="columnheader" tabindex="0" aria-controls="dynamic-table" rowspan="1" colspan="1" aria-label="Rendering engine: activate to sort column ascending" style="width: 220px;">ID</th>
 					<th class="sorting" role="columnheader" tabindex="0" aria-controls="dynamic-table" rowspan="1" colspan="1" aria-label="Rendering engine: activate to sort column ascending" style="width: 220px;">Nombre</th>
-					<th class="sorting" role="columnheader" tabindex="0" aria-controls="dynamic-table" rowspan="1" colspan="1" aria-label="Rendering engine: activate to sort column ascending" style="width: 220px;">Apellido</th>
-					<th class="sorting" role="columnheader" tabindex="0" aria-controls="dynamic-table" rowspan="1" colspan="1" aria-label="Rendering engine: activate to sort column ascending" style="width: 220px;">Bloque asociado</th>
-					<th class="sorting" role="columnheader" tabindex="0" aria-controls="dynamic-table" rowspan="1" colspan="1" aria-label="Rendering engine: activate to sort column ascending" style="width: 220px;">Banca asociada</th>
 				</tr>
 			</thead>
 			<tbody role="alert" aria-live="polite" aria-relevant="all">
-				<c:forEach var="member" items="${members}">
+				<c:forEach var="block" items="${blocks}">
 					<tr>
- 						<td style="display:none">${member.id}</td>
-						<td>${member.name}</td>
-						<td>${member.surName}</td>
-						<td>${member.assosiatedBlock}</td>
-						<td>${member.associatedBench}</td>					
+ 						<td>${block.id}</td>
+						<td>${block.name}</td>	
 					</tr>
 				</c:forEach>
 			</tbody>
@@ -138,12 +132,12 @@
         <hr />
 	
 	<p>
-		<b>DIPUTADO SELECCIONADO:</b>
+		<b>BLOQUE SELECCIONADO:</b>
 	</p>
 
 <div class="block-web">
 	<form:form id="form1" name="form1" method="post"
-		commandName="memberForm" action="">
+		commandName="blockForm" action="">
 	
 		<table style="width: 100%;" class="dataTables_wrapper form-inline" aria-describedby="dynamic-table_info">
 			<tr>
@@ -153,31 +147,10 @@
 				<th align=left style="background-color: #f6f6f6">Nombre:</th>
 				<th style="background-color: white"><form:input id="name"
 						path="name" 
-						readonly="true"/></th>
-                 <th align=left style="background-color: #f6f6f6">Apellido:</th>
-				<th style="background-color: white"><form:input id="surName"
-						path="surName" 
-						readonly="true"/></th>
-			</tr>
-			<tr>
-			
-			<th align=left style="background-color: #f6f6f6">Bloque asociado:</th>
-				<th style="background-color: white"><form:input id="assosiatedBlock"
-						path="assosiatedBlock"
-						/></th>                   		
-                   		<th align=left style="background-color: #f6f6f6">Banca asociada:</th>
-				<th style="background-color: white"><form:input id="associatedBench"
-						path="associatedBench" 
-						/></th>			
-<%-- 				<th align=left style="background-color: #f6f6f6">Alta</th>
-				<th style="background-color: white"><form:input id="grantedAccess"
-						path="grantedAccess" 
-						type="text"/>
-				</th> --%>
-			</tr>
+				/></th>
+
+			</tr>			
 				<tr>
-					<th align=center style="weight: 100%; background-color: white"></th>
-					<th align=center style="weight: 100%; background-color: white"></th>
 					<th align=center style="weight: 100%; background-color: white"></th>
 					<th align=center style="weight: 100%; background-color: white"></th>
 					<th align=center style="weight: 100%; background-color: white"></th>
@@ -192,7 +165,7 @@
 		
 		</div>
 	<hr />		
-	<a href="member"><input class="btn btn-primary btn-lg" id="registrar" type="button" value="Registrar diputado" style="width: 100%;"></a> 	
+	<a href="block"><input class="btn btn-primary btn-lg" id="registrar" type="button" value="Registrar bloque" style="width: 100%;"></a> 	
 	<hr />
        </div><!--/page-content end--> 
   </div><!--/main-content end--> 
@@ -216,9 +189,6 @@
 			var tags_td = cell.getElementsByTagName('td');
 			document.getElementById('id').value = tags_td.item(0).innerHTML;
 			document.getElementById('name').value = tags_td.item(1).innerHTML;
-			document.getElementById('surName').value = tags_td.item(2).innerHTML;
-			document.getElementById('assosiatedBlock').value = tags_td.item(3).innerHTML;
-			document.getElementById('associatedBench').value = tags_td.item(4).innerHTML;		
 			document.getElementById('removeButton').disabled=false;
 			document.getElementById('modifyButton').disabled=false;			
 		}
@@ -242,14 +212,14 @@
 	<script type="text/javascript">
 		function pickModifyButton() {
 			if(document.getElementById('id').value == 0){
-				alert("Debe seleccionar un diputado para modificarlo");
+				alert("Debe seleccionar un bloque para modificarlo");
 				return false;
 			}
-			document.getElementById('form1').action = "modifyMember";
+			document.getElementById('form1').action = "modifyBlock";
 			//document.getElementById('form1').submit();
 		}
 		function pickRemoveButton() {
-			document.getElementById('form1').action = "removeMember";
+			document.getElementById('form1').action = "removeBlock";
 			//document.getElementById('form1').submit();
 		}
 	</script>
