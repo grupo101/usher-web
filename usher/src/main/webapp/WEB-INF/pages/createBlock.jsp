@@ -13,15 +13,14 @@
 <link href="css/animate.css" rel="stylesheet" type="text/css">
 <link href="css/admin.css" rel="stylesheet" type="text/css">
 <link href="plugins/data-tables/DT_bootstrap.css" rel="stylesheet">
-<!-- <link rel="shortcut icon" href="images/BauerMecanicaLogo2.png" /> -->
+<link rel="shortcut icon" href="images/BauerMecanicaLogo2.png" />
 
 <script src="js/jquery-1.12.js"></script>
- 
  <script src="js/jPushMenu.js"></script> 
 <script src="js/side-chats.js"></script>
 
 </head>
-<body class="light_theme left_nav_fixed atm-spmenu-push" style="">
+<body class="light_theme left_nav_fixed atm-spmenu-push" >
 <div class="wrapper">
   <!--\\\\\\\ wrapper Start \\\\\\-->
   <div class="header_bar">
@@ -29,20 +28,18 @@
     <!--\\\\\\\ header Start \\\\\\-->
     <div class="brand">
       <!--\\\\\\\ brand Start \\\\\\-->
-      <div class="logo" style="display:block">Admin <span class="theme_color">USHER</span></div></div>
+      <div class="logo" style="display:block">admin <span class="theme_color">USHER</span></div></div>
     
     </div>
     <!--\\\\\\\ brand end \\\\\\-->
-    <div class="header_top_bar" style="background-image: url(images/redNeuronal7.jpg)">
-      <!--\\\\\\\ header top bar start \\\\\\-->
-<!--       <a href="javascript:void(0);" class="menutoggle"> <i class="fa fa-bars"></i> </a>
- -->      
+     <div class="header_top_bar" style="background-image: url(images/redNeuronal7.jpg)"> 
+       <!--\\\\\\\ header top bar start \\\\\\-->      
     </div>
     <!--\\\\\\\ header top bar end \\\\\\-->
   </div>
   <!--\\\\\\\ header end \\\\\\-->
-  <div class="inner">
-    <!--\\\\\\\ inner start \\\\\\-->
+ 
+ 
     <div class="left_nav">
       <!--\\\\\\\left_nav start \\\\\\-->
       <div class="search_bar"> <i class="fa fa-home"></i>
@@ -50,35 +47,72 @@
       </div>
       <div class="slimScrollDiv" style="position: relative; width: auto; height: 70px;"><div class="left_nav_slidebar" >
         <ul>
-<li><a href="user2">USUARIOS</a></li>
+<li><a href="user2">USUARIOS</a>
 <li><a href="member2">DIPUTADOS</a></li>
 <li><a href="bench2">BANCAS</a></li>
 <li><a href="block2">BLOQUES</a></li>
 <li><a href="canvas">QUORUM</a></li>
-
       </ul>
       </div><div class="slimScrollBar" style="background: rgb(161, 178, 189); width: 5px; position: absolute; top: 0px; border-radius: 7px; z-index: 99; right: 1px; height: 30px; display: none; opacity: 0.4;"></div><div class="slimScrollRail" style="width: 5px; height: 100%; position: absolute; top: 0px; display: none; border-radius: 7px; background: rgb(51, 51, 51); opacity: 0.2; z-index: 90; right: 1px;"></div></div>
     </div>
     <!--\\\\\\\left_nav end \\\\\\-->
-   <!--  <div class="contentpanel" style="background-image: url('images/MECANICABAUER.jpg');min-height: 600px;"> -->
-        <div class="contentpanel">
-         <!--\\\\\\\ contentpanel start\\\\\\-->
-      
+    <div class="contentpanel" style="background-color:#F6F6F6"> 
+      <!--\\\\\\\ contentpanel start\\\\\\-->
       <div class="pull-left breadcrumb_admin clear_both">
         <div class="pull-left page_title theme_color">
-          <h1>OPERACION EXITOSA</h1>
+          <h1>bloques</h1> 
           </div>
         <div class="pull-right">
           <ol class="breadcrumb">
             <li><a href="#">Principal</a></li>
-            <li><a href="#">op.Concretada</a></li>
+            <li><a href="#">BLOQUES</a></li>
             
           </ol>
         </div>
       </div>
+      <div class="container clear_both padding_fix">
+        <!--\\\\\\\ container  start \\\\\\-->
       
-</div>
-</div>
+       <div id="main-content">
+    <div class="page-content">
+	
+		<p><b>REGISTRAR BLOQUE</b></p>
+		
+		<hr />
+		
+		<div class="row">
+        <div class="col-md-6">
+          <div class="block-web">
 
-	</body>
+            <div class="porlets-content">
+            <form:form class="form-horizontal row-border" id="formulario" method="post" commandName="blockForm" action="addBlock">
+                <div class="form-group">
+                  <label class="col-sm-3 control-label">NOMBRE</label>
+                  <div class="col-sm-9">
+                    <form:input type="text" path="name" class="form-control"
+                      	pattern="^([a-zA-ZñÑáéíóúÁÉÍÓÚ'\.\,]{1,45}[\s]*)+"
+						required="required" 
+						oninvalid="setCustomValidity('Ingresa uno o dos nombres con solo letras')" 
+                   		oninput="setCustomValidity('')" />
+                  </div>
+                               
+                </div><!--/form-group-->                                            
+	              <div style="align:right" class="bottom">
+                  <button style="align:right" type="submit" class="btn btn-primary">GUARDAR</button>
+                  <button style="align:right" type="button" class="btn btn-default">CANCELAR</button>                  
+                </div><!--/form-group-->                
+            </form:form>
+            </div><!--/porlets-content-->
+          </div><!--/block-web--> 
+        </div><!--/col-md-6-->		</div>
+		<hr />
+		</div>
+		
+		
+		</div>
+		
+		</div>
+
+		</div>
+
 </html>

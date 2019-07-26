@@ -25,7 +25,6 @@
 	<script>
 		$(document).ready(function() {
 		    $('#dynamic-table').DataTable( {
-		    	"scrollX": true,		    	
 		    	"order": [[ 0, "desc" ]]
 		    } );
 } );
@@ -66,6 +65,8 @@
         <ul>
 <li><a href="user2">USUARIOS</a>
 <li><a href="member2">DIPUTADOS</a></li>
+<li><a href="bench2">BANCAS</a></li>
+<li><a href="block2">BLOQUES</a></li>
 <li><a href="canvas">QUORUM</a></li>
       </ul>
       </div><div class="slimScrollBar" style="background: rgb(161, 178, 189); width: 5px; position: absolute; top: 0px; border-radius: 7px; z-index: 99; right: 1px; height: 30px; display: none; opacity: 0.4;"></div><div class="slimScrollRail" style="width: 5px; height: 100%; position: absolute; top: 0px; display: none; border-radius: 7px; background: rgb(51, 51, 51); opacity: 0.2; z-index: 90; right: 1px;"></div></div>

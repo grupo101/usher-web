@@ -24,7 +24,7 @@
 	<script src="js/jquery.dataTables.js"></script> 
 	<script>
 		$(document).ready(function() {
-		    $('#dynamic-table').DataTable( {
+		    $('#dynamic-table').DataTable( {		    			    	
 		    	"order": [[ 0, "desc" ]]
 		    } );
 } );
@@ -65,7 +65,7 @@
         <ul>
 <li><a href="user2">USUARIOS</a>
 <li><a href="member2">DIPUTADOS</a></li>
-<li><a href="bench2">BANCAS</a></li>
+<li><a href="bench2">BANCAS</a>
 <li><a href="block2">BLOQUES</a></li>
 <li><a href="canvas">QUORUM</a></li>
       </ul>
@@ -76,12 +76,12 @@
       <!--\\\\\\\ contentpanel start\\\\\\-->
       <div class="pull-left breadcrumb_admin clear_both">
         <div class="pull-left page_title theme_color">
-          <h1>Listado de Diputados</h1>
+          <h1>Listado de Bancas</h1>
           </div>
         <div class="pull-right">
           <ol class="breadcrumb">
             <li><a href="#">Principal</a></li>
-            <li><a href="#">DIPUTADOS</a></li>
+            <li><a href="#">BANCAS</a></li>
             
           </ol>
         </div>
@@ -103,21 +103,23 @@
 
  			<thead>
 				<tr>
- 					<th class="sorting" role="columnheader" tabindex="0" aria-controls="dynamic-table" rowspan="1" colspan="1" aria-label="Rendering engine: activate to sort column ascending" style="width: 220px;display:none;">ID</th>
-					<th class="sorting" role="columnheader" tabindex="0" aria-controls="dynamic-table" rowspan="1" colspan="1" aria-label="Rendering engine: activate to sort column ascending" style="width: 220px;">Nombre</th>
-					<th class="sorting" role="columnheader" tabindex="0" aria-controls="dynamic-table" rowspan="1" colspan="1" aria-label="Rendering engine: activate to sort column ascending" style="width: 220px;">Apellido</th>
-					<th class="sorting" role="columnheader" tabindex="0" aria-controls="dynamic-table" rowspan="1" colspan="1" aria-label="Rendering engine: activate to sort column ascending" style="width: 220px;">Bloque asociado</th>
-					<th class="sorting" role="columnheader" tabindex="0" aria-controls="dynamic-table" rowspan="1" colspan="1" aria-label="Rendering engine: activate to sort column ascending" style="width: 220px;">Banca asociada</th>
+ 					<th class="sorting" role="columnheader" tabindex="0" aria-controls="dynamic-table" rowspan="1" colspan="1" aria-label="Rendering engine: activate to sort column ascending" style="width: 167px;display:none;">ID</th>
+					<th class="sorting" role="columnheader" tabindex="0" aria-controls="dynamic-table" rowspan="1" colspan="1" aria-label="Rendering engine: activate to sort column ascending" style="width: 167px;">Numero</th>
+					<th class="sorting" role="columnheader" tabindex="0" aria-controls="dynamic-table" rowspan="1" colspan="1" aria-label="Rendering engine: activate to sort column ascending" style="width: 167px;">Diputado asociado</th>
+					<th class="sorting" role="columnheader" tabindex="0" aria-controls="dynamic-table" rowspan="1" colspan="1" aria-label="Rendering engine: activate to sort column ascending" style="width: 167px;">Bloque asociado</th>
+					<th class="sorting" role="columnheader" tabindex="0" aria-controls="dynamic-table" rowspan="1" colspan="1" aria-label="Rendering engine: activate to sort column ascending" style="width: 167px;">estado</th>
+
 				</tr>
 			</thead>
 			<tbody role="alert" aria-live="polite" aria-relevant="all">
-				<c:forEach var="member" items="${members}">
+				<c:forEach var="bench" items="${benchs}">
 					<tr>
- 						<td style="display:none">${member.id}</td>
-						<td>${member.name}</td>
-						<td>${member.surName}</td>
-						<td>${member.assosiatedBlock}</td>
-						<td>${member.associatedBench}</td>					
+ 						<td style="display:none">${bench.id}</td>
+						<td>${bench.number}</td>
+						<td>${bench.associatedMember}</td>
+						<td>${bench.associatedBlock}</td>
+						<td>${bench.busyState}</td>
+				
 					</tr>
 				</c:forEach>
 			</tbody>
@@ -137,13 +139,13 @@
         
         <hr />
 	
-	<p>
-		<b>DIPUTADO SELECCIONADO:</b>
+<%-- 	<p>
+		<b>USUARIO SELECCIONADO:</b>
 	</p>
 
 <div class="block-web">
 	<form:form id="form1" name="form1" method="post"
-		commandName="memberForm" action="">
+		commandName="userForm" action="">
 	
 		<table style="width: 100%;" class="dataTables_wrapper form-inline" aria-describedby="dynamic-table_info">
 			<tr>
@@ -161,19 +163,19 @@
 			</tr>
 			<tr>
 			
-			<th align=left style="background-color: #f6f6f6">Bloque asociado:</th>
-				<th style="background-color: white"><form:input id="assosiatedBlock"
-						path="assosiatedBlock"
-						/></th>                   		
-                   		<th align=left style="background-color: #f6f6f6">Banca asociada:</th>
-				<th style="background-color: white"><form:input id="associatedBench"
-						path="associatedBench" 
-						/></th>			
-<%-- 				<th align=left style="background-color: #f6f6f6">Alta</th>
+			<th align=left style="background-color: #f6f6f6">Usuario:</th>
+				<th style="background-color: white"><form:input id="userName"
+						path="userName"
+						readonly="true"/></th>                   		
+                   		<th align=left style="background-color: #f6f6f6">Clave:</th>
+				<th style="background-color: white"><form:input id="password"
+						path="password" 
+						readonly="true"/></th>			
+				<th align=left style="background-color: #f6f6f6">Alta</th>
 				<th style="background-color: white"><form:input id="grantedAccess"
 						path="grantedAccess" 
 						type="text"/>
-				</th> --%>
+				</th>
 			</tr>
 				<tr>
 					<th align=center style="weight: 100%; background-color: white"></th>
@@ -188,12 +190,11 @@
 				
 				</tr>
 		</table>
-		</form:form>
+		</form:form> 
 		
-		</div>
+		</div> --%>
+
 	<hr />		
-	<a href="member"><input class="btn btn-primary btn-lg" id="registrar" type="button" value="Registrar diputado" style="width: 100%;"></a> 	
-	<hr />
        </div><!--/page-content end--> 
   </div><!--/main-content end--> 
            
@@ -210,15 +211,16 @@
 <div class="demo">  </div>
 
 </body>
-	<script type="text/javascript">
+<!-- 	<script type="text/javascript">
 		function getCellsValue(cell) {
 	
 			var tags_td = cell.getElementsByTagName('td');
 			document.getElementById('id').value = tags_td.item(0).innerHTML;
 			document.getElementById('name').value = tags_td.item(1).innerHTML;
 			document.getElementById('surName').value = tags_td.item(2).innerHTML;
-			document.getElementById('assosiatedBlock').value = tags_td.item(3).innerHTML;
-			document.getElementById('associatedBench').value = tags_td.item(4).innerHTML;		
+			document.getElementById('userName').value = tags_td.item(3).innerHTML;
+			document.getElementById('password').value = tags_td.item(4).innerHTML;
+			document.getElementById('grantedAccess').value = tags_td.item(5).innerHTML;			
 			document.getElementById('removeButton').disabled=false;
 			document.getElementById('modifyButton').disabled=false;			
 		}
@@ -242,15 +244,15 @@
 	<script type="text/javascript">
 		function pickModifyButton() {
 			if(document.getElementById('id').value == 0){
-				alert("Debe seleccionar un diputado para modificarlo");
+				alert("Debe seleccionar un usuario para modificarlo");
 				return false;
 			}
-			document.getElementById('form1').action = "modifyMember";
+			document.getElementById('form1').action = "modifyUser";
 			//document.getElementById('form1').submit();
 		}
 		function pickRemoveButton() {
-			document.getElementById('form1').action = "removeMember";
+			document.getElementById('form1').action = "removeUser";
 			//document.getElementById('form1').submit();
 		}
-	</script>
+	</script> -->
 </html>
