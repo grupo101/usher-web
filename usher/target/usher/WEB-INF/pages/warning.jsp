@@ -6,7 +6,7 @@
 <html>
 
 	<head>
-	<link rel="shortcut icon" href="images/BauerMecanicaLogo1.png" />
+<!-- 	<link rel="shortcut icon" href="images/BauerMecanicaLogo1.png" /> -->
 	 	<style type = "text/css">
  			<%@ include file="/css/MiEstilo.css" %>
  		</style>

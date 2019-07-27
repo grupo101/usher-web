@@ -21,10 +21,11 @@
 <script src="js/side-chats.js"></script>
 
 </head>
-<body class="light_theme left_nav_fixed atm-spmenu-push" style="">
-<div class="wrapper">
+<body class="light_theme left_nav_fixed atm-spmenu-push">
+
   <!--\\\\\\\ wrapper Start \\\\\\-->
-  <div class="header_bar">
+  
+    <div class="header_bar">
   
     <!--\\\\\\\ header Start \\\\\\-->
     <div class="brand">
@@ -34,14 +35,16 @@
     </div>
     <!--\\\\\\\ brand end \\\\\\-->
         <div class="header_top_bar"> 
-    <!--  <div class="header_top_bar" style="background-image: url(images/BauerBannerDefinitivo.png)"> -->
+    <div class="header_top_bar" style="background-image: url(images/redNeuronal7.jpg); margin-left: 0px;">
       <!--\\\\\\\ header top bar start \\\\\\-->
       <!-- <a href="javascript:void(0);" class="menutoggle"> <i class="fa fa-bars"></i> </a> -->
       
     </div>
     <!--\\\\\\\ header top bar end \\\\\\-->
+   
   </div>
   <!--\\\\\\\ header end \\\\\\-->
+
   <div class="inner">
     <!--\\\\\\\ inner start \\\\\\-->
     <div class="left_nav">
@@ -52,6 +55,10 @@
       <div class="slimScrollDiv" style="position: relative; width: auto; height: 70px;"><div class="left_nav_slidebar" >
         <ul>
 <li><a href="user2">USUARIOS</a></li>
+<li><a href="member2">DIPUTADOS</a></li>
+<li><a href="bench2">BANCAS</a></li>
+<li><a href="block2">BLOQUES</a></li>
+<li><a href="canvas">QUORUM</a></li>
 <!-- <li><a href="car2">AUTOS</a></li>
 <li><a href="sale">VENTA</a></li>
 <li><a href="sale2">HISTORIAL DE VENTAS</a></li>
