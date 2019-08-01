@@ -25,7 +25,7 @@ public class Member {
 	private String assosiatedBlock;
 	
 	@Column(name="assosiated_bench")
-	private String associatedBench;
+	private Integer associatedBench;
 
 	public Member() {
 	};
@@ -54,20 +54,21 @@ public class Member {
 		this.surName = surName;
 	}
 
-	public String getAssosiatedBlock() {
+	public String getAssociatedBlock() {
 		return assosiatedBlock;
 	}
 
-	public void setAssosiatedBlock(String assosiatedBlock) {
+	public void setAssociatedBlock(String assosiatedBlock) {
 		this.assosiatedBlock = assosiatedBlock;
 	}
 
-	public String getAssociatedBench() {
+	public Integer getAssociatedBench() {
 		return associatedBench;
 	}
 
-	public void setAssociatedBench(String associatedBench) {
+	public void setAssociatedBench(Integer associatedBench) {
 		this.associatedBench = associatedBench;
-	}	
+	}
+
 
 }

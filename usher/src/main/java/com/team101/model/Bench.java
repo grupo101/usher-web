@@ -22,10 +22,10 @@ public class Bench {
 	private boolean busyState;
 	
 	@Column(name="associated_member")
-	private Integer associatedMember;
+	private String associatedMember;
 	
 	@Column(name="associated_block")
-	private Integer associatedBlock;
+	private String associatedBlock;
 
 	public Bench() {
 		super();
@@ -55,19 +55,19 @@ public class Bench {
 		this.busyState = busyState;
 	}
 
-	public Integer getAssociatedMember() {
+	public String getAssociatedMember() {
 		return associatedMember;
 	}
 
-	public void setAssociatedMember(Integer associatedMember) {
+	public void setAssociatedMember(String associatedMember) {
 		this.associatedMember = associatedMember;
 	}
 
-	public Integer getAssociatedBlock() {
+	public String getAssociatedBlock() {
 		return associatedBlock;
 	}
 
-	public void setAssociatedBlock(Integer associatedBlock) {
+	public void setAssociatedBlock(String associatedBlock) {
 		this.associatedBlock = associatedBlock;
 	}
 

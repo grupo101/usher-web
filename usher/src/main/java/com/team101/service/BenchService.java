@@ -21,6 +21,10 @@ public class BenchService {
 	public List<Bench> listAll() {
 		return benchDao.getAll();
 	}
+	
+	public Bench getBench(Integer idBench) {		
+		return (Bench) benchDao.getSpecificBench(idBench);
+	}
 
 
 }

@@ -116,7 +116,7 @@
  						<td style="display:none">${member.id}</td>
 						<td>${member.name}</td>
 						<td>${member.surName}</td>
-						<td>${member.assosiatedBlock}</td>
+						<td>${member.associatedBlock}</td>
 						<td>${member.associatedBench}</td>					
 					</tr>
 				</c:forEach>
@@ -163,7 +163,7 @@
 			
 			<th align=left style="background-color: #f6f6f6">Bloque asociado:</th>
 				<th style="background-color: white"><form:input id="assosiatedBlock"
-						path="assosiatedBlock"
+						path="associatedBlock"
 						/></th>                   		
                    		<th align=left style="background-color: #f6f6f6">Banca asociada:</th>
 				<th style="background-color: white"><form:input id="associatedBench"

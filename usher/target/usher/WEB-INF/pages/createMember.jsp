@@ -110,7 +110,7 @@
                                   <div class="form-group">
                   <label class="col-sm-3 control-label">BLOQUE ASOCIADO</label>
                   <div class="col-sm-9">
-						<form:input path="assosiatedBlock" class="form-control"
+						<form:input path="associatedBlock" class="form-control"
 						type="text"  
 						pattern="^([a-zA-ZñÑáéíóúÁÉÍÓÚ'0-9-_\.\,\/]{1,45}[\s]*)+"
 						required="required" 

@@ -34,6 +34,11 @@ public class MemberService {
 		return true;
 	}
 
+	public Member getMember(Integer idMember) {		
+		return (Member) memberDao.getSpecificMember(idMember);
+	}
+
+	
 //	public boolean validateEqual(Member member, List<Member> list) {
 //		for (Member member2 : list) {
 //
