@@ -122,7 +122,7 @@
                    		oninput="setCustomValidity('')"/>
                   </div>
                 </div><!--/form-group-->
-                 <div class="form-group">
+<%--                  <div class="form-group">
                   <label class="col-sm-3 control-label">BANCA ASOCIADA</label>
                   <div class="col-sm-9">
 						<form:input path="associatedBench" class="form-control"
@@ -133,10 +133,10 @@
                    		oninput="setCustomValidity('')"/>
                   </div>
                
-                </div><!--/form-group-->                                            
+                </div><!--/form-group-->   --%>                                          
 	              <div style="align:right" class="bottom">
                   <button style="align:right" type="submit" class="btn btn-primary">GUARDAR</button>
-                  <button style="align:right" type="button" class="btn btn-default">CANCELAR</button>                  
+                  <a href="index.jsp"> <button style="align:right" type="button" class="btn btn-default">CANCELAR</button> </a>                 
                 </div><!--/form-group-->                
             </form:form>
             </div><!--/porlets-content-->

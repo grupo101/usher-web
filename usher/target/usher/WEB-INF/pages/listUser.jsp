@@ -198,6 +198,9 @@
 		</form:form>
 		
 		</div>
+	<hr />		
+	<a href="user"><input class="btn btn-primary btn-lg" id="registrar" type="button" value="Registrar usuario" style="width: 100%;"></a> 	
+	<hr />
 
 	<hr />		
        </div><!--/page-content end--> 
