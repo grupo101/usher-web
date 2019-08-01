@@ -20,13 +20,13 @@ public class UserController {
 	@Autowired
 	private UserService userService;
 
-//	@RequestMapping("/user")
-//	public ModelAndView user() {
-//		
-//		User user = new User();
-//		
-//		return new ModelAndView("createUser", "userForm", user);
-//	}
+	@RequestMapping("/user")
+	public ModelAndView user() {
+		
+		User user = new User();
+		
+		return new ModelAndView("createUser", "userForm", user);
+	}
 
 	@RequestMapping("/user1")
 	public ModelAndView user1() {

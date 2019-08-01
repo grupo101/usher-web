@@ -3,6 +3,7 @@ package com.team101.dao;
 
 import java.util.List;
 
+import org.hibernate.Query;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -36,6 +37,12 @@ public class MemberDao {
 	@Transactional
 	public void modify(Member member) {
 		this.sessionFactory.getCurrentSession().update(member);		
+	}
+	
+	@Transactional
+	public Object getSpecificMember(Integer id){
+		Query query = this.sessionFactory.getCurrentSession().createQuery("from Member where id_member='"+id+"'");
+		return query.list().get(0);		
 	}
 	
 }
