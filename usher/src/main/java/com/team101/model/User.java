@@ -7,12 +7,12 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="users")
+@Table(name="usuarios")
 public class User {
 
 	@Id
 	@GeneratedValue
-	@Column(name="id_user")
+	@Column(name="userID")
 	private Integer id;
 	
 	@Column(name="name")
@@ -21,13 +21,13 @@ public class User {
 	@Column(name="surname")
 	private String surName;
 	
-	@Column(name="user_name")
+	@Column(name="username")
 	private String userName;
 	
 	@Column(name="password")
 	private String password;
 	
-	@Column(name="granted_access")
+	@Column(name="access")
 	private boolean grantedAccess;
 
 	public User() {
