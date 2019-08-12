@@ -7,12 +7,12 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="usuarios")
+@Table(name="users")
 public class User {
 
 	@Id
 	@GeneratedValue
-	@Column(name="userID")
+	@Column(name="user_id")
 	private Integer id;
 	
 	@Column(name="name")

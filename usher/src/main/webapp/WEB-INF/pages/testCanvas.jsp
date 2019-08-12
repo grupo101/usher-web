@@ -191,6 +191,7 @@
       }
       }
   </script>
+  
 
 
 </head>
@@ -257,7 +258,6 @@
       <canvas id="canvas" width=620px height=230px ></canvas>  
 
 </div>
-
 </div>
 
 
