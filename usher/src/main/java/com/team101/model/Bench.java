@@ -7,25 +7,28 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="benchs")
+@Table(name = "benchs")
 public class Bench {
 
 	@Id
 	@GeneratedValue
-	@Column(name="id_bench")
+	@Column(name = "id_bench")
 	private Integer id;
-	
-	@Column(name="number")
+
+	@Column(name = "number")
 	private Integer number;
-	
-	@Column(name="busyState")
+
+	@Column(name = "busyState")
 	private boolean busyState;
-	
-	@Column(name="associated_member")
+
+	@Column(name = "associated_member")
 	private String associatedMember;
-	
-	@Column(name="associated_block")
+
+	@Column(name = "associated_block")
 	private String associatedBlock;
+
+	@Column(name = "manual_state")
+	private Integer manualState;
 
 	public Bench() {
 		super();
@@ -71,5 +74,12 @@ public class Bench {
 		this.associatedBlock = associatedBlock;
 	}
 
-}
+	public Integer getManualState() {
+		return manualState;
+	}
 
+	public void setManualState(Integer manualState) {
+		this.manualState = manualState;
+	}
+
+}

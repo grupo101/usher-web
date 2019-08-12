@@ -24,17 +24,58 @@
 	<script src="js/jquery.dataTables.js"></script> 
 	<script>
 		$(document).ready(function() {
-		    $('#dynamic-table').DataTable( {		    			    	
-		    	"order": [[ 0, "asc" ]]
-		    } );
+		    $('#dynamic-table').DataTable({		    			    	
+		    	"order": [[ 0, "asc" ]],
+		    columnDefs : [
+		                  { targets : [5],
+		                    render : function (data, type, row) {
+		                      switch(data) {
+		                         case '0' : return 'Ausente'; break;
+		                         case '1' : return 'Presente'; break;
+		                         case '2' : return 'Automatico'; break;		                         
+		                      }
+		                    } 
+		                  } ,
+		                  {
+		                	  targets : [4],
+			                    render : function (data, type, row) {
+			                      switch(data) {
+			                         case 'false' : return 'Ausente'; break;
+			                         case 'true' : return 'Presente'; break;                       
+			                      }
+			                    }		                	  
+		                  }
+		             ]
+		    });		    
 } );
-		</script>
- 
- <script src="js/jPushMenu.js"></script> 
+		
+	    function draw() { 
+	    	if(document.getElementById("estado").value !=null){
+	    		var string = $( "#estado" ).text(); 
+	    		for(i=0; i<92; i++){
+	    			//alert(table.rows[i].cells[4].value);
+	    			 if($('#manualState'+i+'').html()=="Presente"){
+	    				 $('#busyState'+i+'').html("Presente"); 
+	    			 }else{
+	    				 if($('#manualState'+i+'').html()=="Ausente"){
+	    					 $('#busyState'+i+'').html("Ausente");
+	    				 }else{	    					 
+	    					 if(string.charAt(i) =='0'){
+	    		    				$('#busyState'+i+'').html("Ausente");	    		    				
+	    		    			}else{
+	    		    				$('#busyState'+i+'').html("Presente");
+	    		    			}
+	    				 }
+	    			 }
+	    		} 
+ 	    	}
+	    }
+		</script> 
+ <script src="js/jPushMenu.js"></script>
 <script src="js/side-chats.js"></script>
 
 </head>
-<body class="light_theme left_nav_fixed atm-spmenu-push" style="">
+<body onload="setInterval('getBenchsState()',3000);"  class="light_theme left_nav_fixed atm-spmenu-push" style="">
 <div class="wrapper">
   <!--\\\\\\\ wrapper Start \\\\\\-->
   <div class="header_bar">
@@ -111,7 +152,8 @@
 					<th class="sorting" role="columnheader" tabindex="0" aria-controls="dynamic-table" rowspan="1" colspan="1" aria-label="Rendering engine: activate to sort column ascending" style="width: 167px;">Numero</th>
 					<th class="sorting" role="columnheader" tabindex="0" aria-controls="dynamic-table" rowspan="1" colspan="1" aria-label="Rendering engine: activate to sort column ascending" style="width: 167px;">Diputado asociado</th>
 					<th class="sorting" role="columnheader" tabindex="0" aria-controls="dynamic-table" rowspan="1" colspan="1" aria-label="Rendering engine: activate to sort column ascending" style="width: 167px;">Bloque asociado</th>
-					<th class="sorting" role="columnheader" tabindex="0" aria-controls="dynamic-table" rowspan="1" colspan="1" aria-label="Rendering engine: activate to sort column ascending" style="width: 167px;">estado</th>
+					<th class="sorting" role="columnheader" tabindex="0" aria-controls="dynamic-table" rowspan="1" colspan="1" aria-label="Rendering engine: activate to sort column ascending" style="width: 167px;">Estado actual</th>
+					<th class="sorting" role="columnheader" tabindex="0" aria-controls="dynamic-table" rowspan="1" colspan="1" aria-label="Rendering engine: activate to sort column ascending" style="width: 167px;">Estado manual</th>
 
 				</tr>
 			</thead>
@@ -121,9 +163,9 @@
  						<td style="display:none">${bench.id}</td>
 						<td>${bench.number}</td>
 						<td>${bench.associatedMember}</td>
-						<td>${bench.associatedBlock}</td>
-						<td>${bench.busyState}</td>
-				
+						<td>${bench.associatedBlock}</td> 
+						<td id="busyState${bench.number}">${bench.busyState}</td>			
+ 						<td id="manualState${bench.number}">${bench.manualState}</td>			
 					</tr>
 				</c:forEach>
 			</tbody>
@@ -143,42 +185,48 @@
         
         <hr />
 	
-<%-- 	<p>
-		<b>USUARIO SELECCIONADO:</b>
+ 	<p>
+		<b>BANCA SELECCIONADA:</b>
 	</p>
 
 <div class="block-web">
 	<form:form id="form1" name="form1" method="post"
-		commandName="userForm" action="">
+		commandName="benchForm" action="">
 	
 		<table style="width: 100%;" class="dataTables_wrapper form-inline" aria-describedby="dynamic-table_info">
 			<tr>
 				<th align=left style="background-color: #f6f6f6">ID:</th>
 				<th style="background-color: white"><form:input id="id"
 						path="id" readonly="true"/></th>						
-				<th align=left style="background-color: #f6f6f6">Nombre:</th>
-				<th style="background-color: white"><form:input id="name"
-						path="name" 
+				<th align=left style="background-color: #f6f6f6">Numero:</th>
+				<th style="background-color: white"><form:input id="number"
+						path="number" 
 						readonly="true"/></th>
-                 <th align=left style="background-color: #f6f6f6">Apellido:</th>
-				<th style="background-color: white"><form:input id="surName"
-						path="surName" 
-						readonly="true"/></th>
+                 <th align=left style="background-color: #f6f6f6">Bloque:</th>
+				<th style="background-color: white"><form:input id="associatedBlock"
+						path="associatedBlock"
+						readonly="true"
+						style="width:100%"/></th>
 			</tr>
 			<tr>
 			
-			<th align=left style="background-color: #f6f6f6">Usuario:</th>
-				<th style="background-color: white"><form:input id="userName"
-						path="userName"
+			<th align=left style="background-color: #f6f6f6">Diputado:</th>
+				<th style="background-color: white"><form:input id="associatedMember"
+						path="associatedMember"
 						readonly="true"/></th>                   		
-                   		<th align=left style="background-color: #f6f6f6">Clave:</th>
-				<th style="background-color: white"><form:input id="password"
-						path="password" 
-						readonly="true"/></th>			
-				<th align=left style="background-color: #f6f6f6">Alta</th>
-				<th style="background-color: white"><form:input id="grantedAccess"
-						path="grantedAccess" 
-						type="text"/>
+            <th align=left style="background-color: #f6f6f6">Estado actual:</th>
+				<th style="background-color: white"><form:input id="busyState"
+						path="busyState" 
+						readonly="true"/>
+				</th> 			
+				<th align=left style="background-color: #f6f6f6">Estado manual:</th>
+				<th style="background-color: white"><form:select id="manualState"
+						path="manualState"
+						type="text"> 
+						<option value=0>Ausente</option>
+						<option value=1>Presente</option>
+						<option value=2>Automatico</option>
+						</form:select>
 				</th>
 			</tr>
 				<tr>
@@ -188,17 +236,17 @@
 					<th align=center style="weight: 100%; background-color: white"></th>
 					<th align=center style="weight: 100%; background-color: white"></th>
 					<th align=center style="background-color: white; width:10%">
-					<input id="modifyButton" style="width: 48%;" class="btn btn-primary btn-sm" type="submit" name="Modificar" value="Modificar" onclick="pickModifyButton()" disabled> 
-					<input id="removeButton" style="width: 49%;" class="btn btn-primary btn-sm" type="submit" name="Eliminar" value="Eliminar" onclick="pickRemoveButton()" disabled></th> 
+					<input id="busyButton" style="width: 100%;" class="btn btn-primary btn-sm" type="submit" name="Modificar" value="Modificar estado" onclick="pickModifyButton()" disabled  >  
+					<!-- <input id="freeButton" style="width: 49%;" class="btn btn-primary btn-sm" type="submit" name="Eliminar" value="Libre" onclick="pickModifyButton2()"  > --></th> 
 			
-				
 				</tr>
 		</table>
 		</form:form> 
 		
-		</div> --%>
+		</div>
+	<hr />	
+    <ul id="ulEmployees" style="display:none"></ul> 
 
-	<hr />		
        </div><!--/page-content end--> 
   </div><!--/main-content end--> 
            
@@ -215,19 +263,19 @@
 <div class="demo">  </div>
 
 </body>
-<!-- 	<script type="text/javascript">
+ 	<script type="text/javascript">
 		function getCellsValue(cell) {
 	
 			var tags_td = cell.getElementsByTagName('td');
 			document.getElementById('id').value = tags_td.item(0).innerHTML;
-			document.getElementById('name').value = tags_td.item(1).innerHTML;
-			document.getElementById('surName').value = tags_td.item(2).innerHTML;
-			document.getElementById('userName').value = tags_td.item(3).innerHTML;
-			document.getElementById('password').value = tags_td.item(4).innerHTML;
-			document.getElementById('grantedAccess').value = tags_td.item(5).innerHTML;			
-			document.getElementById('removeButton').disabled=false;
-			document.getElementById('modifyButton').disabled=false;			
-		}
+			document.getElementById('number').value = tags_td.item(1).innerHTML;
+			document.getElementById('associatedMember').value = tags_td.item(2).innerHTML;
+			document.getElementById('associatedBlock').value = tags_td.item(3).innerHTML;
+			document.getElementById('busyState').value = tags_td.item(4).innerHTML;
+ 			document.getElementById('manualState').value = tags_td.item(5).innerHTML;
+ 			document.getElementById('manualState').selected = tags_td.item(5).innerHTML;
+			document.getElementById('busyButton').disabled=false;
+		} 
 	
 		function selectLine() {
 			var table = document.getElementById('dynamic-table');
@@ -244,19 +292,48 @@
 	</script>
 	<script>
 		selectLine();
-	</script>
+	</script> 
 	<script type="text/javascript">
 		function pickModifyButton() {
-			if(document.getElementById('id').value == 0){
-				alert("Debe seleccionar un usuario para modificarlo");
+		if(document.getElementById('id').value == 0){
+				alert("Debe seleccionar una banca para modificar su estado manualmente");
 				return false;
-			}
-			document.getElementById('form1').action = "modifyUser";
-			//document.getElementById('form1').submit();
+			}else{if( document.getElementById('associatedMember').value == ""  
+					|| document.getElementById('associatedBlock').value == ""){
+						alert("Debe haber un diputado asociado y un bloque asociado a la banca para modificar el estado de la misma manualmente");
+						return false;
+					}else{
+							if(document.getElementById('manualState').value == ""){
+								alert("Debe seleccionar un estado manual para continuar");
+								return false; 
+							}else{
+									if(document.getElementById('busyState').value == "Presente"){
+										document.getElementById('busyState').value ="true";
+									}else{ 
+										document.getElementById('busyState').value ="false";
+									}
+									document.getElementById('form1').action = "modifyBench";
+								}			
+						 }
+				 }	
 		}
-		function pickRemoveButton() {
-			document.getElementById('form1').action = "removeUser";
-			//document.getElementById('form1').submit();
-		}
-	</script> -->
+	</script>
+	<script>		
+    function getBenchsState(){    	
+    
+        var listitem = $('#ulEmployees');              
+            $.ajax({
+                Type: 'GET',
+                url: 'https://usher.sytes.net/usher-api/estado_banca?token=48370255gBrgdlpl050588',                         
+                success: function (data) {
+	                    	listitem.empty();                       
+	                        $.each(data, function (index, val) {
+	                        	var fullname = val;
+	                            listitem.append('<li id='+index+' value='+fullname+'>' + fullname + '</li>');                           
+	                        });
+	                        draw(); 
+                   		 }
+            });
+    };
+	</script> 
 </html>

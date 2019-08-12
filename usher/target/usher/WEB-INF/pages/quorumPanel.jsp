@@ -21,8 +21,17 @@
 <script src="js/side-chats.js"></script>
   <script type="application/javascript">
     function draw() {
+    	if(document.getElementById("estado").value !=null){
+    		var string = $( "#estado" ).text(); 
+    		//alert(string);   
+    		var vec=['0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0'];
+    		for(i=0; i<18; i++){
+    			vec[i]= string.charAt(i);  
+    		}
     	
+    	}else{ 
     	var vec=[0,0,0,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0];
+    	}; 
       var canvas = document.getElementById("canvas");
       if (canvas.getContext) {
         var ctx = canvas.getContext("2d");
@@ -192,9 +201,29 @@
       }
     
   </script>
+  <script>  
+        function getBenchsState(){
+        	
+            var listitem = $('#ulEmployees');              
+                $.ajax({
+                    Type: 'GET',
+                    url: 'https://usher.sytes.net/usher-api/estado_banca?token=48370255gBrgdlpl050588',                         
+                    success: function (data) {
+		                    	listitem.empty();                       
+		                        $.each(data, function (index, val) {
+		                        	var fullname = val;
+		                            listitem.append('<li id='+index+' value='+fullname+'>' + fullname + '</li>');                           
+		                        });
+		                        draw(); 
+                       		 }
+                });
+        };        
+    </script>
 </head>
-<body onload="draw();" class="light_theme left_nav_fixed atm-spmenu-push" style="">
-<div class="wrapper">
+ <body onload="setInterval('getBenchsState()',3000);" class="light_theme left_nav_fixed atm-spmenu-push" style=""> 
+
+<!--  <body class="light_theme left_nav_fixed atm-spmenu-push" style="">  
+ --> <div class="wrapper">
   <!--\\\\\\\ wrapper Start \\\\\\-->
   <div class="header_bar">
   
@@ -254,7 +283,14 @@
       <div class="block-web">
             <canvas id="canvas" width=620px height=230px></canvas>  
       </div>
+      
       </div>
+</div>
+
+<div class="contentpanel">
+    <input id="btn" value="Get All Employees" type="button" />
+    <input id="btnClear" type="button" value="Clear" />
+    <ul id="ulEmployees"></ul>
 </div>
 </div>
 
