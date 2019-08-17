@@ -30,7 +30,7 @@
         <property name="driverClassName" value="com.mysql.jdbc.Driver"/>
         <property name="url" value="jdbc:mysql://localhost:3306/usher_web"/>
         <property name="username" value="usher"/>
-        <property name="password" value="usher101"/>
+        <property name="password" value="usher101"/> 
     </bean>
 
     <!--paso 16-->
