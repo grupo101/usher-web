@@ -13,7 +13,7 @@
 <link href="css/animate.css" rel="stylesheet" type="text/css">
 <link href="css/admin.css" rel="stylesheet" type="text/css">
 <link href="plugins/data-tables/DT_bootstrap.css" rel="stylesheet">
-<link rel="shortcut icon" href="images/BauerMecanicaLogo2.png" />
+<!-- <link rel="shortcut icon" href="images/BauerMecanicaLogo2.png" /> -->
 
 <script src="js/jquery-1.12.js"></script>
  <script src="js/jPushMenu.js"></script> 
@@ -85,7 +85,7 @@ statusSession();
     
     </div>
     <!--\\\\\\\ brand end \\\\\\-->
-     <div class="header_top_bar" style="background-image: url(images/usherBanner.jpg)"> 
+     <div class="header_top_bar" style="background-image: url(images/usherBanner.jpg)">
        <!--\\\\\\\ header top bar start \\\\\\-->      
     </div>
     <!--\\\\\\\ header top bar end \\\\\\-->
@@ -104,7 +104,7 @@ statusSession();
 						<li><a href="member2">DIPUTADOS</a></li>
 						<li><a href="bench2">BANCAS</a></li>
 						<li><a href="block2">BLOQUES</a></li>
-						<li><a href="canvas">QUORUM</a></li>
+						<li><a href="quorumPanel">QUORUM</a></li>
 						<li><a href="benchAssociation1">ASOCIAR BANCA</a></li>
 						<li><a href="benchAssociation2">DESASOCIAR BANCA</a></li>
 						<li><a href="blockAssociation1">ASOCIAR BLOQUE POLITICO</a></li>
