@@ -84,15 +84,4 @@ public class UserController {
 		return "success";
 	}
 	
-	@RequestMapping("/canvas")
-	@Transactional
-	protected String canvas(Model model)
-			throws ServletException {
-		User user = new User();
-		List<User> userList = userService.listAll();
-		model.addAttribute("users", userList);
-		model.addAttribute("userForm", user);
-		return "quorumPanel";
-	}
-	
 }
