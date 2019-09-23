@@ -84,15 +84,5 @@ public class BlockController {
 		return "success";
 	}
 	
-//	@RequestMapping("/canvas")
-//	@Transactional
-//	protected String canvas(Model model)
-//			throws ServletException {
-//		Block block = new Block();
-//		List<Block> blockList = blockService.listAll();
-//		model.addAttribute("blocks", blockList);
-//		model.addAttribute("blockForm", block);
-//		return "quorumPanel";
-//	}
 	
 }

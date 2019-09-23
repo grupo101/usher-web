@@ -47,5 +47,13 @@ public class BenchController {
 		benchService.modify(bench);
 		return "success";
 	}
+	
+	@RequestMapping("/quorumPanel")
+	@Transactional
+	protected String canvas(Model model)
+			throws ServletException {
+
+		return "quorumPanel";
+	}
 		
 }

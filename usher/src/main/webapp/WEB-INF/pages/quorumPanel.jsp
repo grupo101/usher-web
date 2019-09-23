@@ -1,8 +1,9 @@
-<!DOCTYPE html>
+<!DOCTYPE html> 
+<html xmlns="http://www.w3.org/1999/xhtml">
 <%@ page contentType="text/html;charset=UTF-8" language="java"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
-<html xmlns="http://www.w3.org/1999/xhtml">
+
 
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -22,12 +23,17 @@
   <script type="application/javascript">
     function draw() {
     	if(document.getElementById("estado").value !=null){
-    		var string = $( "#estado" ).text(); 
+    		var string = $( "#estado" ).text();
+    		var countPresents;
     		//alert(string);   
     		var vec=['0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0'];
     		for(i=0; i<18; i++){
-    			vec[i]= string.charAt(i);  
+    			vec[i]= string.charAt(i);
+    			if(vec[i] == 1){
+    				countPresents++;
+    			}
     		}
+    		
     	
     	}else{ 
     	var vec=[0,0,0,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0];
@@ -209,6 +215,7 @@
                     Type: 'GET',
                     url: 'https://usher.sytes.net/usher-api/estado_banca?token=48370255gBrgdlpl050588',                         
                     success: function (data) {
+                    			var val; 
 		                    	listitem.empty();                       
 		                        $.each(data, function (index, val) {
 		                        	var fullname = val;
@@ -220,7 +227,7 @@
         };        
     </script>
 </head>
- <body onload="setInterval('getBenchsState()',3000);" class="light_theme left_nav_fixed atm-spmenu-push" style=""> 
+ <body onload="setInterval('getBenchsState()',3000);" class="light_theme left_nav_fixed atm-spmenu-push"> 
 
 <!--  <body class="light_theme left_nav_fixed atm-spmenu-push" style="">  
  --> <div class="wrapper">
@@ -234,7 +241,7 @@
     
     </div>
     <!--\\\\\\\ brand end \\\\\\-->
-    <div class="header_top_bar" style="background-image: url(images/redNeuronal7.jpg)">
+    <div class="header_top_bar" style="background-image: url(images/usherBanner.jpg)">
       <!--\\\\\\\ header top bar start \\\\\\-->
     
     </div>
@@ -254,7 +261,7 @@
 						<li><a href="member2">DIPUTADOS</a></li>
 						<li><a href="bench2">BANCAS</a></li>
 						<li><a href="block2">BLOQUES</a></li>
-						<li><a href="canvas">QUORUM</a></li>
+						<li><a href="quorumPanel">QUORUM</a></li>
 						<li><a href="benchAssociation1">ASOCIAR BANCA</a></li>
 						<li><a href="benchAssociation2">DESASOCIAR BANCA</a></li>
 						<li><a href="blockAssociation1">ASOCIAR BLOQUE POLITICO</a></li>
@@ -274,23 +281,19 @@
         <div class="pull-right">
           <ol class="breadcrumb">
             <li><a href="#">Principal</a></li>
-            <li><a href="#">QUORUM</a></li>
-            
+            <li><a href="#">QUORUM</a></li>            
           </ol>
         </div>
       </div>
       <div class="container clear_both padding_fix">
       <div class="block-web">
-            <canvas id="canvas" width=620px height=230px></canvas>  
+            <canvas id="canvas" width=620px height=230px></canvas>
+            <div> Presentes:  </div> 
+            <div> Ausentes: </div> 
+            <div> HAY QUORUM </div>  
       </div>
-      
+      <ul id="ulEmployees" style="display:none"></ul>
       </div>
-</div>
-
-<div class="contentpanel">
-    <input id="btn" value="Get All Employees" type="button" />
-    <input id="btnClear" type="button" value="Clear" />
-    <ul id="ulEmployees"></ul>
 </div>
 </div>
 

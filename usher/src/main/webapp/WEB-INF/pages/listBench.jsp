@@ -87,7 +87,7 @@
     
     </div>
     <!--\\\\\\\ brand end \\\\\\-->
-    <div class="header_top_bar" style="background-image: url(images/redNeuronal7.jpg)"> 
+    <div class="header_top_bar" style="background-image: url(images/usherBanner.jpg)"> 
       <!--\\\\\\\ header top bar start \\\\\\-->
 <!--       <a href="javascript:void(0);" class="menutoggle"> <i class="fa fa-bars"></i> </a>
  -->      

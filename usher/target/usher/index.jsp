@@ -85,7 +85,7 @@ statusSession();
     
     </div>
     <!--\\\\\\\ brand end \\\\\\-->
-     <div class="header_top_bar" style="background-image: url(images/redNeuronal7.jpg)"> 
+     <div class="header_top_bar" style="background-image: url(images/usherBanner.jpg)"> 
        <!--\\\\\\\ header top bar start \\\\\\-->      
     </div>
     <!--\\\\\\\ header top bar end \\\\\\-->
