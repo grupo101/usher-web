@@ -36,11 +36,11 @@ d3.hemicycle = function() {
             .domain([0, rmax])
             .range([widthvar/2,0]);
 
-      // definir posición de bancas en hemiciclo
+      // definir posiciÃ³n de bancas en hemiciclo
       var s = [];
       var sent = 1;
       for (i in nvar) {
-        sent = -sent; // inversión de sentido para generar en formato de S
+        sent = -sent; // inversiÃ³n de sentido para generar en formato de S
         s.push((Math.PI/widthIconvar + Math.PI*i*gapvar-nvar[i])/(nvar[i] - 1));
         var ninrow = nvar[i],
             radwidth = Math.PI/(nvar[i]+(nvar[i]-1)*s[i]),
@@ -55,7 +55,7 @@ d3.hemicycle = function() {
         }
       }
     
-      // definir posición de bancas en centro de hemiciclo
+      // definir posiciÃ³n de bancas en centro de hemiciclo
       if (centerbenchs > 0) {
         var ninrow = centerbenchs,
             linespace = (gapvar+widthIconvar)/(rmax*ninrow),

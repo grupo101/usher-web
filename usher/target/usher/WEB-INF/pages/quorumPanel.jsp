@@ -1,4 +1,4 @@
-<!DOCTYPE html> 
+<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <%@ page contentType="text/html;charset=UTF-8" language="java"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
@@ -157,9 +157,40 @@
       var estados = estadosStr.split('');
       var item = svg.selectAll("g");
       var data = item.data()[0];
+      var presentes=0;
+      var ausentes=0;
+      var total=0;
       for(i = 0 ;i < estados.length;i++){
         data.people[i].state = estados[i];
+        if(estados[i]==1){
+        	presentes++;
+        }else{
+        	ausentes++;
+        }
       }
+ 
+       
+      $('#presentes').append(      	    
+      	        $('#presentes').text("Presentes: " + presentes) 
+      	    )
+      	
+      $('#ausentes').append(      	        
+      	        $('#ausentes').text("Ausentes: " + ausentes)
+      	    )
+      	
+      if(presentes>ausentes){
+          $('#quorum').append(            	    
+            	        
+            	        $('#quorum').text("HAY QUORUM") 
+            	    )
+            	
+      }else{
+          $('#quorum').append(          	    
+          	        
+          	        $('#quorum').text("NO HAY QUORUM")  
+      )
+          	      }; 
+      //total=  */
       item = item.call(hc);
     }
     function draw() {
@@ -434,11 +465,12 @@
       <div class="block-web">
             <canvas id="canvas" style="display:none;"  width=620px height=230px></canvas>
             <div id="chart"></div>
-            <div> Presentes:  </div> 
-            <div> Ausentes: </div> 
-            <div> HAY QUORUM </div>  
+            <div id="presentes"> Presentes:   </div> 
+            
+            <div id="ausentes"> Ausentes:  </div>
+            <div id="quorum">  </div>  
       </div>
-      <ul id="ulEmployees" style="display:none"></ul>
+      <ul id="ulEmployees" style="display:none"> </ul>
       </div>
 </div>
 </div>
