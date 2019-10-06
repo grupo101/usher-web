@@ -1,4 +1,4 @@
-<!DOCTYPE html> 
+<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <%@ page contentType="text/html;charset=UTF-8" language="java"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
@@ -9,18 +9,190 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <title>Usher</title>
 <meta name="ROBOTS" content="NOINDEX, NOFOLLOW">
-<link href="css/font-awesome.css" rel="stylesheet" type="text/css">
-<link href="css/bootstrap.min.css" rel="stylesheet" type="text/css">
+<!-- <link href="css/font-awesome.css" rel="stylesheet" type="text/css">
+<link href="css/bootstrap.min.css" rel="stylesheet" type="text/css"> -->
 <link href="css/animate.css" rel="stylesheet" type="text/css">
 <link href="css/admin.css" rel="stylesheet" type="text/css">
 <link href="plugins/data-tables/DT_bootstrap.css" rel="stylesheet">
 <!-- <link rel="shortcut icon" href="images/BauerMecanicaLogo2.png" /> -->
 
+<script src="js/d3.v3.min.js"></script><!-- <script src="https://d3js.org/d3.v3.min.js"></script> -->
+<!-- <script src="https://d3js.org/d3.v5.min.js"></script> -->
+<script src="js/d3.hemicycle.js"></script>
+<script src="js/d3.tip.js"></script>
+<link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootswatch/3.2.0/cerulean/bootstrap.min.css">
+
 <script src="js/jquery-1.12.js"></script>
  
  <script src="js/jPushMenu.js"></script> 
 <script src="js/side-chats.js"></script>
+
+    <!-- <script src="https://code.jquery.com/jquery-3.4.1.js"></script> -->
+    <style>
+
+      /*http://www.d3noob.org/2013/01/adding-drop-shadow-to-allow-text-to.html*/
+      #chart { width:400px;margin-left:100px;margin-top:35px; }
+      text.shadow {
+          stroke: gray;
+          stroke-width: 1px;
+          stroke-opacity: 0.2;
+          opacity: 0.9;
+      }
+      g a.icon.state0>text {
+        fill: indianred;
+          fill: gray;
+        fill: #fb2121;
+        fill-opacity: 0.5;
+      }
+      g a.icon.state1>text {
+        fill: yellowgreen;
+        fill: lawngreen;
+      }
+      /* D3 tips */  
+      .d3-tip {
+        line-height: 1;
+        font-weight: bold;
+        padding: 12px;
+        background: rgba(0, 0, 0, 0.8);
+        color: #fff;
+        border-radius: 2px;
+      }
+      /* Creates a small triangle extender for the tooltip */
+      /*.d3-tip:after {
+        box-sizing: border-box;
+        display: inline;
+        font-size: 10px;
+        width: 100%;
+        line-height: 1;
+        color: rgba(0, 0, 0, 0.8);
+        content: "\25BC";
+        position: absolute;
+        text-align: center;
+      }*/
+      /* Style northward tooltips differently */
+      .d3-tip.n:after {
+        margin: -1px 0 0 0;
+        top: 100%;
+        left: 0;
+      }
+      .stronger {
+        color: yellow;
+      }
+      #legend {
+        display:none;
+      }
+    </style>
+
+
   <script type="application/javascript">
+    var hemicycle = null;
+    var hc = null;
+    var svg= null;
+    var w=400, h=205;
+    function drawHemicycle() {
+      d3.csv("csv/benchmembers.csv",function(error,data) {
+
+        /*var json = (function () {
+            var json = null;
+            $.ajax({
+                'async': false,
+                'global': false,
+                'url': "./hemicycle.json",
+                'dataType': "json",
+                'success': function (data) {
+                    json = data;
+                }
+            });
+            return json;
+        })();*/
+        hemicycle = [{
+          //"n":[9,13,16,20,23],
+          // "n": [8,11,15,19,22,26,29,33,37],
+          "n": [12,20,28,31],
+          "gap": 2.0, //1.20,
+          "widthIcon": 0.19, //0.39,
+          "width": 400,
+          "people": data
+        }];
+      /* Initialize tooltip */	
+        tip = d3.tip()
+        .attr("class", "d3-tip")
+        .html(function(d) {
+          foragaints = "Neutral (ausente)";
+          if (parseInt(d["option_code"]) == 1) foragaints = "A favor";
+          if (parseInt(d["option_code"]) == -1) foragaints = "En contra";
+          
+          return "<span class=\'stronger\'>" + d["name"] + "</span><br>" + d["party"]; // + "<br>" + foragaints;
+        }); 
+        w=400,h=205,
+            svg=d3.select("#chart")
+                .append("svg")
+                .attr("width",w)
+                .attr("height",h);
+        hc = d3.hemicycle()
+                    .n(function(d) {return d.n;})
+                    .gap(function(d) {return d.gap;})
+                    .widthIcon(function(d) {return d.widthIcon;})
+                    .width(function(d) {return d.width;})
+                    .people(function(d) {return d.people;});  
+        
+        var item = svg.selectAll(".hc")
+          .data(hemicycle);
+        item.enter()
+            .append("svg:g")
+            .call(hc,1); //agrega 1 banca para el presidente
+        //item.exit().remove();
+            
+      /* Invoke the tip in the context of your visualization */
+        svg.call(tip);
+      
+      // Add tooltip div
+        var div = d3.select("body").append("div")
+        .attr("class", "tooltip")
+        .style("opacity", 1e-6);
+      });
+    }
+    function updateHemicycle(estadosStr) {
+      var estados = estadosStr.split('');
+      var item = svg.selectAll("g");
+      var data = item.data()[0];
+      var presentes=0;
+      var ausentes=0;
+      var total=0;
+      for(i = 0 ;i < estados.length;i++){
+        data.people[i].state = estados[i];
+        if(estados[i]==1){
+        	presentes++;
+        }else{
+        	ausentes++;
+        }
+      }
+ 
+       
+      $('#presentes').append(      	    
+      	        $('#presentes').text("Presentes: " + presentes) 
+      	    )
+      	
+      $('#ausentes').append(      	        
+      	        $('#ausentes').text("Ausentes: " + ausentes)
+      	    )
+      	
+      if(presentes>ausentes){
+          $('#quorum').append(            	    
+            	        
+            	        $('#quorum').text("HAY QUORUM") 
+            	    )
+            	
+      }else{
+          $('#quorum').append(          	    
+          	        
+          	        $('#quorum').text("NO HAY QUORUM")  
+      )
+          	      }; 
+      //total=  */
+      item = item.call(hc);
+    }
     function draw() {
     	if(document.getElementById("estado").value !=null){
     		var string = $( "#estado" ).text();
@@ -32,8 +204,7 @@
     			if(vec[i] == 1){
     				countPresents++;
     			}
-    		}
-    		
+    		}    		
     	
     	}else{ 
     	var vec=[0,0,0,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0];
@@ -213,21 +384,26 @@
             var listitem = $('#ulEmployees');              
                 $.ajax({
                     Type: 'GET',
-                    url: 'https://usher.sytes.net/usher-api/estado_banca?token=48370255gBrgdlpl050588',                         
+                    url: 'https://usher.sytes.net/usher-api/estado_banca?token=48370255gBrgdlpl050588',
                     success: function (data) {
-                    			var val; 
-		                    	listitem.empty();                       
-		                        $.each(data, function (index, val) {
-		                        	var fullname = val;
-		                            listitem.append('<li id='+index+' value='+fullname+'>' + fullname + '</li>');                           
-		                        });
-		                        draw(); 
-                       		 }
+                      if (typeof(data) == 'object') {
+                        updateHemicycle(data["estado"]);
+                      }else{alert(typeof(data));
+                      }
+                          var val;//alert(JSON.stringify(data));
+                          listitem.empty();
+                          
+                          $.each(data, function (index, val) {
+                            var fullname = val;
+                              listitem.append('<li id='+index+' value='+fullname+'>' + fullname + '</li>');                           
+                          });
+                          draw(); 
+                    }
                 });
         };        
     </script>
 </head>
- <body onload="setInterval('getBenchsState()',3000);" class="light_theme left_nav_fixed atm-spmenu-push"> 
+ <body onload="setInterval('getBenchsState()',3000);drawHemicycle();" class="light_theme left_nav_fixed atm-spmenu-push"> 
 
 <!--  <body class="light_theme left_nav_fixed atm-spmenu-push" style="">  
  --> <div class="wrapper">
@@ -287,12 +463,14 @@
       </div>
       <div class="container clear_both padding_fix">
       <div class="block-web">
-            <canvas id="canvas" width=620px height=230px></canvas>
-            <div> Presentes:  </div> 
-            <div> Ausentes: </div> 
-            <div> HAY QUORUM </div>  
+            <canvas id="canvas" style="display:none;"  width=620px height=230px></canvas>
+            <div id="chart"></div>
+            <div id="presentes"> Presentes:   </div> 
+            
+            <div id="ausentes"> Ausentes:  </div>
+            <div id="quorum">  </div>  
       </div>
-      <ul id="ulEmployees" style="display:none"></ul>
+      <ul id="ulEmployees" style="display:none"> </ul>
       </div>
 </div>
 </div>
