@@ -18,6 +18,8 @@
 <script src="js/jquery-1.12.js"></script>
  <script src="js/jPushMenu.js"></script> 
 <script src="js/side-chats.js"></script>
+<script src="js/select2.min.js"></script>
+
 
 </head>
 <body class="light_theme left_nav_fixed atm-spmenu-push" >
@@ -51,7 +53,7 @@
 						<li><a href="member2">DIPUTADOS</a></li>
 						<li><a href="bench2">BANCAS</a></li>
 						<li><a href="block2">BLOQUES</a></li>
-						<li><a href="canvas">QUORUM</a></li>
+						<li><a href="quorumPanel">QUORUM</a></li>
 						<li><a href="benchAssociation1">ASOCIAR BANCA</a></li>
 						<li><a href="benchAssociation2">DESASOCIAR BANCA</a></li>
 						<li><a href="blockAssociation1">ASOCIAR BLOQUE POLITICO</a></li>
@@ -89,8 +91,10 @@
           <div class="block-web">
 
             <div class="porlets-content">
-            <form:form class="form-horizontal row-border" id="formulario" method="post" commandName="memberForm" action="addMember">
-                <div class="form-group">
+<%--             <form:form class="form-horizontal row-border" id="formulario" method="post" onsubmit="return validationFields()" commandName="memberForm" action="addMember">
+ --%>
+            <form:form class="form-horizontal row-border" id="formulario" method="post" onsubmit="return validationFields()" commandName="memberForm" action="addMember">
+                 <div class="form-group"> 
                   <label class="col-sm-3 control-label">NOMBRE</label>
                   <div class="col-sm-9">
                     <form:input type="text" path="name" class="form-control"
@@ -110,35 +114,24 @@
 						oninvalid="setCustomValidity('Ingresa uno o dos apellidos con solo letras')" 
                    		oninput="setCustomValidity('')"/>
                   </div>
-                </div><!--/form-group-->
-                                  <div class="form-group">
+                </div><!--/form-group-->                  
+               <div class="form-group">
                   <label class="col-sm-3 control-label">BLOQUE ASOCIADO</label>
-                  <div class="col-sm-9">
-						<form:input path="associatedBlock" class="form-control"
-						type="text"  
-						pattern="^([a-zA-ZñÑáéíóúÁÉÍÓÚ'0-9-_\.\,\/]{1,45}[\s]*)+"
-						required="required" 
-						oninvalid="setCustomValidity('Ingresa una o dos palabras con con solo letras o numeros')" 
-                   		oninput="setCustomValidity('')"/>
-                  </div>
-                </div><!--/form-group-->
-<%--                  <div class="form-group">
-                  <label class="col-sm-3 control-label">BANCA ASOCIADA</label>
-                  <div class="col-sm-9">
-						<form:input path="associatedBench" class="form-control"
-						type="text"
-						pattern="[0-9]{1,2}"
-						required="required" 
-						oninvalid="setCustomValidity('ingresa un numero del 1 al 92')" 
-                   		oninput="setCustomValidity('')"/>
-                  </div>
-               
-                </div><!--/form-group-->   --%>                                          
+                  <div class="col-sm-9"> 
+									<form:select path="associatedBlock" id="idBlock" name="1" style="js-example-basic-single" width="100%"> 
+ 														<option disabled selected>SELECCIONE UN BLOQUE</option> 
+									</form:select>								
+                  </div> 
+                  
+                </div><!--/form-group-->                                          
 	              <div style="align:right" class="bottom">
                   <button style="align:right" type="submit" class="btn btn-primary">GUARDAR</button>
                   <a href="index.jsp"> <button style="align:right" type="button" class="btn btn-default">CANCELAR</button> </a>                 
-                </div><!--/form-group-->                
-            </form:form>
+                </div><!--/form-group--> 
+               </form:form >
+              </div><!--/form-group-->            
+               
+            
             </div><!--/porlets-content-->
           </div><!--/block-web--> 
         </div><!--/col-md-6-->		</div>
@@ -149,7 +142,73 @@
 		</div>
 		
 		</div>
-
+		<div>
+			<TABLE id="t11" style="display: none">
+				<thead>
+				</thead>
+				<tbody>
+					<c:forEach var="block" items="${blocks}">
+						<tr>
+							<td>${block.id}</td>
+							<td>${block.name}</td>
+						</tr>
+					</c:forEach>
+				</tbody>
+			</TABLE>
 		</div>
+
+<script type="text/javascript">
+	function cargarPrimerCombo1(id) {
+		var vectorFinal;
+		var table = document.getElementById('t11');
+		var tags_tr = table.getElementsByTagName('tr');
+		var tags_td;
+		var fila;
+		var vec = [];
+		var data
+		for (i = 0; i < tags_tr.length; i++) {
+			fila = tags_tr[i];
+			tags_td = fila.getElementsByTagName('td');
+			vec.push(tags_td.item(1).innerHTML);
+		}
+		vec.sort();
+		addOptions1(vec, id);
+	}
+
+	// Rutina para agregar opciones a un <select>
+	function addOptions1(array, id) {
+
+		var miSelect = document.getElementById(id);
+		while (miSelect.options.length > 1) {
+			miSelect.remove(1);
+		}
+
+		var miOption;
+		for (i = 0; i < array.length; i++) {
+
+			data = {
+				id : array[i],
+				text : array[i]
+			};
+
+			var newOption = new Option(data.text, data.id, false, false);
+			$("#" + id).append(newOption);
+		}
+	}
+
+	cargarPrimerCombo1("idBlock");
+</script>
+<!-- SERVICIOS FIN -->
+<!-- <script type="text/javascript">
+
+	function validationFields() {		
+		if (!$("#idBlock").val()) {					
+			alert("Debe seleccionar un bloque político");
+			return false;
+		} else {
+			return true;
+		}
+	}
+</SCRIPT> -->
 
 </html>

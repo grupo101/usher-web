@@ -67,7 +67,7 @@
 						<li><a href="member2">DIPUTADOS</a></li>
 						<li><a href="bench2">BANCAS</a></li>
 						<li><a href="block2">BLOQUES</a></li>
-						<li><a href="canvas">QUORUM</a></li>
+						<li><a href="quorumPanel">QUORUM</a></li>
 						<li><a href="benchAssociation1">ASOCIAR BANCA</a></li>
 						<li><a href="benchAssociation2">DESASOCIAR BANCA</a></li>
 						<li><a href="blockAssociation1">ASOCIAR BLOQUE POLITICO</a></li>
@@ -122,7 +122,8 @@
 						<td>${user.name}</td>
 						<td>${user.surName}</td>
 						<td>${user.userName}</td>
-						<td>${user.password}</td>
+						<td>********</td> 
+						<%-- <td>${user.password}</td> --%>
 						<td>${user.grantedAccess}</td>
 					
 					</tr>
