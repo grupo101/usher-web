@@ -11,7 +11,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.team101.model.Block;
 import com.team101.model.Member;
+import com.team101.service.BlockService;
 import com.team101.service.MemberService;
 
 @Controller
@@ -19,13 +21,17 @@ public class MemberController {
 
 	@Autowired
 	private MemberService memberService;
+	@Autowired
+	private BlockService blockService;
 
 	@RequestMapping("/member")
-	public ModelAndView member() {
+	public String member(Model model) {
 		
 		Member member = new Member();
-		
-		return new ModelAndView("createMember", "memberForm", member);
+		List<Block> blockList = blockService.listAll(); 
+		model.addAttribute("blocks",blockList);
+		model.addAttribute("memberForm", member);
+		return "createMember";
 	}
 
 	@RequestMapping("/member1")

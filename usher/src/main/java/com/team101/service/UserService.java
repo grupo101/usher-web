@@ -37,7 +37,7 @@ public class UserService {
 	public boolean validateEqual(User user, List<User> list) {
 		for (User user2 : list) {
 
-			if (user.getUserName() == user2.getUserName()) {
+			if (user.getUserName().contentEquals(user2.getUserName())) { 
 				return true;
 			}
 		}
