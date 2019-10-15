@@ -118,8 +118,8 @@
                <div class="form-group">
                   <label class="col-sm-3 control-label">BLOQUE ASOCIADO</label>
                   <div class="col-sm-9"> 
-									<form:select path="associatedBlock" id="idBlock" name="1" style="js-example-basic-single" width="100%"> 
- 														<option disabled selected>SELECCIONE UN BLOQUE</option> 
+									<form:select path="associatedBlockId" id="idBlock" name="1" style="js-example-basic-single" width="100%"> 
+ 														<option disabled selected>SELECCIONE UN BLOQUE</option>
 									</form:select>								
                   </div> 
                   
@@ -169,7 +169,11 @@
 		for (i = 0; i < tags_tr.length; i++) {
 			fila = tags_tr[i];
 			tags_td = fila.getElementsByTagName('td');
-			vec.push(tags_td.item(1).innerHTML);
+			data1 = {
+					id : tags_td.item(0).innerHTML,
+					text : tags_td.item(1).innerHTML
+				};
+			vec.push(data1);
 		}
 		vec.sort();
 		addOptions1(vec, id);
@@ -186,12 +190,11 @@
 		var miOption;
 		for (i = 0; i < array.length; i++) {
 
-			data = {
-				id : array[i],
-				text : array[i]
-			};
-
-			var newOption = new Option(data.text, data.id, false, false);
+/* 			data = {
+				id : array[i].id,
+				text : array[i].text
+			}; */
+			var newOption = new Option(array[i].text, array[i].id, false, false);
 			$("#" + id).append(newOption);
 		}
 	}

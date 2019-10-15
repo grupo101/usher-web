@@ -26,6 +26,12 @@ public class Member {
 	
 	@Column(name="assosiated_bench")
 	private Integer associatedBench;
+	
+	@Column(name="associated_block_id")
+	private Integer associatedBlockId;
+	
+	@Column(name="associated_bench_id")
+	private Integer associatedBenchId;
 
 	public Member() {
 	};
@@ -70,5 +76,28 @@ public class Member {
 		this.associatedBench = associatedBench;
 	}
 
+	public String getAssosiatedBlock() {
+		return assosiatedBlock;
+	}
 
+	public void setAssosiatedBlock(String assosiatedBlock) {
+		this.assosiatedBlock = assosiatedBlock;
+	}
+
+	public Integer getAssociatedBlockId() {
+		return associatedBlockId;
+	}
+
+	public void setAssociatedBlockId(Integer associatedBlockId) {
+		this.associatedBlockId = associatedBlockId;
+	}
+
+	public Integer getAssociatedBenchId() {
+		return associatedBenchId;
+	}
+
+	public void setAssociatedBenchId(Integer associatedBenchId) {
+		this.associatedBenchId = associatedBenchId;
+	}
+	
 }

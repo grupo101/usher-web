@@ -54,7 +54,8 @@
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
 			<version>5.1.31</version>
-		</dependency>
+<!-- 			<version>8.0.16</version>
+ -->		</dependency>
 		<!--paso 15 required libraries for hibernate -->
 		<dependency>
 			<groupId>org.slf4j</groupId>
