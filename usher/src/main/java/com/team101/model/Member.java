@@ -21,10 +21,10 @@ public class Member {
 	@Column(name="surname")
 	private String surName;
 	
-	@Column(name="assosiated_block")
-	private String assosiatedBlock;
+	@Column(name="associated_block")
+	private String associatedBlock;
 	
-	@Column(name="assosiated_bench")
+	@Column(name="associated_bench")
 	private Integer associatedBench;
 	
 	@Column(name="associated_block_id")
@@ -61,11 +61,11 @@ public class Member {
 	}
 
 	public String getAssociatedBlock() {
-		return assosiatedBlock;
+		return associatedBlock;
 	}
 
 	public void setAssociatedBlock(String assosiatedBlock) {
-		this.assosiatedBlock = assosiatedBlock;
+		this.associatedBlock = assosiatedBlock;
 	}
 
 	public Integer getAssociatedBench() {
@@ -77,11 +77,11 @@ public class Member {
 	}
 
 	public String getAssosiatedBlock() {
-		return assosiatedBlock;
+		return associatedBlock;
 	}
 
-	public void setAssosiatedBlock(String assosiatedBlock) {
-		this.assosiatedBlock = assosiatedBlock;
+	public void setAssosiatedBlock(String associatedBlock) {
+		this.associatedBlock = associatedBlock;
 	}
 
 	public Integer getAssociatedBlockId() {
