@@ -112,20 +112,62 @@
 					<th class="sorting" role="columnheader" tabindex="0" aria-controls="dynamic-table" rowspan="1" colspan="1" aria-label="Rendering engine: activate to sort column ascending" style="width: 220px;">Apellido</th>
 					<th class="sorting" role="columnheader" tabindex="0" aria-controls="dynamic-table" rowspan="1" colspan="1" aria-label="Rendering engine: activate to sort column ascending" style="width: 220px;">Bloque asociado</th>
 					<th class="sorting" role="columnheader" tabindex="0" aria-controls="dynamic-table" rowspan="1" colspan="1" aria-label="Rendering engine: activate to sort column ascending" style="width: 220px;">Banca asociada</th>
+					<th class="sorting" role="columnheader" tabindex="0" aria-controls="dynamic-table" rowspan="1" colspan="1" aria-label="Rendering engine: activate to sort column ascending" style="width: 220px;display:none">ID Bloque asociado</th>
+					<th class="sorting" role="columnheader" tabindex="0" aria-controls="dynamic-table" rowspan="1" colspan="1" aria-label="Rendering engine: activate to sort column ascending" style="width: 220px;display:none">ID Banca asociada</th>
 				</tr>
 			</thead>
 			<tbody role="alert" aria-live="polite" aria-relevant="all">
 				<c:forEach var="member" items="${members}">
-					<tr>
- 						<td style="display:none">${member.id}</td>
-						<td>${member.name}</td>
-						<td>${member.surName}</td>
-						<td>${member.associatedBlock}</td>
-						<td>${member.associatedBench}</td>					
-					</tr>
+					<c:forEach var="block" items="${blocks}">
+						<c:choose>
+							<c:when test="${block.id == member.associatedBlockId}">
+								<tr>
+			 						<td style="display:none">${member.id}</td>
+									<td>${member.name}</td>
+									<td>${member.surName}</td>
+									<td>${block.name}</td>
+									<td>${member.associatedBench}</td>
+									<td style="display:none">${member.associatedBlockId}</td>
+									<td style="display:none">${member.associatedBenchId}</td>
+								</tr>
+							</c:when>
+						</c:choose>
+					</c:forEach>
+					<c:if test="${member.associatedBlockId == 0}">
+						<tr>
+	 						<td style="display:none">${member.id}</td>
+							<td>${member.name}</td>
+							<td>${member.surName}</td>
+							<td>${member.associatedBlock}</td>
+							<td>${member.associatedBench}</td>
+							<td style="display:none">${member.associatedBlockId}</td>
+							<td style="display:none">${member.associatedBenchId}</td>
+						</tr>
+					</c:if>
 				</c:forEach>
 			</tbody>
 		</table>
+		<!-- 
+		 <c:forEach var="detailSale" items="${detailedSale}">
+  	<c:set var = "service" value = "${detailSale.service}"/>
+ <c:choose>
+    <c:when test="${service == 'true'}">
+	  <tr>
+	    <td>${detailSale.quantityAsked}</td>
+	    <td>${detailSale.nameProduct}</td>
+	    <td>${detailSale.subtotal}</td>
+	  </tr>
+    </c:when>    
+    <c:otherwise>
+	  <tr>
+	    <td>${detailSale.quantityAsked}</td>
+	    <td>${detailSale.description} ${detailSale.markProduct}</td>
+	    <td>${detailSale.subtotal}</td>
+	  </tr>
+    </c:otherwise>
+</c:choose> 			
+  </c:forEach>
+		 -->
 		
 		</div>
               </div><!--/table-responsive-->
@@ -138,6 +180,20 @@
       
        <div class="row">
         <div class="col-md-12">
+        		<div>
+			<TABLE id="t11" style="display: none">
+				<thead>
+				</thead>
+				<tbody>
+					<c:forEach var="block" items="${blocks}">
+						<tr>
+							<td>${block.id}</td>
+							<td>${block.name}</td>
+						</tr>
+					</c:forEach>
+				</tbody>
+			</TABLE>
+		</div>
         
         <hr />
 	
@@ -166,13 +222,16 @@
 			<tr>
 			
 			<th align=left style="background-color: #f6f6f6">Bloque asociado:</th>
-				<th style="background-color: white"><form:input id="assosiatedBlock"
-						path="associatedBlock"
-						/></th>                   		
-                   		<th align=left style="background-color: #f6f6f6">Banca asociada:</th>
-				<th style="background-color: white"><form:input id="associatedBench"
-						path="associatedBench" 
-						/></th>			
+				<th style="background-color: white">
+					<form:input id="associatedBlock" path="associatedBlock"/> 
+					<form:input id="associatedBlockId" path="associatedBlockId" style="display:none"/>
+				</th>                   		
+            <th align=left style="background-color: #f6f6f6">Banca asociada:</th>
+				<th style="background-color: white">
+					<form:input id="associatedBench" path="associatedBench"/>
+					<form:input id="associatedBenchId" path="associatedBenchId" style="display:none"/>
+				</th>
+							
 <%-- 				<th align=left style="background-color: #f6f6f6">Alta</th>
 				<th style="background-color: white"><form:input id="grantedAccess"
 						path="grantedAccess" 
@@ -221,10 +280,12 @@
 			document.getElementById('id').value = tags_td.item(0).innerHTML;
 			document.getElementById('name').value = tags_td.item(1).innerHTML;
 			document.getElementById('surName').value = tags_td.item(2).innerHTML;
-			document.getElementById('assosiatedBlock').value = tags_td.item(3).innerHTML;
-			document.getElementById('associatedBench').value = tags_td.item(4).innerHTML;		
+			document.getElementById('associatedBlock').value = tags_td.item(3).innerHTML;
+			document.getElementById('associatedBench').value = tags_td.item(4).innerHTML;
+			document.getElementById('associatedBlockId').value = tags_td.item(5).innerHTML;
+			document.getElementById('associatedBenchId').value = tags_td.item(6).innerHTML;
 			document.getElementById('removeButton').disabled=false;
-			document.getElementById('modifyButton').disabled=false;			
+			document.getElementById('modifyButton').disabled=false;		
 		}
 	
 		function selectLine() {

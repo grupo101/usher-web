@@ -3,7 +3,7 @@ d3.hemicycle = function() {
     return (parseInt(state) == 1) ? "green" : "red";
   }
 
-  function hemicycle(selection, centerbenchs = 0) {
+  function hemicycle(selection, centerbenchs = 0) { 
     selection.each(function(d, i) {
 
     // options

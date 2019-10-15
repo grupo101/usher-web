@@ -46,7 +46,9 @@ public class MemberController {
 	public String member2(Model model) {	
 		Member member = new Member();
 		List<Member> memberList = memberService.listAll();
+		List<Block> blockList = blockService.listAll();
 		model.addAttribute("members", memberList);
+		model.addAttribute("blocks", blockList);
 		model.addAttribute("memberForm", member);
 		
 		return "listMember";

@@ -1,5 +1,7 @@
 package com.team101.model;
 
+import java.sql.Timestamp;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -29,6 +31,14 @@ public class User {
 	
 	@Column(name="access")
 	private boolean grantedAccess;
+	
+	@Column(name="tstamp")
+	private Timestamp timeStamp;
+	
+	@Column(name="member_id")
+	private Integer memberId;
+	
+	
 
 	public User() {
 	};
@@ -80,5 +90,21 @@ public class User {
 	public void setGrantedAccess(boolean grantedAccess) {
 		this.grantedAccess = grantedAccess;
 	}
+
+	public Timestamp getTimeStamp() {
+		return timeStamp;
+	}
+
+	public void setTimeStamp(Timestamp timeStamp) {
+		this.timeStamp = timeStamp;
+	}
+
+	public Integer getMemberId() {
+		return memberId;
+	}
+
+	public void setMemberId(Integer memberId) {
+		this.memberId = memberId;
+	}	
 
 }
