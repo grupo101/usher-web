@@ -3,6 +3,12 @@ package com.team101.model;
 
 public class Association {
 
+	private String associatedBlockName;
+	private String associatedMemberName;
+	private String associatedMemberSurname;
+	private int benchState;
+	private int benchManualState;
+	
 	
 	private Bench bench;
 	
@@ -36,5 +42,48 @@ public class Association {
 	public void setBlock(Block block) {
 		this.block = block;
 	}
+
+	public String getAssociatedBlockName() {
+		return associatedBlockName;
+	}
+
+	public void setAssociatedBlockName(String associatedBlockName) {
+		this.associatedBlockName = associatedBlockName;
+	}
+
+	public String getAssociatedMemberName() {
+		return associatedMemberName;
+	}
+
+	public void setAssociatedMemberName(String associatedMemberName) {
+		this.associatedMemberName = associatedMemberName;
+	}
+
+	public String getAssociatedMemberSurname() {
+		return associatedMemberSurname;
+	}
+
+	public void setAssociatedMemberSurname(String associatedMemberSurname) {
+		this.associatedMemberSurname = associatedMemberSurname;
+	}
+
+	public int getBenchState() {
+		return benchState;
+	}
+
+	public void setBenchState(int benchState) {
+		this.benchState = benchState;
+	}
+
+	public int getBenchManualState() {
+		return benchManualState;
+	}
+
+	public void setBenchManualState(int benchManualState) {
+		this.benchManualState = benchManualState;
+	}
+
+
+	
 
 }

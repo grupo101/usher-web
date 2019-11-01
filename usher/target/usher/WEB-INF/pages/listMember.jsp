@@ -107,18 +107,36 @@
 
  			<thead>
 				<tr>
- 					<th class="sorting" role="columnheader" tabindex="0" aria-controls="dynamic-table" rowspan="1" colspan="1" aria-label="Rendering engine: activate to sort column ascending" style="width: 220px;display:none;">ID</th>
+ 					<th class="sorting" role="columnheader" tabindex="0" aria-controls="dynamic-table" rowspan="1" colspan="1" aria-label="Rendering engine: activate to sort column ascending" style="width: 220px;">ID</th>
 					<th class="sorting" role="columnheader" tabindex="0" aria-controls="dynamic-table" rowspan="1" colspan="1" aria-label="Rendering engine: activate to sort column ascending" style="width: 220px;">Nombre</th>
 					<th class="sorting" role="columnheader" tabindex="0" aria-controls="dynamic-table" rowspan="1" colspan="1" aria-label="Rendering engine: activate to sort column ascending" style="width: 220px;">Apellido</th>
-					<th class="sorting" role="columnheader" tabindex="0" aria-controls="dynamic-table" rowspan="1" colspan="1" aria-label="Rendering engine: activate to sort column ascending" style="width: 220px;">Bloque asociado</th>
-					<th class="sorting" role="columnheader" tabindex="0" aria-controls="dynamic-table" rowspan="1" colspan="1" aria-label="Rendering engine: activate to sort column ascending" style="width: 220px;">Banca asociada</th>
+ 					<th class="sorting" role="columnheader" tabindex="0" aria-controls="dynamic-table" rowspan="1" colspan="1" aria-label="Rendering engine: activate to sort column ascending" style="width: 220px;">Estado</th>
+<!--					<th class="sorting" role="columnheader" tabindex="0" aria-controls="dynamic-table" rowspan="1" colspan="1" aria-label="Rendering engine: activate to sort column ascending" style="width: 220px;">Banca asociada</th>
 					<th class="sorting" role="columnheader" tabindex="0" aria-controls="dynamic-table" rowspan="1" colspan="1" aria-label="Rendering engine: activate to sort column ascending" style="width: 220px;display:none">ID Bloque asociado</th>
-					<th class="sorting" role="columnheader" tabindex="0" aria-controls="dynamic-table" rowspan="1" colspan="1" aria-label="Rendering engine: activate to sort column ascending" style="width: 220px;display:none">ID Banca asociada</th>
+					<th class="sorting" role="columnheader" tabindex="0" aria-controls="dynamic-table" rowspan="1" colspan="1" aria-label="Rendering engine: activate to sort column ascending" style="width: 220px;display:none">ID Banca asociada</th> -->
 				</tr>
 			</thead>
 			<tbody role="alert" aria-live="polite" aria-relevant="all">
 				<c:forEach var="member" items="${members}">
-					<c:forEach var="block" items="${blocks}">
+						<tr>
+	 						<td>${member.id}</td>
+							<td>${member.name}</td>
+							<td>${member.surName}</td>
+							<%-- <td>${member.isActive}</td>  --%> 
+ 							<c:choose>
+							  <c:when test="${member.isActive == 'true'}">
+							  	 <td>Activo</td>
+							  </c:when>
+							  <c:otherwise>
+							 	 <td>Inactivo</td>
+							  </c:otherwise>
+							</c:choose>  
+<%-- 							<td>${member.associatedBlock}</td>
+							<td>${member.associatedBench}</td>
+							<td style="display:none">${member.associatedBlockId}</td>
+							<td style="display:none">${member.associatedBenchId}</td> --%>
+						</tr>
+<%-- 					<c:forEach var="block" items="${blocks}">
 						<c:choose>
 							<c:when test="${block.id == member.associatedBlockId}">
 								<tr>
@@ -132,8 +150,8 @@
 								</tr>
 							</c:when>
 						</c:choose>
-					</c:forEach>
-					<c:if test="${member.associatedBlockId == 0}">
+					</c:forEach> --%>
+<%-- 					<c:if test="${member.associatedBlockId == 0}">
 						<tr>
 	 						<td style="display:none">${member.id}</td>
 							<td>${member.name}</td>
@@ -143,7 +161,7 @@
 							<td style="display:none">${member.associatedBlockId}</td>
 							<td style="display:none">${member.associatedBenchId}</td>
 						</tr>
-					</c:if>
+					</c:if> --%>
 				</c:forEach>
 			</tbody>
 		</table>
@@ -178,7 +196,7 @@
         </div><!--/col-md-12--> 
       </div><!--/row-->
       
-       <div class="row">
+<%--        <div class="row">
         <div class="col-md-12">
         		<div>
 			<TABLE id="t11" style="display: none">
@@ -193,7 +211,7 @@
 					</c:forEach>
 				</tbody>
 			</TABLE>
-		</div>
+		</div> --%>
         
         <hr />
 	
@@ -213,30 +231,36 @@
 				<th align=left style="background-color: #f6f6f6">Nombre:</th>
 				<th style="background-color: white"><form:input id="name"
 						path="name" 
-						readonly="true"/></th>
+						/></th>
                  <th align=left style="background-color: #f6f6f6">Apellido:</th>
 				<th style="background-color: white"><form:input id="surName"
 						path="surName" 
-						readonly="true"/></th>
+						/>
+										<form:input id="isActive"
+						path="isActive" style="display:none"/></th>			
 			</tr>
-			<tr>
-			
-			<th align=left style="background-color: #f6f6f6">Bloque asociado:</th>
+			<tr> 			
+<%-- 			<th align=left style="background-color: #f6f6f6">Estado:</th>
 				<th style="background-color: white">
-					<form:input id="associatedBlock" path="associatedBlock"/> 
-					<form:input id="associatedBlockId" path="associatedBlockId" style="display:none"/>
-				</th>                   		
-            <th align=left style="background-color: #f6f6f6">Banca asociada:</th>
+					<form:select id="isActive"
+						path="isActive" 
+						type="text">
+						<option>Seleccionar estado</option> 
+						<option value=true>true</option> 
+						<option value=false>false</option>
+					</form:select>
+				</th>     --%>              		
+<%--            <th align=left style="background-color: #f6f6f6">Banca asociada:</th>
 				<th style="background-color: white">
 					<form:input id="associatedBench" path="associatedBench"/>
 					<form:input id="associatedBenchId" path="associatedBenchId" style="display:none"/>
-				</th>
+				</th> --%>
 							
 <%-- 				<th align=left style="background-color: #f6f6f6">Alta</th>
 				<th style="background-color: white"><form:input id="grantedAccess"
 						path="grantedAccess" 
 						type="text"/>
-				</th> --%>
+				</th> --%> 
 			</tr>
 				<tr>
 					<th align=center style="weight: 100%; background-color: white"></th>
@@ -246,13 +270,12 @@
 					<th align=center style="weight: 100%; background-color: white"></th>
 					<th align=center style="background-color: white; width:10%">
 					<input id="modifyButton" style="width: 48%;" class="btn btn-primary btn-sm" type="submit" name="Modificar" value="Modificar" onclick="pickModifyButton()" disabled> 
-					<input id="removeButton" style="width: 49%;" class="btn btn-primary btn-sm" type="submit" name="Eliminar" value="Eliminar" onclick="pickRemoveButton()" disabled></th> 
+					<input id="removeButton" style="width: 49%;" class="btn btn-primary btn-sm" type="submit" name="Eliminar" value="Baja" onclick="pickActiveInactiveButton()" disabled></th> 
 			
 				
 				</tr>
 		</table>
-		</form:form>
-		
+		</form:form>		
 		</div>
 	<hr />		
 	<a href="member"><input class="btn btn-primary btn-lg" id="registrar" type="button" value="Registrar diputado" style="width: 100%;"></a> 	
@@ -267,23 +290,30 @@
     <!--\\\\\\\ content panel end \\\\\\-->
   </div>
   <!--\\\\\\\ inner end\\\\\\-->
-</div>
-<!--\\\\\\\ wrapper end\\\\\\-->
-</div>
 <div class="demo">  </div>
 
 </body>
 	<script type="text/javascript">
 		function getCellsValue(cell) {
 	
-			var tags_td = cell.getElementsByTagName('td');
+			var tags_td = cell.getElementsByTagName('td'); 
 			document.getElementById('id').value = tags_td.item(0).innerHTML;
 			document.getElementById('name').value = tags_td.item(1).innerHTML;
 			document.getElementById('surName').value = tags_td.item(2).innerHTML;
-			document.getElementById('associatedBlock').value = tags_td.item(3).innerHTML;
-			document.getElementById('associatedBench').value = tags_td.item(4).innerHTML;
+			if(tags_td.item(3).innerHTML == "Activo"){
+				document.getElementById('isActive').value=true;
+				document.getElementById('removeButton').value="Baja";
+			}else{
+				document.getElementById('isActive').value=false;
+				document.getElementById('removeButton').value="Alta"; 
+			}
+			/* document.getElementById('isActive').value = tags_td.item(3).innerHTML; */
+			
+/*  			document.getElementById('isActive').value = tags_td.item(3).innerHTML; 
+ */ 			/*			document.getElementById('associatedBench').value = tags_td.item(4).innerHTML;
 			document.getElementById('associatedBlockId').value = tags_td.item(5).innerHTML;
-			document.getElementById('associatedBenchId').value = tags_td.item(6).innerHTML;
+			document.getElementById('associatedBenchId').value = tags_td.item(6).innerHTML; */
+
 			document.getElementById('removeButton').disabled=false;
 			document.getElementById('modifyButton').disabled=false;		
 		}
@@ -310,11 +340,17 @@
 				alert("Debe seleccionar un diputado para modificarlo");
 				return false;
 			}
+			
 			document.getElementById('form1').action = "modifyMember";
 			//document.getElementById('form1').submit();
 		}
-		function pickRemoveButton() {
-			document.getElementById('form1').action = "removeMember";
+		function pickActiveInactiveButton() {
+			if(document.getElementById('removeButton').value == "Alta"){
+				document.getElementById('isActive').value=true; 
+			}else{
+				document.getElementById('isActive').value=false;
+			}
+			document.getElementById('form1').action = "modifyMember";
 			//document.getElementById('form1').submit();
 		}
 	</script>

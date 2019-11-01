@@ -27,7 +27,7 @@
 		    $('#dynamic-table').DataTable({		    			    	
 		    	"order": [[ 0, "asc" ]],
 		    columnDefs : [
-		                  { targets : [5],
+		                  { targets : [7],
 		                    render : function (data, type, row) {
 		                      switch(data) {
 		                         case '0' : return 'Ausente'; break;
@@ -37,7 +37,7 @@
 		                    } 
 		                  } ,
 		                  {
-		                	  targets : [4],
+		                	  targets : [6],
 			                    render : function (data, type, row) {
 			                      switch(data) {
 			                         case 'false' : return 'Ausente'; break;
@@ -50,8 +50,8 @@
 } );
 		
 	    function draw() { 
-	    	if(document.getElementById("estado").value !=null){
-	    		var string = $( "#estado" ).text(); 
+	    	if(document.getElementById("busyState").value !=null){
+	    		var string = $( "#busyState" ).text();
 	    		for(i=0; i<92; i++){
 	    			//alert(table.rows[i].cells[4].value);
 	    			 if($('#manualState'+i+'').html()=="Presente"){
@@ -149,7 +149,9 @@
  			<thead>
 				<tr>
  					<th class="sorting" role="columnheader" tabindex="0" aria-controls="dynamic-table" rowspan="1" colspan="1" aria-label="Rendering engine: activate to sort column ascending" style="width: 167px;display:none;">ID</th>
-					<th class="sorting" role="columnheader" tabindex="0" aria-controls="dynamic-table" rowspan="1" colspan="1" aria-label="Rendering engine: activate to sort column ascending" style="width: 167px;">Numero</th>
+ 					<th class="sorting" role="columnheader" tabindex="0" aria-controls="dynamic-table" rowspan="1" colspan="1" aria-label="Rendering engine: activate to sort column ascending" style="width: 167px;display:none;">ID Diputado asociado</th>
+ 					<th class="sorting" role="columnheader" tabindex="0" aria-controls="dynamic-table" rowspan="1" colspan="1" aria-label="Rendering engine: activate to sort column ascending" style="width: 167px;display:none;">ID bloque asociado</th>
+					<th class="sorting" role="columnheader" tabindex="0" aria-controls="dynamic-table" rowspan="1" colspan="1" aria-label="Rendering engine: activate to sort column ascending" style="width: 167px;">Numero</th> 
 					<th class="sorting" role="columnheader" tabindex="0" aria-controls="dynamic-table" rowspan="1" colspan="1" aria-label="Rendering engine: activate to sort column ascending" style="width: 167px;">Diputado asociado</th>
 					<th class="sorting" role="columnheader" tabindex="0" aria-controls="dynamic-table" rowspan="1" colspan="1" aria-label="Rendering engine: activate to sort column ascending" style="width: 167px;">Bloque asociado</th>
 					<th class="sorting" role="columnheader" tabindex="0" aria-controls="dynamic-table" rowspan="1" colspan="1" aria-label="Rendering engine: activate to sort column ascending" style="width: 167px;">Estado actual</th>
@@ -161,6 +163,8 @@
 				<c:forEach var="bench" items="${benchs}">
 					<tr>
  						<td style="display:none">${bench.id}</td>
+ 						<td style="display:none">${bench.associatedMemberId}</td>
+ 						<td style="display:none">${bench.associatedBlockId}</td> 						
 						<td>${bench.number}</td>
 						<td>${bench.associatedMember}</td>
 						<td>${bench.associatedBlock}</td> 
@@ -197,7 +201,15 @@
 			<tr>
 				<th align=left style="background-color: #f6f6f6">ID:</th>
 				<th style="background-color: white"><form:input id="id"
-						path="id" readonly="true"/></th>						
+						path="id" readonly="true"/>
+						
+						<form:input id="associatedBlockId"
+						path="associatedBlockId" readonly="true" style="display:none"/>
+						<form:input id="associatedMemberId"
+						path="associatedMemberId" readonly="true" style="display:none"/>
+						
+						
+						</th>						
 				<th align=left style="background-color: #f6f6f6">Numero:</th>
 				<th style="background-color: white"><form:input id="number"
 						path="number" 
@@ -217,7 +229,7 @@
             <th align=left style="background-color: #f6f6f6">Estado actual:</th>
 				<th style="background-color: white"><form:input id="busyState"
 						path="busyState" 
-						readonly="true"/>
+						readonly="true"/> 
 				</th> 			
 				<th align=left style="background-color: #f6f6f6">Estado manual:</th>
 				<th style="background-color: white"><form:select id="manualState"
@@ -268,12 +280,14 @@
 	
 			var tags_td = cell.getElementsByTagName('td');
 			document.getElementById('id').value = tags_td.item(0).innerHTML;
-			document.getElementById('number').value = tags_td.item(1).innerHTML;
-			document.getElementById('associatedMember').value = tags_td.item(2).innerHTML;
-			document.getElementById('associatedBlock').value = tags_td.item(3).innerHTML;
-			document.getElementById('busyState').value = tags_td.item(4).innerHTML;
- 			document.getElementById('manualState').value = tags_td.item(5).innerHTML;
- 			document.getElementById('manualState').selected = tags_td.item(5).innerHTML;
+			document.getElementById('associatedMemberId').value = tags_td.item(1).innerHTML;
+			document.getElementById('associatedBlockId').value = tags_td.item(2).innerHTML;
+			document.getElementById('number').value = tags_td.item(3).innerHTML;
+			document.getElementById('associatedMember').value = tags_td.item(4).innerHTML;
+			document.getElementById('associatedBlock').value = tags_td.item(5).innerHTML;
+			document.getElementById('busyState').value = tags_td.item(6).innerHTML;
+ 			document.getElementById('manualState').value = tags_td.item(7).innerHTML;
+ 			document.getElementById('manualState').selected = tags_td.item(7).innerHTML; 
 			document.getElementById('busyButton').disabled=false;
 		} 
 	
@@ -285,7 +299,7 @@
 				if (tags_tr[i].addEventListener) { // IE9 y el resto
 					tags_tr[i].addEventListener("click", function() {
 						getCellsValue(this);
-					}, false);
+					}, false); 
 				}
 			}
 		}
@@ -324,7 +338,7 @@
         var listitem = $('#ulEmployees');              
             $.ajax({
                 Type: 'GET',
-                url: 'https://usher.sytes.net/usher-api/estado_banca?token=48370255gBrgdlpl050588',                         
+                url: 'https://usher.sytes.net/usher-api/check_status?token=48370255gBrgdlpl050588&server=SVR1',                          
                 success: function (data) {
 	                    	listitem.empty();                       
 	                        $.each(data, function (index, val) {

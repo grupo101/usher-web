@@ -383,11 +383,11 @@
         	
             var listitem = $('#ulEmployees');              
                 $.ajax({
-                    Type: 'GET',
-                    url: 'https://usher.sytes.net/usher-api/estado_banca?token=48370255gBrgdlpl050588',
+                    Type: 'POST', 
+                    url: 'https://usher.sytes.net/usher-api/check_status?token=48370255gBrgdlpl050588&server=SVR1',  
                     success: function (data) {
                       if (typeof(data) == 'object') {
-                        updateHemicycle(data["estado"]);
+                        updateHemicycle(data["status"]);
                       }else{alert(typeof(data));
                       }
                           var val;//alert(JSON.stringify(data));
