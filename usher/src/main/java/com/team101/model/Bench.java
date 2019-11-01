@@ -5,6 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Entity
 @Table(name = "benchs")
@@ -20,15 +21,22 @@ public class Bench {
 
 	@Column(name = "busyState")
 	private boolean busyState;
+	
+	@Column(name = "associated_member_id")
+	private Integer associatedMemberId;
 
-	@Column(name = "associated_member")
+	@Transient
 	private String associatedMember;
-
-	@Column(name = "associated_block")
+	
+	@Column(name = "associated_block_id")
+	private Integer associatedBlockId;
+	
+	@Transient
 	private String associatedBlock;
 
 	@Column(name = "manual_state")
 	private Integer manualState;
+	
 
 	public Bench() {
 		super();
@@ -81,5 +89,21 @@ public class Bench {
 	public void setManualState(Integer manualState) {
 		this.manualState = manualState;
 	}
+
+	public Integer getAssociatedMemberId() {
+		return associatedMemberId;
+	}
+
+	public void setAssociatedMemberId(Integer associatedMemberId) {
+		this.associatedMemberId = associatedMemberId;
+	}
+
+	public Integer getAssociatedBlockId() {
+		return associatedBlockId;
+	}
+
+	public void setAssociatedBlockId(Integer associatedBlockId) {
+		this.associatedBlockId = associatedBlockId;
+	} 	
 
 }

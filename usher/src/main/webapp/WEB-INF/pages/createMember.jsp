@@ -91,9 +91,8 @@
           <div class="block-web">
 
             <div class="porlets-content">
-<%--             <form:form class="form-horizontal row-border" id="formulario" method="post" onsubmit="return validationFields()" commandName="memberForm" action="addMember">
- --%>
-            <form:form class="form-horizontal row-border" id="formulario" method="post" onsubmit="return validationFields()" commandName="memberForm" action="addMember">
+
+            <form:form class="form-horizontal row-border" id="formulario" method="post" commandName="memberForm" action="addMember">
                  <div class="form-group"> 
                   <label class="col-sm-3 control-label">NOMBRE</label>
                   <div class="col-sm-9">
@@ -113,9 +112,9 @@
 						required="required" 
 						oninvalid="setCustomValidity('Ingresa uno o dos apellidos con solo letras')" 
                    		oninput="setCustomValidity('')"/>
-                  </div>
-                </div><!--/form-group-->                  
-               <div class="form-group">
+                  </div> 
+                 </div><!--/form-group-->                  
+<%--               <div class="form-group">
                   <label class="col-sm-3 control-label">BLOQUE ASOCIADO</label>
                   <div class="col-sm-9"> 
 									<form:select path="associatedBlockId" id="idBlock" name="1" style="js-example-basic-single" width="100%"> 
@@ -123,7 +122,7 @@
 									</form:select>								
                   </div> 
                   
-                </div><!--/form-group-->                                          
+                </div><!--/form-group-->  --%>                                         
 	              <div style="align:right" class="bottom">
                   <button style="align:right" type="submit" class="btn btn-primary">GUARDAR</button>
                   <a href="index.jsp"> <button style="align:right" type="button" class="btn btn-default">CANCELAR</button> </a>                 
@@ -139,10 +138,10 @@
 		</div>
 		
 		
-		</div>
+		</div> 
 		
 		</div>
-		<div>
+<%-- 		<div>
 			<TABLE id="t11" style="display: none">
 				<thead>
 				</thead>
@@ -155,9 +154,9 @@
 					</c:forEach>
 				</tbody>
 			</TABLE>
-		</div>
+		</div> --%>
 
-<script type="text/javascript">
+<!-- <script type="text/javascript">
 	function cargarPrimerCombo1(id) {
 		var vectorFinal;
 		var table = document.getElementById('t11');
@@ -200,7 +199,7 @@
 	}
 
 	cargarPrimerCombo1("idBlock");
-</script>
+</script> -->
 <!-- SERVICIOS FIN -->
 <!-- <script type="text/javascript">
 

@@ -21,17 +21,11 @@ public class Member {
 	@Column(name="surname")
 	private String surName;
 	
-	@Column(name="associated_block")
-	private String associatedBlock;
+	@Column(name="url")
+	private String memberImage;
 	
-	@Column(name="associated_bench")
-	private Integer associatedBench;
-	
-	@Column(name="associated_block_id")
-	private Integer associatedBlockId;
-	
-	@Column(name="associated_bench_id")
-	private Integer associatedBenchId;
+	@Column(name="active")
+	private boolean isActive;
 
 	public Member() {
 	};
@@ -60,44 +54,24 @@ public class Member {
 		this.surName = surName;
 	}
 
-	public String getAssociatedBlock() {
-		return associatedBlock;
+	public String getMemberImage() {
+		return memberImage;
 	}
 
-	public void setAssociatedBlock(String assosiatedBlock) {
-		this.associatedBlock = assosiatedBlock;
+	public void setMemberImage(String memberImage) {
+		this.memberImage = memberImage;
 	}
 
-	public Integer getAssociatedBench() {
-		return associatedBench;
+	public boolean isActive() {
+		return isActive;
 	}
 
-	public void setAssociatedBench(Integer associatedBench) {
-		this.associatedBench = associatedBench;
-	}
-
-	public String getAssosiatedBlock() {
-		return associatedBlock;
-	}
-
-	public void setAssosiatedBlock(String associatedBlock) {
-		this.associatedBlock = associatedBlock;
-	}
-
-	public Integer getAssociatedBlockId() {
-		return associatedBlockId;
-	}
-
-	public void setAssociatedBlockId(Integer associatedBlockId) {
-		this.associatedBlockId = associatedBlockId;
-	}
-
-	public Integer getAssociatedBenchId() {
-		return associatedBenchId;
-	}
-
-	public void setAssociatedBenchId(Integer associatedBenchId) {
-		this.associatedBenchId = associatedBenchId;
-	}
+	public void setIsActive(boolean isActive) {
+		this.isActive = isActive;
+	}	
 	
+	public boolean getIsActive(){
+		return isActive;
+	}
+		
 }

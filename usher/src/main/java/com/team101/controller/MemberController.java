@@ -28,8 +28,8 @@ public class MemberController {
 	public String member(Model model) {
 		
 		Member member = new Member();
-		List<Block> blockList = blockService.listAll(); 
-		model.addAttribute("blocks",blockList);
+//		List<Block> blockList = blockService.listAll(); 
+//		model.addAttribute("blocks",blockList);
 		model.addAttribute("memberForm", member);
 		return "createMember";
 	}
@@ -78,7 +78,7 @@ public class MemberController {
 	@Transactional
 	protected String removeMember(Member member, Model model)
 			throws ServletException {
-
+		//dado debaja logica y desasociarlo de la banca.
 		memberService.remove(member);
 		return "success";
 	}
@@ -87,7 +87,7 @@ public class MemberController {
 	@Transactional
 	protected String modifyMember(Member member, Model model)
 			throws ServletException {
-		
+		System.out.println(member.getIsActive());
 		memberService.modify(member);
 		return "success";
 	}

@@ -11,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.team101.model.Association;
 import com.team101.model.Bench;
 import com.team101.service.BenchService;
 
@@ -31,7 +32,9 @@ public class BenchController {
 	@RequestMapping("/bench2")
 	public String bench2(Model model) {	
 		Bench bench = new Bench();
-		List<Bench> benchList = benchService.listAll();
+		//List<Bench> benchList = benchService.listAll();
+		//List<Association> associationList = benchService.listAllFiltered();
+		List<Bench> benchList = benchService.listAllBenchToShow();
 		model.addAttribute("benchs", benchList);
 		model.addAttribute("benchForm", bench);
 		

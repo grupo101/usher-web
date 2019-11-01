@@ -148,25 +148,25 @@
 																	aria-controls="dynamic-table" rowspan="1" colspan="1"
 																	aria-label="Rendering engine: activate to sort column ascending"
 																	style="width: 220px;">Apellido</th>
-																<th class="sorting" role="columnheader" tabindex="0"
+<!-- 																<th class="sorting" role="columnheader" tabindex="0"
 																	aria-controls="dynamic-table" rowspan="1" colspan="1"
 																	aria-label="Rendering engine: activate to sort column ascending"
 																	style="width: 220px;">Bloque asociado</th>
 																<th class="sorting" role="columnheader" tabindex="0"
 																	aria-controls="dynamic-table" rowspan="1" colspan="1"
 																	aria-label="Rendering engine: activate to sort column ascending"
-																	style="width: 220px;">Banca asociada</th>
+																	style="width: 220px;">Banca asociada</th> -->
 															</tr>
 														</thead>
 														<tbody>
 															<c:forEach var="member" items="${members}">
-															<c:if test="${member.associatedBench == null}">
+															<c:if test="${member.id == null}">
 																<tr>
 																	<td>${member.id}</td>
 																	<td>${member.name}</td>
 																	<td>${member.surName}</td>
-																	<td>${member.associatedBlock}</td>
-																	<td>${member.associatedBench}</td>
+<%-- 																	<td>${member.associatedBlock}</td>
+																	<td>${member.associatedBench}</td> --%>
 																</tr>
 															</c:if>
 															</c:forEach>
@@ -279,7 +279,7 @@
 
 			data = {
 				id : array[i],
-				text : array[i]
+				text : array[i] 
 			};
 
 			var newOption = new Option(data.text, data.id, false, false);

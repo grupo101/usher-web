@@ -56,7 +56,7 @@ public class AssociationController {
 		
 		Member member = new Member();
 		member = memberService.getMember(association.getMember().getId());
-		member.setAssociatedBench(association.getBench().getNumber());
+//		member.setAssociatedBench(association.getBench().getNumber());
 //		member.setAssociatedBlock(association.getBlock().getName());
 		memberService.modify(member);
 		
@@ -65,7 +65,7 @@ public class AssociationController {
 		bench.setId(association.getBench().getNumber());
 		bench.setNumber(association.getBench().getNumber());
 		bench.setAssociatedMember(member.getName()+" "+member.getSurName());
-		bench.setAssociatedBlock(member.getAssociatedBlock());		
+//		bench.setAssociatedBlock(member.getAssociatedBlock());		
 		benchService.modify(bench);
 		
 		return "success";		
@@ -79,12 +79,12 @@ public class AssociationController {
 		member = memberService.getMember(association.getMember().getId());
 		
 		Bench bench = new Bench();
-		bench = benchService.getBench(member.getAssociatedBench());
+//		bench = benchService.getBench(member.getAssociatedBench());
 //		bench.setId(association.getBench().getNumber());
 //		bench.setNumber(association.getBench().getNumber());
 		bench.setAssociatedMember(null);
 		bench.setAssociatedBlock(null);		
-		member.setAssociatedBench(null);
+//		member.setAssociatedBench(null);
 //		member.setAssociatedBlock(association.getBlock().getName());
 		memberService.modify(member);		
 		benchService.modify(bench);		
@@ -131,31 +131,31 @@ public class AssociationController {
 		
 		Member member = new Member();
 		member = memberService.getMember(association.getMember().getId());
-		member.setAssociatedBlock(association.getBlock().getName());
+//		member.setAssociatedBlock(association.getBlock().getName());
 		memberService.modify(member);
-		if(member.getAssociatedBench()!=null){
+//		if(member.getAssociatedBench()!=null){
 		Bench bench = new Bench();
-		bench = benchService.getBench(member.getAssociatedBench());
-		bench.setAssociatedBlock(member.getAssociatedBlock());		
-		benchService.modify(bench);
-		}
+//		bench = benchService.getBench(member.getAssociatedBench());
+//		bench.setAssociatedBlock(member.getAssociatedBlock());		
+//		benchService.modify(bench);
+//		}
 		
 		return "success";		
 	}
 	
 	@RequestMapping("/removeBlockAssociation")
 	public String removeBlockAssociation(Association association, Model model){
-		System.out.println(association.getMember().getId());
+//		System.out.println(association.getMember().getId());
 		
 		Member member = new Member();
 		member = memberService.getMember(association.getMember().getId());
-		if(member.getAssociatedBench()!=null){
-		Bench bench = new Bench();
-		bench = benchService.getBench(member.getAssociatedBench());
-		bench.setAssociatedBlock(null);			
-		benchService.modify(bench);
-		};
-		member.setAssociatedBlock(null);
+//		if(member.getAssociatedBench()!=null){
+//		Bench bench = new Bench();
+//		bench = benchService.getBench(member.getAssociatedBench());
+//		bench.setAssociatedBlock(null);			
+//		benchService.modify(bench);
+//		};
+//		member.setAssociatedBlock(null);
 		memberService.modify(member);
 		return "success";		
 	}
