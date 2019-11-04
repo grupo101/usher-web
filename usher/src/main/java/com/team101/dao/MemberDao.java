@@ -44,5 +44,11 @@ public class MemberDao {
 		Query query = this.sessionFactory.getCurrentSession().createQuery("from Member where id_member='"+id+"'");
 		return query.list().get(0);		
 	}
-	
+
+	@SuppressWarnings("unchecked")
+	@Transactional
+	public List<Member> getAllInactiveMembers() {
+		return this.sessionFactory.getCurrentSession().createQuery("from Member where isActive = 'false' order by name asc").list(); 
+	}
+
 }

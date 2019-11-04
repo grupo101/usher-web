@@ -115,7 +115,7 @@
 
 					<div class="page-content">
 						<p>
-							<b>Seleccionar diputado</b>
+							<b>Seleccionar banca a dejar libre</b>
 						</p>
 						<div class="row">
 							<div class="col-md-12">
@@ -138,36 +138,24 @@
 																<th class="sorting" role="columnheader" tabindex="0"
 																	aria-controls="dynamic-table" rowspan="1" colspan="1"
 																	aria-label="Rendering engine: activate to sort column ascending"
-																	style="width: 220px;">ID</th>
+																	style="width: 220px;">Numero de banca</th>
 																<th class="sorting" role="columnheader" tabindex="0"
 																	aria-controls="dynamic-table" rowspan="1" colspan="1"
 																	aria-label="Rendering engine: activate to sort column ascending"
-																	style="width: 220px;">Nombre</th>
-																<th class="sorting" role="columnheader" tabindex="0"
-																	aria-controls="dynamic-table" rowspan="1" colspan="1"
-																	aria-label="Rendering engine: activate to sort column ascending"
-																	style="width: 220px;">Apellido</th>
+																	style="width: 220px;">Nombre de dipitado</th>
 																<th class="sorting" role="columnheader" tabindex="0"
 																	aria-controls="dynamic-table" rowspan="1" colspan="1"
 																	aria-label="Rendering engine: activate to sort column ascending"
 																	style="width: 220px;">Bloque asociado</th>
-																<th class="sorting" role="columnheader" tabindex="0"
-																	aria-controls="dynamic-table" rowspan="1" colspan="1"
-																	aria-label="Rendering engine: activate to sort column ascending"
-																	style="width: 220px;">Banca asociada</th>
 															</tr>
 														</thead>
 														<tbody>
-															<c:forEach var="member" items="${members}">
-															<c:if test="${member.associatedBench != null}">
+															<c:forEach var="bench" items="${benchs}">															
 																<tr>
-																	<td>${member.id}</td>
-																	<td>${member.name}</td>
-																	<td>${member.surName}</td>
-																	<td>${member.associatedBlock}</td>
-																	<td>${member.associatedBench}</td>
-																</tr>
-															</c:if>
+																	<td>${bench.number}</td>
+																	<td>${bench.associatedMember}</td>																	
+																	<td>${bench.associatedBlock}</td>																	
+																</tr>															
 															</c:forEach>
 														</tbody>
 													</table>
@@ -176,12 +164,12 @@
 										</div>
 									</div>
 									<p>
-										<b>Diputado Seleccionado</b>
+										<b>Banca seleccionada</b>
 									</p>
 
 									<TABLE id="dataTableMember" style="width: 80%">
 										<TR id="memberLine">
-											<TD><form:input path="member.id" id="memberCell0"
+											<TD><form:input path="bench.number" id="memberCell0"
 													name="memberCell0" type="text" value="ID..."
 													readonly="readonly" style="display:none" /></TD>
 											<TD><input id="memberCell1" name="memberCell1"
@@ -235,7 +223,7 @@
 		var tags_td = cell.getElementsByTagName('td');
 		document.getElementById('memberCell0').value = tags_td.item(0).innerHTML;
 		document.getElementById('memberCell1').value = tags_td.item(1).innerHTML;
-		document.getElementById('memberCell2').value = tags_td.item(2).innerHTML;
+		document.getElementById('memberCell2').value = tags_td.item(2).innerHTML; 
 	}
 
 	function selectLine() {

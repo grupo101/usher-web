@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.team101.dao.BenchDao;
-import com.team101.model.Association;
 import com.team101.model.Bench;
 import com.team101.model.Block;
 import com.team101.model.Member;
@@ -35,11 +34,6 @@ public class BenchService {
 	public Bench getBench(Integer idBench) {		
 		return (Bench) benchDao.getSpecificBench(idBench);
 	}
-
-	public List<Association> listAllFiltered() {
-		// TODO Auto-generated method stub
-		return benchDao.getTripleAssociation();
-	}
 	
 	public List<Bench> listAllBenchToShow(){
 		
@@ -62,5 +56,50 @@ public class BenchService {
 		return benchList;
 	}
 
+	public List<Bench> listAllUnlockedBenchs() {
+		return benchDao.listAllFreeBenchs();
+	}
+
+	public List<Bench> listAllLockedBenchs() {
+		
+		List<Bench> benchList = benchDao.listAllAssignedBenchs();		
+		List<Member> memberList = memberService.listAll();
+		List<Block> blockList = blockService.listAll();
+		
+		for (Bench bench : benchList) {
+			for(Member member : memberList){
+				if(bench.getAssociatedMemberId() == member.getId()){
+					bench.setAssociatedMember(member.getName() +" "+ member.getSurName());
+				}
+			}
+			for(Block block : blockList){
+				if(bench.getAssociatedBlockId() == block.getId()){
+					bench.setAssociatedBlock(block.getName());
+				}			
+			}
+		}
+		
+		return benchList;
+	}
+
+	public List<Bench> listAllUnlockedBlockBenchs() {
+		
+		List<Bench> benchList = benchDao.listAllFreeBlockBenchs();
+		List<Member> memberList = memberService.listAll();
+		
+		for (Bench bench : benchList) {
+			for(Member member : memberList){
+				if(bench.getAssociatedMemberId() == member.getId()){
+					bench.setAssociatedMember(member.getName() +" "+ member.getSurName());
+				}
+			}
+//			for(Block block : blockList){
+//				if(bench.getAssociatedBlockId() == block.getId()){
+//					bench.setAssociatedBlock(block.getName());
+//				}			
+//			}
+		}
+		return benchList;
+	}
 
 }

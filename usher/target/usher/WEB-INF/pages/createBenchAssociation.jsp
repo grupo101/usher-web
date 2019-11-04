@@ -159,17 +159,15 @@
 															</tr>
 														</thead>
 														<tbody>
-															<c:forEach var="member" items="${members}">
-															<c:if test="${member.id == null}">
+															<c:forEach var="member" items="${members}">															
 																<tr>
 																	<td>${member.id}</td>
 																	<td>${member.name}</td>
 																	<td>${member.surName}</td>
 <%-- 																	<td>${member.associatedBlock}</td>
 																	<td>${member.associatedBench}</td> --%>
-																</tr>
-															</c:if>
-															</c:forEach>
+																</tr>															
+															</c:forEach> 
 														</tbody>
 													</table>
 												</div>
