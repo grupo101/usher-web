@@ -6,6 +6,7 @@ com\team101\service\UserService.class
 com\team101\controller\UserController.class
 com\team101\service\MemberService.class
 com\team101\model\Block.class
+com\team101\service\AssociationService.class
 com\team101\dao\UserDao.class
 com\team101\dao\MemberDao.class
 com\team101\dao\BlockDao.class

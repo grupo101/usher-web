@@ -24,9 +24,6 @@ public class Member {
 	@Column(name="url")
 	private String memberImage;
 	
-	@Column(name="active")
-	private boolean isActive;
-
 	public Member() {
 	};
 
@@ -62,16 +59,4 @@ public class Member {
 		this.memberImage = memberImage;
 	}
 
-	public boolean isActive() {
-		return isActive;
-	}
-
-	public void setIsActive(boolean isActive) {
-		this.isActive = isActive;
-	}	
-	
-	public boolean getIsActive(){
-		return isActive;
-	}
-		
 }

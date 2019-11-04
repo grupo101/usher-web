@@ -87,7 +87,6 @@ public class MemberController {
 	@Transactional
 	protected String modifyMember(Member member, Model model)
 			throws ServletException {
-		System.out.println(member.getIsActive());
 		memberService.modify(member);
 		return "success";
 	}

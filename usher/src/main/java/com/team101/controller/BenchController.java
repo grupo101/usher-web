@@ -11,7 +11,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.team101.model.Association;
 import com.team101.model.Bench;
 import com.team101.service.BenchService;
 

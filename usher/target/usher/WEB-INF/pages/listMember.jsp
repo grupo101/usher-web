@@ -110,8 +110,8 @@
  					<th class="sorting" role="columnheader" tabindex="0" aria-controls="dynamic-table" rowspan="1" colspan="1" aria-label="Rendering engine: activate to sort column ascending" style="width: 220px;">ID</th>
 					<th class="sorting" role="columnheader" tabindex="0" aria-controls="dynamic-table" rowspan="1" colspan="1" aria-label="Rendering engine: activate to sort column ascending" style="width: 220px;">Nombre</th>
 					<th class="sorting" role="columnheader" tabindex="0" aria-controls="dynamic-table" rowspan="1" colspan="1" aria-label="Rendering engine: activate to sort column ascending" style="width: 220px;">Apellido</th>
- 					<th class="sorting" role="columnheader" tabindex="0" aria-controls="dynamic-table" rowspan="1" colspan="1" aria-label="Rendering engine: activate to sort column ascending" style="width: 220px;">Estado</th>
-<!--					<th class="sorting" role="columnheader" tabindex="0" aria-controls="dynamic-table" rowspan="1" colspan="1" aria-label="Rendering engine: activate to sort column ascending" style="width: 220px;">Banca asociada</th>
+<!--  					<th class="sorting" role="columnheader" tabindex="0" aria-controls="dynamic-table" rowspan="1" colspan="1" aria-label="Rendering engine: activate to sort column ascending" style="width: 220px;">Estado</th>
+ --><!--					<th class="sorting" role="columnheader" tabindex="0" aria-controls="dynamic-table" rowspan="1" colspan="1" aria-label="Rendering engine: activate to sort column ascending" style="width: 220px;">Banca asociada</th>
 					<th class="sorting" role="columnheader" tabindex="0" aria-controls="dynamic-table" rowspan="1" colspan="1" aria-label="Rendering engine: activate to sort column ascending" style="width: 220px;display:none">ID Bloque asociado</th>
 					<th class="sorting" role="columnheader" tabindex="0" aria-controls="dynamic-table" rowspan="1" colspan="1" aria-label="Rendering engine: activate to sort column ascending" style="width: 220px;display:none">ID Banca asociada</th> -->
 				</tr>
@@ -123,14 +123,14 @@
 							<td>${member.name}</td>
 							<td>${member.surName}</td>
 							<%-- <td>${member.isActive}</td>  --%> 
- 							<c:choose>
+<%--  							<c:choose>
 							  <c:when test="${member.isActive == 'true'}">
 							  	 <td>Activo</td>
 							  </c:when>
 							  <c:otherwise>
 							 	 <td>Inactivo</td>
 							  </c:otherwise>
-							</c:choose>  
+							</c:choose>  --%> 
 <%-- 							<td>${member.associatedBlock}</td>
 							<td>${member.associatedBench}</td>
 							<td style="display:none">${member.associatedBlockId}</td>
@@ -233,11 +233,9 @@
 						path="name" 
 						/></th>
                  <th align=left style="background-color: #f6f6f6">Apellido:</th>
-				<th style="background-color: white"><form:input id="surName"
-						path="surName" 
-						/>
-										<form:input id="isActive"
-						path="isActive" style="display:none"/></th>			
+				<th style="background-color: white">
+				<form:input id="surName" path="surName"	/>
+				</th>			
 			</tr>
 			<tr> 			
 <%-- 			<th align=left style="background-color: #f6f6f6">Estado:</th>
@@ -270,8 +268,8 @@
 					<th align=center style="weight: 100%; background-color: white"></th>
 					<th align=center style="background-color: white; width:10%">
 					<input id="modifyButton" style="width: 48%;" class="btn btn-primary btn-sm" type="submit" name="Modificar" value="Modificar" onclick="pickModifyButton()" disabled> 
-					<input id="removeButton" style="width: 49%;" class="btn btn-primary btn-sm" type="submit" name="Eliminar" value="Baja" onclick="pickActiveInactiveButton()" disabled></th> 
-			
+<!-- 					<input id="removeButton" style="width: 49%;" class="btn btn-primary btn-sm" type="submit" name="Eliminar" value="Baja" onclick="pickActiveInactiveButton()" disabled></th> 
+ -->			
 				
 				</tr>
 		</table>
@@ -300,13 +298,13 @@
 			document.getElementById('id').value = tags_td.item(0).innerHTML;
 			document.getElementById('name').value = tags_td.item(1).innerHTML;
 			document.getElementById('surName').value = tags_td.item(2).innerHTML;
-			if(tags_td.item(3).innerHTML == "Activo"){
-				document.getElementById('isActive').value=true;
-				document.getElementById('removeButton').value="Baja";
-			}else{
-				document.getElementById('isActive').value=false;
-				document.getElementById('removeButton').value="Alta"; 
-			}
+			/* if(tags_td.item(3).innerHTML == "Activo"){
+				document.getElementById('isActive').value=true; */
+				/* document.getElementById('removeButton').value="Baja"; */
+			/* }else{
+				document.getElementById('isActive').value=false; */
+/* 				document.getElementById('removeButton').value="Alta"; 
+			} */
 			/* document.getElementById('isActive').value = tags_td.item(3).innerHTML; */
 			
 /*  			document.getElementById('isActive').value = tags_td.item(3).innerHTML; 
@@ -314,8 +312,8 @@
 			document.getElementById('associatedBlockId').value = tags_td.item(5).innerHTML;
 			document.getElementById('associatedBenchId').value = tags_td.item(6).innerHTML; */
 
-			document.getElementById('removeButton').disabled=false;
-			document.getElementById('modifyButton').disabled=false;		
+/* 			document.getElementById('removeButton').disabled=false;
+ */			document.getElementById('modifyButton').disabled=false;		
 		}
 	
 		function selectLine() {
@@ -344,7 +342,7 @@
 			document.getElementById('form1').action = "modifyMember";
 			//document.getElementById('form1').submit();
 		}
-		function pickActiveInactiveButton() {
+/* 		function pickActiveInactiveButton() {
 			if(document.getElementById('removeButton').value == "Alta"){
 				document.getElementById('isActive').value=true; 
 			}else{
@@ -352,6 +350,6 @@
 			}
 			document.getElementById('form1').action = "modifyMember";
 			//document.getElementById('form1').submit();
-		}
+		} */
 	</script>
 </html>

@@ -139,36 +139,27 @@
 																<th class="sorting" role="columnheader" tabindex="0"
 																	aria-controls="dynamic-table" rowspan="1" colspan="1"
 																	aria-label="Rendering engine: activate to sort column ascending"
-																	style="width: 220px;">ID</th>
+																	style="width: 220px;">Numero de banca</th>
 																<th class="sorting" role="columnheader" tabindex="0"
 																	aria-controls="dynamic-table" rowspan="1" colspan="1"
 																	aria-label="Rendering engine: activate to sort column ascending"
-																	style="width: 220px;">Nombre</th>
-																<th class="sorting" role="columnheader" tabindex="0"
+																	style="width: 220px;">Nombre de diputado</th>
+<!-- 																<th class="sorting" role="columnheader" tabindex="0"
 																	aria-controls="dynamic-table" rowspan="1" colspan="1"
 																	aria-label="Rendering engine: activate to sort column ascending"
-																	style="width: 220px;">Apellido</th>
-																<th class="sorting" role="columnheader" tabindex="0"
-																	aria-controls="dynamic-table" rowspan="1" colspan="1"
-																	aria-label="Rendering engine: activate to sort column ascending"
-																	style="width: 220px;">Bloque asociado</th>
-																<th class="sorting" role="columnheader" tabindex="0"
-																	aria-controls="dynamic-table" rowspan="1" colspan="1"
-																	aria-label="Rendering engine: activate to sort column ascending"
-																	style="width: 220px;">Banca asociada</th>
+																	style="width: 220px;">Apellido</th> -->
+
 															</tr>
 														</thead>
 														<tbody>
-															<c:forEach var="member" items="${members}">
- 															<c:if test="${member.associatedBlock == null}">
+															<c:forEach var="bench" items="${benchs}"> 
 																<tr>
-																	<td>${member.id}</td>
-																	<td>${member.name}</td>
-																	<td>${member.surName}</td>
+																	<td>${bench.number}</td>
+																	<td>${bench.associatedMember}</td>
+<%-- 																	<td>${member.surName}</td>
 																	<td>${member.associatedBlock}</td>
-																	<td>${member.associatedBench}</td>
+																	<td>${member.associatedBench}</td> --%>
 																</tr>
- 															</c:if>
 															</c:forEach>
 														</tbody>
 													</table>
@@ -177,20 +168,20 @@
 										</div>
 									</div>
 									<p>
-										<b>Diputado Seleccionado</b>
+										<b>Banca Seleccionada</b>
 									</p>
 
 									<TABLE id="dataTableMember" style="width: 80%">
 										<TR id="memberLine">
-											<TD><form:input path="member.id" id="memberCell0"
-													name="memberCell0" type="text" value="ID..."
-													readonly="readonly" style="display:none" /></TD>
+											<TD><form:input path="bench.number" id="memberCell0"
+													name="memberCell0" type="text" value="Numero..."
+													readonly="readonly" /></TD>
 											<TD><input id="memberCell1" name="memberCell1"
 												type="text" value="Nombre..." readonly="readonly"
 												style="width: 80%" /></TD>
-											<TD><input id="memberCell2" name="memberCell2"
+<!-- 											<TD><input id="memberCell2" name="memberCell2"
 												type="text" value="Apellido..." readonly="readonly"
-												style="width: 80%" /></TD>
+												style="width: 80%" /></TD> -->
 										</TR>
 									</TABLE>
 
@@ -211,7 +202,7 @@
 													class="js-example-basic-single" style="width: 100%">
 														<option>Bloque...</option>
 												</select></TD>
-												<TD><form:input path="block.name" id="blockId"
+												<TD><form:input path="block.id" id="blockId" 
 												style="display: none" /></TD>
 											</TR>
 										</TABLE>
@@ -248,8 +239,9 @@
 		var checkBlock = 0;
 		if ($("#idBlock").val() == "Bloque...") {
 			checkBenchAndBlock += 1;
-		}else{
-			$("#blockId").val($("#idBlock").val());
+		}else{			
+			var asd =$("#blockId").val($("#idBlock").val());
+			alert($("asd").val());
 		}
 
 		if (checkBlock == 1
@@ -261,7 +253,7 @@
 			return true;
 		}
 	}
-</SCRIPT>
+</script>
 
 <script type="text/javascript">
 	function cargarPrimerCombo1(id) {
@@ -300,6 +292,10 @@
 			var newOption = new Option(data.text, data.id, false, false);
 			$("#" + id).append(newOption);
 		}
+		
+		
+		
+		
 	}
 
 	cargarPrimerCombo1("idBlock");
@@ -307,7 +303,7 @@
 <!-- SERVICIOS FIN -->
 <script type="text/javascript">
 	$(document).ready(function() {
-		$(".js-example-basic-single").select2();
+		$(".js-example-basic-single").select2(); 
 		$('body').on('DOMNodeInserted', 'select', function() {
 			$(this).select2();
 		});
@@ -319,8 +315,8 @@
 
 		var tags_td = cell.getElementsByTagName('td');
 		document.getElementById('memberCell0').value = tags_td.item(0).innerHTML;
-		document.getElementById('memberCell1').value = tags_td.item(1).innerHTML;
-		document.getElementById('memberCell2').value = tags_td.item(2).innerHTML;
+		document.getElementById('memberCell1').value = tags_td.item(1).innerHTML; 
+		/* document.getElementById('memberCell2').value = tags_td.item(2).innerHTML; */
 	}
 
 	function selectLine() {
