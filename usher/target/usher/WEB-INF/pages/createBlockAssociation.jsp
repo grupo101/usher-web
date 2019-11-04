@@ -79,8 +79,8 @@
 						<li><a href="bench2">BANCAS</a></li>
 						<li><a href="block2">BLOQUES</a></li>
 						<li><a href="quorumPanel">QUORUM</a></li>
-						<li><a href="benchAssociation1">ASOCIAR BANCA</a></li>
-						<li><a href="benchAssociation2">DESASOCIAR BANCA</a></li>
+						<li><a href="benchAssociation1">ASOCIAR DIPUTADO</a></li>
+						<li><a href="benchAssociation2">DESASOCIAR DIPUTADO</a></li>
 						<li><a href="blockAssociation1">ASOCIAR BLOQUE POLITICO</a></li>
 						<li><a href="blockAssociation2">DESASOCIAR BLOQUE POLITICO</a></li>
 					</ul>
@@ -97,7 +97,7 @@
 			<!--\\\\\\\ contentpanel start\\\\\\-->
 			<div class="pull-left breadcrumb_admin clear_both">
 				<div class="pull-left page_title theme_color">
-					<h1>ASOCIAR DIPUTADO A BLOQUE POLITICO</h1>
+					<h1>ASOCIAR BLOQUE POLITICO A BANCA</h1>
 				</div>
 				<div class="pull-right">
 					<ol class="breadcrumb">
@@ -115,7 +115,7 @@
 
 					<div class="page-content">
 						<p>
-							<b>Seleccionar diputado</b>
+							<b>Seleccionar banca</b>
 						</p>
 						<div class="row">
 							<div class="col-md-12">
@@ -175,7 +175,7 @@
 										<TR id="memberLine">
 											<TD><form:input path="bench.number" id="memberCell0"
 													name="memberCell0" type="text" value="Numero..."
-													readonly="readonly" /></TD>
+													readonly="readonly" style="width: 80%"/></TD>
 											<TD><input id="memberCell1" name="memberCell1"
 												type="text" value="Nombre..." readonly="readonly"
 												style="width: 80%" /></TD>
@@ -189,18 +189,14 @@
 									<hr />
 									<div class="clase">
 										<p>
-											<b>Bloque</b>
+											<b>Seleccionar bloque político</b>
 										</p>
-										<br>
-										<p>
-											<br>
-										</p>
-										<TABLE id="dataTable1" style="width: 80%">
+										<TABLE id="dataTable1" style="width: 50%">
 
 											<TR id="lineap1">
 												<TD><select id="idBlock" name="1"
 													class="js-example-basic-single" style="width: 100%">
-														<option>Bloque...</option>
+														<option>Bloque...</option> 
 												</select></TD>
 												<TD><form:input path="block.id" id="blockId" 
 												style="display: none" /></TD>
@@ -240,10 +236,8 @@
 		if ($("#idBlock").val() == "Bloque...") {
 			checkBenchAndBlock += 1;
 		}else{			
-			var asd =$("#blockId").val($("#idBlock").val());
-			alert($("asd").val());
+			$("#blockId").val($("#idBlock").val());
 		}
-
 		if (checkBlock == 1
 				|| document.getElementById("memberCell1").value == "Nombre...") {
 			alert("Debe seleccionar un diputado, y un bloque para realizar la asignacion");
@@ -263,14 +257,16 @@
 		var tags_td;
 		var fila;
 		var vec = [];
+		var politicalBlock = new Array();
 		var data
 		for (i = 0; i < tags_tr.length; i++) {
 			fila = tags_tr[i];
 			tags_td = fila.getElementsByTagName('td');
-			vec.push(tags_td.item(1).innerHTML);
+			politicalBlock[tags_td.item(0).innerHTML] = tags_td.item(1).innerHTML;
+		//	vec.push(tags_td.item(1).innerHTML);
 		}
-		vec.sort();
-		addOptions1(vec, id);
+		//vec.sort();
+		addOptions1(politicalBlock, id);
 	}
 
 	// Rutina para agregar opciones a un <select>
@@ -282,21 +278,12 @@
 		}
 
 		var miOption;
-		for (i = 0; i < array.length; i++) {
 
-			data = {
-				id : array[i],
-				text : array[i]
-			};
-
-			var newOption = new Option(data.text, data.id, false, false);
-			$("#" + id).append(newOption);
+				$.each(array, function(key, value) {
+					var newOption = new Option(value, key, false, false);
+					$("#" + id).append(newOption);				});
 		}
-		
-		
-		
-		
-	}
+
 
 	cargarPrimerCombo1("idBlock");
 </script>

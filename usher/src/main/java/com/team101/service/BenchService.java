@@ -102,4 +102,26 @@ public class BenchService {
 		return benchList;
 	}
 
+	public List<Bench> listAllLockedBlockBenchs() {
+		
+		List<Bench> benchList = benchDao.listAllAssignedBlockBenchs();		
+		List<Member> memberList = memberService.listAll();
+		List<Block> blockList = blockService.listAll();
+		
+		for (Bench bench : benchList) {
+			for(Member member : memberList){
+				if(bench.getAssociatedMemberId() == member.getId()){
+					bench.setAssociatedMember(member.getName() +" "+ member.getSurName());
+				}
+			}
+			for(Block block : blockList){
+				if(bench.getAssociatedBlockId() == block.getId()){
+					bench.setAssociatedBlock(block.getName());
+				}			
+			}
+		}
+		
+		return benchList;
+	}
+
 }

@@ -50,5 +50,11 @@ public class BenchDao {
 	public List<Bench> listAllFreeBlockBenchs() {
 		return this.sessionFactory.getCurrentSession().createQuery("from Bench where associatedBlockId is null").list();
 	}
+
+	@SuppressWarnings("unchecked")
+	@Transactional
+	public List<Bench> listAllAssignedBlockBenchs() {
+		return this.sessionFactory.getCurrentSession().createQuery("from Bench where associatedBlockId is not null").list();
+	}
 	
 }

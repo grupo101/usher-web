@@ -79,8 +79,8 @@
 						<li><a href="bench2">BANCAS</a></li>
 						<li><a href="block2">BLOQUES</a></li>
 						<li><a href="quorumPanel">QUORUM</a></li>
-						<li><a href="benchAssociation1">ASOCIAR BANCA</a></li>
-						<li><a href="benchAssociation2">DESASOCIAR BANCA</a></li>
+						<li><a href="benchAssociation1">ASOCIAR DIPUTADO</a></li>
+						<li><a href="benchAssociation2">DESASOCIAR DIPUTADO</a></li>
 						<li><a href="blockAssociation1">ASOCIAR BLOQUE POLITICO</a></li>
 						<li><a href="blockAssociation2">DESASOCIAR BLOQUE POLITICO</a></li>
 					</ul>
@@ -182,7 +182,7 @@
 										<TR id="memberLine">
 											<TD><form:input path="member.id" id="memberCell0"
 													name="memberCell0" type="text" value="ID..."
-													readonly="readonly" style="display:none" /></TD>
+													readonly="readonly" style="display:none"/></TD>
 											<TD><input id="memberCell1" name="memberCell1"
 												type="text" value="Nombre..." readonly="readonly"
 												style="width: 80%" /></TD>
@@ -196,15 +196,11 @@
 									<hr />
 
 									<p>
-										<b>Bancas</b>
-									</p>
-									<br>
-									<p>
-										<br>
+										<b>Seleccionar banca</b>
 									</p>
 									<div class="clase">
 									
-										<TABLE id="dataTable" style="width: 80%">
+										<TABLE id="dataTable">
 											<TR id="linea1">
 												<TD><select id="idBench" name="1"
 													class="js-example-basic-single" style="width: 100%">
