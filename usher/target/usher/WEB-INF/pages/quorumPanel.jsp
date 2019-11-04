@@ -32,7 +32,9 @@
     <style>
 
       /*http://www.d3noob.org/2013/01/adding-drop-shadow-to-allow-text-to.html*/
-      #chart { width:400px;margin-left:100px;margin-top:35px; }
+      /* #chart { width:400px;margin-left:10px;margin-top:35px; } */
+      .stream { width: 100%; padding: 2em; }
+      .column { text-align: center; }
       text.shadow {
           stroke: gray;
           stroke-width: 1px;
@@ -460,8 +462,37 @@
             <li><a href="#">QUORUM</a></li>            
           </ol>
         </div>
-      </div>
+        
       <div class="container clear_both padding_fix">
+        <div class="row">
+            <div class ="col-md-6 col-xs-12 column ui-sortable">
+            
+                <div id="chart"></div>
+                <div id="presentes"> Presentes:   </div> 
+                <div id="ausentes"> Ausentes:  </div>
+                <div id="quorum">  </div>  
+            </div>
+            <div class ="col-md-6 col-xs-12 column ui-sortable">
+              <img class="stream align-middle" src="http://feed.neuralfix.com.ar/" alt="Video en Vivo">
+            </div>
+        </div>
+      <!-- </div>
+      <div class="container clear_both padding_fix">
+        <div class="block-web" style="display: inline-block;">
+            <div class ="left-panel" style="width:50%; float:left;" >
+            
+                <div id="chart"></div>
+                <div id="presentes"> Presentes:   </div> 
+                <div id="ausentes"> Ausentes:  </div>
+                <div id="quorum">  </div>  
+            </div>
+            <div class ="right-panel" style="width:50%; float:right;">
+              <div id="videoScene" style="width:600px; height: 300px" > Video:
+                <img class="stream" src="http://feed.neuralfix.com.ar/">
+              </div>
+            </div>
+        </div> -->
+      <!-- <div class="container clear_both padding_fix">
       <div class="block-web">
             <canvas id="canvas" style="display:none;"  width=620px height=230px></canvas>
             <div id="chart"></div>
@@ -469,8 +500,8 @@
             
             <div id="ausentes"> Ausentes:  </div>
             <div id="quorum">  </div>  
-      </div>
-      <ul id="ulEmployees" style="display:none"> </ul>
+      </div> -->
+      <!-- <ul id="ulEmployees" style="display:none"> </ul> -->
       </div>
 </div>
 </div>
