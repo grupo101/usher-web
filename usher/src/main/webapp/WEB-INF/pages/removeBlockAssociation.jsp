@@ -79,8 +79,8 @@
 						<li><a href="bench2">BANCAS</a></li>
 						<li><a href="block2">BLOQUES</a></li>
 						<li><a href="quorumPanel">QUORUM</a></li>
-						<li><a href="benchAssociation1">ASOCIAR BANCA</a></li>
-						<li><a href="benchAssociation2">DESASOCIAR BANCA</a></li>
+						<li><a href="benchAssociation1">ASOCIAR DIPUTADO</a></li>
+						<li><a href="benchAssociation2">DESASOCIAR DIPUTADO</a></li>
 						<li><a href="blockAssociation1">ASOCIAR BLOQUE POLITICO</a></li>
 						<li><a href="blockAssociation2">DESASOCIAR BLOQUE POLITICO</a></li>
 					</ul>
@@ -97,7 +97,7 @@
 			<!--\\\\\\\ contentpanel start\\\\\\-->
 			<div class="pull-left breadcrumb_admin clear_both">
 				<div class="pull-left page_title theme_color">
-					<h1>DESASOCIAR DIPUTADO DE BLOQUE POLITICO</h1>
+					<h1>DESASOCIAR BLOQUE POLITICO DE BANCA</h1>
 				</div>
 				<div class="pull-right">
 					<ol class="breadcrumb">
@@ -115,7 +115,7 @@
 
 					<div class="page-content">
 						<p>
-							<b>Seleccionar diputado</b>
+							<b>Seleccionar bloque político</b>
 						</p>
 						<div class="row">
 							<div class="col-md-12">
@@ -141,36 +141,24 @@
 																<th class="sorting" role="columnheader" tabindex="0"
 																	aria-controls="dynamic-table" rowspan="1" colspan="1"
 																	aria-label="Rendering engine: activate to sort column ascending"
-																	style="width: 220px;">ID</th>
+																	style="width: 220px;">Número de banca</th>
 																<th class="sorting" role="columnheader" tabindex="0"
 																	aria-controls="dynamic-table" rowspan="1" colspan="1"
 																	aria-label="Rendering engine: activate to sort column ascending"
-																	style="width: 220px;">Nombre</th>
-																<th class="sorting" role="columnheader" tabindex="0"
-																	aria-controls="dynamic-table" rowspan="1" colspan="1"
-																	aria-label="Rendering engine: activate to sort column ascending"
-																	style="width: 220px;">Apellido</th>
+																	style="width: 220px;">Nombre de diputado</th>
 																<th class="sorting" role="columnheader" tabindex="0"
 																	aria-controls="dynamic-table" rowspan="1" colspan="1"
 																	aria-label="Rendering engine: activate to sort column ascending"
 																	style="width: 220px;">Bloque asociado</th>
-																<th class="sorting" role="columnheader" tabindex="0"
-																	aria-controls="dynamic-table" rowspan="1" colspan="1"
-																	aria-label="Rendering engine: activate to sort column ascending"
-																	style="width: 220px;">Banca asociada</th>
 															</tr>
 														</thead>
 														<tbody>
-															<c:forEach var="member" items="${members}">
-															<c:if test="${member.associatedBlock != null}">
+															<c:forEach var="bench" items="${benchs}">
 																<tr>
-																	<td>${member.id}</td>
-																	<td>${member.name}</td>
-																	<td>${member.surName}</td>
-																	<td>${member.associatedBlock}</td>
-																	<td>${member.associatedBench}</td>
+																	<td>${bench.number}</td>
+																	<td>${bench.associatedMember}</td>																	
+																	<td>${bench.associatedBlock}</td>
 																</tr>
-															</c:if>
 															</c:forEach>
 														</tbody>
 													</table>
@@ -179,20 +167,20 @@
 										</div>
 									</div>
 									<p>
-										<b>Diputado Seleccionado</b>
+										<b>Bloque político seleccionado</b>
 									</p>
 
 									<TABLE id="dataTableMember" style="width: 80%">
 										<TR id="memberLine">
-											<TD><form:input path="member.id" id="memberCell0"
-													name="memberCell0" type="text" value="ID..."
-													readonly="readonly" style="display:none" /></TD>
+											<TD><form:input path="bench.number" id="memberCell0"
+													name="memberCell0" type="text" value="Número de banca..."
+													readonly="readonly" style="width: 80%" /></TD>
 											<TD><input id="memberCell1" name="memberCell1"
 												type="text" value="Nombre..." readonly="readonly"
 												style="width: 80%" /></TD>
 											<TD><input id="memberCell2" name="memberCell2"
 												type="text" value="Apellido..." readonly="readonly"
-												style="width: 80%" /></TD>
+												 style="display:none" /></TD>
 										</TR>
 									</TABLE>
 
@@ -227,10 +215,10 @@
 <script type="text/javascript">
 	function getCellsValue(cell) {
 
-		var tags_td = cell.getElementsByTagName('td');
+		var tags_td = cell.getElementsByTagName('td'); 
 		document.getElementById('memberCell0').value = tags_td.item(0).innerHTML;
-		document.getElementById('memberCell1').value = tags_td.item(1).innerHTML;
-		document.getElementById('memberCell2').value = tags_td.item(2).innerHTML;
+		document.getElementById('memberCell1').value = tags_td.item(2).innerHTML;
+		document.getElementById('memberCell2').value = tags_td.item(1).innerHTML;
 	}
 
 	function selectLine() {

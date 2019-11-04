@@ -79,8 +79,8 @@
 						<li><a href="bench2">BANCAS</a></li>
 						<li><a href="block2">BLOQUES</a></li>
 						<li><a href="quorumPanel">QUORUM</a></li>
-						<li><a href="benchAssociation1">ASOCIAR BANCA</a></li>
-						<li><a href="benchAssociation2">DESASOCIAR BANCA</a></li>
+						<li><a href="benchAssociation1">ASOCIAR DIPUTADO</a></li>
+						<li><a href="benchAssociation2">DESASOCIAR DIPUTADO</a></li>
 						<li><a href="blockAssociation1">ASOCIAR BLOQUE POLITICO</a></li>
 						<li><a href="blockAssociation2">DESASOCIAR BLOQUE POLITICO</a></li>
 					</ul>
@@ -142,7 +142,7 @@
 																<th class="sorting" role="columnheader" tabindex="0"
 																	aria-controls="dynamic-table" rowspan="1" colspan="1"
 																	aria-label="Rendering engine: activate to sort column ascending"
-																	style="width: 220px;">Nombre de dipitado</th>
+																	style="width: 220px;">Nombre de diputado</th>
 																<th class="sorting" role="columnheader" tabindex="0"
 																	aria-controls="dynamic-table" rowspan="1" colspan="1"
 																	aria-label="Rendering engine: activate to sort column ascending"
@@ -170,14 +170,14 @@
 									<TABLE id="dataTableMember" style="width: 80%">
 										<TR id="memberLine">
 											<TD><form:input path="bench.number" id="memberCell0"
-													name="memberCell0" type="text" value="ID..."
-													readonly="readonly" style="display:none" /></TD>
+													name="memberCell0" type="text" value="Número de banca..."
+													readonly="readonly" style="width: 80%"/></TD>
 											<TD><input id="memberCell1" name="memberCell1"
-												type="text" value="Nombre..." readonly="readonly"
+												type="text" value="Nombre de diputado..." readonly="readonly"
 												style="width: 80%" /></TD>
 											<TD><input id="memberCell2" name="memberCell2"
 												type="text" value="Apellido..." readonly="readonly"
-												style="width: 80%" /></TD>
+												 style="display:none"/></TD>
 										</TR>
 									</TABLE>
 

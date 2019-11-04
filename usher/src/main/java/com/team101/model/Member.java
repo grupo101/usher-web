@@ -21,7 +21,7 @@ public class Member {
 	@Column(name="surname")
 	private String surName;
 	
-	@Column(name="url")
+	@Column(name="image_url")
 	private String memberImage;
 	
 	public Member() {

@@ -87,13 +87,11 @@ public class AssociationController {
 	public String blockAssociation2(Model model){
 		
 		Association association=new Association();		
-		List<Member> memberList = memberService.listAll();				
-		model.addAttribute("members",memberList);
+		List<Bench> benchList = benchService.listAllLockedBlockBenchs();				
+		model.addAttribute("benchs",benchList);
 		model.addAttribute("associationForm",association);	
 		return "removeBlockAssociation";
 	}
-	
-	
 	
 	@RequestMapping("/addBlockAssociation")
 	public String addBlockAssociation(Association association, Model model){		
@@ -106,10 +104,9 @@ public class AssociationController {
 	public String removeBlockAssociation(Association association, Model model){			
 
 		Bench bench = new Bench();
-		bench = benchService.getBench(association.getBench().getId());
-		bench.setAssociatedBlock(null);			
+		bench = benchService.getBench(association.getBench().getNumber());
+		bench.setAssociatedBlockId(null); 			
 		benchService.modify(bench);
-
 		return "success";		
 	}
 	
