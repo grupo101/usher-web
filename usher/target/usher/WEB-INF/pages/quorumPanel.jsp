@@ -50,7 +50,8 @@
           stroke-opacity: 0.2;
           opacity: 0.9;
       }
-      g a.icon.state0>text {
+      g a.icon.state0>text,
+      g a.icon.state\_>text {
         fill: indianred;
           fill: gray;
         fill: #fb2121;
