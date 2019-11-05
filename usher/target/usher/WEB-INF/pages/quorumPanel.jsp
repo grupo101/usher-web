@@ -52,10 +52,10 @@
       }
       g a.icon.state0>text,
       g a.icon.state\_>text {
-        fill: indianred;
-          fill: gray;
+        /*fill: indianred;
+          fill: gray;*/
         fill: #fb2121;
-        fill-opacity: 0.5;
+        fill-opacity: 1; /*0.5;*/
       }
       g a.icon.state1>text {
         fill: yellowgreen;
