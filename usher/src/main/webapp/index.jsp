@@ -25,33 +25,59 @@ $("#startSessionButton").on("click", beginSession);
 $("#endSessionButton").on("click", endSession); 
  
 function beginSession() {
-	
-    $.ajax({
-        Type: 'POST', 
-        url: 'https://usher.sytes.net/usher-api/cnnmanage?id=SVR1&status=starting&token=48370255gBrgdlpl050588',
-        dataType: "text", 		
-        success: function (data) {
-        	if(data == 'Succesfull'){
-        		alert("SESION INICIADA");
-        		$('#sessionField').val("SESION INICIADA");
-        	}
-           		}
-    });
+		var comentario = "Sesion nueva";
+	              
+    $.post(
+        'https://usher.sytes.net/usher-api/session_mgmt?token=48370255gBrgdlpl050588',
+        {
+          action: "start", 
+          comment: comentario,
+        })
+        .done(function(data) {
+          console.log(data);
+          if (data.succes == true){
+            console.log("SESION INICIADA");
+            $.ajax({
+                Type: 'GET', 
+                url: 'https://usher.sytes.net/usher-api/cnnmanage?id=SVR1&status=starting&token=48370255gBrgdlpl050588',
+                dataType: "text", 		
+                success: function (data) {
+                  console.log("RN INICIADA");
+                  if(data == 'Succesfull'){
+                    alert("SESION INICIADA"); 
+                    $('#sessionField').val("SESION INICIADA");                   
+                  }
+                }
+            });
+          }
+        }
+    );
 } 
 
 function endSession() {
 	              
-    $.ajax({
-        Type: 'POST', 
-        url: 'https://usher.sytes.net/usher-api/cnnmanage?id=SVR1&status=off&token=48370255gBrgdlpl050588',
-        dataType: "text", 		
-        success: function (data) {
-			        	if(data == 'Succesfull'){
-			        		alert("SESION FINALIZADA"); 
-			        		$('#sessionField').val("SESION FINALIZADA");                   
-			        	}
-        		}
-    });
+    $.post(
+        'https://usher.sytes.net/usher-api/session_mgmt?token=48370255gBrgdlpl050588',
+        {action: "end",})
+        .done(function(data) {
+          console.log(data);
+          if (data.succes == true){
+            console.log("SESION FINALIZADA");
+            $.ajax({
+                Type: 'GET', 
+                url: 'https://usher.sytes.net/usher-api/cnnmanage?id=SVR1&status=suspending&token=48370255gBrgdlpl050588',
+                dataType: "text", 		
+                success: function (data) {
+                  console.log("RN DETENIDA");
+                  if(data == 'Succesfull'){
+                    alert("SESION FINALIZADA"); 
+                    $('#sessionField').val("SESION FINALIZADA");                   
+                  }
+                }
+            });
+          }
+        }
+    );
 }
 
 function statusSession() {
