@@ -48,7 +48,7 @@ function beginSession() {
                     /* INICIA CRONSERVER */
                     $.ajax({
                         Type: 'GET', 
-                        url: 'https://usher.sytes.net/usher-api/cronmanage?id=SVR1&status=starting&token=48370255gBrgdlpl050588',
+                        url: 'https://usher.sytes.net/usher-api/cronmanage?id=SYNC1&status=starting&token=48370255gBrgdlpl050588',
                         dataType: "text", 		
                         success: function (data) {
                           console.log("CRON SYNC INICIADO");
@@ -86,7 +86,7 @@ function endSession() {
                     /* FINALIZA CRONSERVER */
                     $.ajax({
                         Type: 'GET', 
-                        url: 'https://usher.sytes.net/usher-api/cronmanage?id=SVR1&status=suspending&token=48370255gBrgdlpl050588',
+                        url: 'https://usher.sytes.net/usher-api/cronmanage?id=SYNC1&status=suspending&token=48370255gBrgdlpl050588',
                         dataType: "text", 		
                         success: function (data) {
                           console.log("CRON SYNC DETENIDO");
