@@ -26,7 +26,7 @@ $("#endSessionButton").on("click", endSession);
  
 function beginSession() {
 		var comentario = "Sesion nueva";
-	              
+	  /* INICIA SESSION */  
     $.post(
         'https://usher.sytes.net/usher-api/session_mgmt?token=48370255gBrgdlpl050588',
         {
@@ -37,6 +37,7 @@ function beginSession() {
           console.log(data);
           if (data.succes == true){
             console.log("SESION INICIADA");
+            /* INICIA CAMSERVER */
             $.ajax({
                 Type: 'GET', 
                 url: 'https://usher.sytes.net/usher-api/cnnmanage?id=SVR1&status=starting&token=48370255gBrgdlpl050588',
@@ -44,8 +45,20 @@ function beginSession() {
                 success: function (data) {
                   console.log("RN INICIADA");
                   if(data == 'Succesfull'){
+                    /* INICIA CRONSERVER */
+                    $.ajax({
+                        Type: 'GET', 
+                        url: 'https://usher.sytes.net/usher-api/cronmanage?id=SVR1&status=starting&token=48370255gBrgdlpl050588',
+                        dataType: "text", 		
+                        success: function (data) {
+                          console.log("CRON SYNC INICIADO");
+                          if(data == 'Succesfull'){
+                          }
+                        }
+                    });
+                    // Informamos a pesar que el CronServer no inicie
                     alert("SESION INICIADA"); 
-                    $('#sessionField').val("SESION INICIADA");                   
+                    $('#sessionField').val("SESION INICIADA");
                   }
                 }
             });
@@ -70,8 +83,20 @@ function endSession() {
                 success: function (data) {
                   console.log("RN DETENIDA");
                   if(data == 'Succesfull'){
+                    /* FINALIZA CRONSERVER */
+                    $.ajax({
+                        Type: 'GET', 
+                        url: 'https://usher.sytes.net/usher-api/cronmanage?id=SVR1&status=suspending&token=48370255gBrgdlpl050588',
+                        dataType: "text", 		
+                        success: function (data) {
+                          console.log("CRON SYNC DETENIDO");
+                          if(data == 'Succesfull'){
+                          }
+                        }
+                    });
+                    // Informamos a pesar que el CronServer no finalice
                     alert("SESION FINALIZADA"); 
-                    $('#sessionField').val("SESION FINALIZADA");                   
+                    $('#sessionField').val("SESION FINALIZADA");
                   }
                 }
             });
