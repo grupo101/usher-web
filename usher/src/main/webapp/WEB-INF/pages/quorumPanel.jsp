@@ -69,6 +69,14 @@
         background: rgba(0, 0, 0, 0.8);
         color: #fff;
         border-radius: 2px;
+        display: inline-flex;
+      }
+      img.profilephoto {
+        position: relative;
+        right: -6px;
+        width: 40px;
+        height: 40px;
+        border-radius: 20px;
       }
       /* Creates a small triangle extender for the tooltip */
       /*.d3-tip:after {
@@ -118,13 +126,20 @@
             });
             return json;
         })();*/
+        // Configuración para hemiciclo de 91 bancas
+        // hemicycle = [{
+        //   "n": [12,20,28,31], // hemiciclo 91 diputados HCDP
+        //   "gap": 2.0, //1.20,
+        //   "widthIcon": 0.19, //0.39,
+        //   "width": 400,
+        //   "people": data
+        // }];
+        // Configuración para 9 bancas en 3x3
         hemicycle = [{
-          //"n":[9,13,16,20,23],
-          // "n": [8,11,15,19,22,26,29,33,37],
-          "n": [12,20,28,31],
-          "gap": 2.0, //1.20,
-          "widthIcon": 0.19, //0.39,
-          "width": 400,
+          "n": [0], // hemiciclo vacío
+          "gap": 0.8, //1.20,
+          "widthIcon": 0.2, //0.39,
+          "width": 300,
           "people": data
         }];
       /* Initialize tooltip */	
@@ -135,9 +150,11 @@
           if (parseInt(d["option_code"]) == 1) foragaints = "A favor";
           if (parseInt(d["option_code"]) == -1) foragaints = "En contra";
           
-          return "<span class=\'stronger\'>" + d["name"] + "</span><br>" + d["party"]; // + "<br>" + foragaints;
+          return "<div><span class=\'stronger\'>(" + d["id"] + ") " + d["name"] + "</span><br>" + d["party"] + "</div>" +
+                "<div><img class=\"profilephoto\" src=\"" + d["photo"] +"\" alt=\"Foto de "+ d["name"] + "\" "+
+                "onerror=\"this.onerror=null;this.src='http://www.connexis.org.nz/wp-content/uploads/2018/11/Person-icon.png';\"></div>";
         }); 
-        w=400,h=205,
+        w=400,h=205,w=300,h=200,
             svg=d3.select("#chart")
                 .append("svg")
                 .attr("width",w)
@@ -153,7 +170,8 @@
           .data(hemicycle);
         item.enter()
             .append("svg:g")
-            .call(hc,1); //agrega 1 banca para el presidente
+            //.call(hc,1); //agrega 1 banca centrada para el presidente
+            .call(hc,3,3); //agrega 9 bancas centradas en 3 columnas x 3 filas
         //item.exit().remove();
             
       /* Invoke the tip in the context of your visualization */
@@ -205,7 +223,7 @@
       //total=  */
       item = item.call(hc);
     }
-    function draw() {
+/*    function draw() {
     	if(document.getElementById("estado").value !=null){
     		var string = $( "#estado" ).text();
     		var countPresents;
@@ -369,25 +387,26 @@
         ctx.lineWidth = 1;    
     }
     
-/*     j=0;
-    for(i=12;i<15;i++){
-    	j+=30;
-    	ctx.beginPath();
-        var centerX = (canvas.width / 2)-j; 
-        var centerY = (canvas.height / 2)-j;  
-        var radius = 15;        
-        ctx.arc(centerX, centerY, radius, 0, 2 * Math.PI, false);
-        if(vec[i] == 1){
-       		ctx.fillStyle = 'green';
-        }else{
-        	ctx.fillStyle = 'red';
-        }
-        ctx.fill();
-        ctx.lineWidth = 1;    
-    } */
+//     j=0;
+    // for(i=12;i<15;i++){
+    // 	j+=30;
+    // 	ctx.beginPath();
+    //     var centerX = (canvas.width / 2)-j; 
+    //     var centerY = (canvas.height / 2)-j;  
+    //     var radius = 15;        
+    //     ctx.arc(centerX, centerY, radius, 0, 2 * Math.PI, false);
+    //     if(vec[i] == 1){
+    //    		ctx.fillStyle = 'green';
+    //     }else{
+    //     	ctx.fillStyle = 'red';
+    //     }
+    //     ctx.fill();
+    //     ctx.lineWidth = 1;    
+    // } 
     
       }
-      }
+
+      }*/
     
   </script>
   <script>  
@@ -400,7 +419,8 @@
                     success: function (data) {
                       if (typeof(data) == 'object') {
                         updateHemicycle(data["status"]);
-                      }else{alert(typeof(data));
+                      }else{
+                        console.log("Returned data format unexpected: "+typeof(data));
                       }
                           var val;//alert(JSON.stringify(data));
                           listitem.empty();
@@ -409,7 +429,7 @@
                             var fullname = val;
                               listitem.append('<li id='+index+' value='+fullname+'>' + fullname + '</li>');                           
                           });
-                          draw(); 
+                          // draw(); //en desuso
                     }
                 });
         };        

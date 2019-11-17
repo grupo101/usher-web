@@ -3,7 +3,7 @@ d3.hemicycle = function() {
     return (parseInt(state) == 1) ? "green" : "red";
   }
 
-  function hemicycle(selection, centerbenchs = 0) { 
+  function hemicycle(selection, centerbenchs = 0, centerbenchsY = 1) { 
     selection.each(function(d, i) {
 
     // options
@@ -57,16 +57,22 @@ d3.hemicycle = function() {
     
       // definir posiciÃ³n de bancas en centro de hemiciclo
       if (centerbenchs > 0) {
+        if (centerbenchsY <= 0) centerbenchsY = 1;
         var ninrow = centerbenchs,
+            nrows = centerbenchsY,
             linespace = (gapvar+widthIconvar)/(rmax*ninrow),
             linewidth = (ninrow-1)*linespace,
             r = -(linewidth/2);
-        for (j=0;j<ninrow;j++) {
-          var x = r,
-              y = 0,
-              rot = 0;
-          data.push({'x':x,'y':y,'rot':rot});
-          r += linespace;
+        // inserta N líneas
+        var x = 0, y = 0, rot = 0;
+        for (l=0;l<nrows;l++) {
+          x = r;
+          // inserta una línea
+          for (j=0;j<ninrow;j++) {
+            data.push({'x':x,'y':y,'rot':rot});
+            x += linespace;
+          }
+          y += linespace;
         }
       }
 
