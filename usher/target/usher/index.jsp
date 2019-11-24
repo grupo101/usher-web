@@ -117,6 +117,16 @@ function endSession() {
           console.log(data);
           if (data.succes == true){
             console.log("SESION FINALIZADA");
+            /* GENERA ESTADISTICAS MIEMBROS */
+            $.post('https://usher.sytes.net/usher-api/fill_member_hist?token=48370255gBrgdlpl050588')
+              .done(function(data) {
+                console.log(data);
+                if (data.succes == true){
+                    console.log("ESTADISTICAS DE MIEMBRO CARGADAS");
+                }
+              });
+            
+            /* FINALIZA CAMSERVER */
             $.ajax({
                 Type: 'GET', 
                 url: 'https://usher.sytes.net/usher-api/cnnmanage?id=SVR1&status='+action+'&token=48370255gBrgdlpl050588',
