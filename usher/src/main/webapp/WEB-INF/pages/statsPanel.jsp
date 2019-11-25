@@ -29,7 +29,10 @@
 <script src="js/side-chats.js"></script>
 
     <!-- <script src="https://code.jquery.com/jquery-3.4.1.js"></script> -->
-    <style>
+<style>
+    a.canvasjs-chart-credit {
+        display: none!important;
+    }
       #chart svg { position: inherit; left: 0; }
       @media screen and (max-width: 680px) {
         #chart svg { position: relative; left: -8%; }
@@ -52,8 +55,6 @@
       }
       g a.icon.state0>text,
       g a.icon.state\_>text {
-        /*fill: indianred;
-          fill: gray;*/
         fill: #fb2121;
         fill-opacity: 1; /*0.5;*/
       }

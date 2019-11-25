@@ -106,13 +106,16 @@
 
 
   <script type="application/javascript">
+    const benchN = 92; //92; // hemiciclo diputados HCDP
+    //const benchHemi = [0]; //[12,20,28,31]; // hemiciclo 91 (sin presidente) diputados HCDP
+    //const benchCenter = [3,3]; // [1,1] hemiciclo diputado 92 1x1
     var hemicycle = null;
     var hc = null;
     var svg= null;
     var w=400, h=205;
     function drawHemicycle() {
-      d3.csv("csv/benchmembers.csv",function(error,data) {
-
+      d3.csv("csv/benchmembers"+benchN+".csv",function(error,data) {
+        console.log("BANCAS:"+benchN);
         /*var json = (function () {
             var json = null;
             $.ajax({
@@ -126,23 +129,27 @@
             });
             return json;
         })();*/
-        // Configuración para hemiciclo de 91 bancas
-        // hemicycle = [{
-        //   "n": [12,20,28,31], // hemiciclo 91 diputados HCDP
-        //   "gap": 2.0, //1.20,
-        //   "widthIcon": 0.19, //0.39,
-        //   "width": 400,
-        //   "people": data
-        // }];
-        // Configuración para 9 bancas en 3x3
-        hemicycle = [{
-          "n": [0], // hemiciclo vacío
-          "gap": 0.8, //1.20,
-          "widthIcon": 0.2, //0.39,
-          "width": 300,
-          "people": data
-        }];
-      /* Initialize tooltip */	
+        if (benchN == 92){
+          // Configuración para hemiciclo de 92 bancas
+          hemicycle = [{
+            "n": [12,20,28,31], // hemiciclo 91 diputados HCDP
+            "gap": 2.0, //1.20,
+            "widthIcon": 0.19, //0.39,
+            "width": 400,
+            "people": data
+          }];
+        }
+        if (benchN == 9) {
+          // Configuración para 9 bancas en 3x3
+          hemicycle = [{
+            "n": [0], // hemiciclo vacío
+            "gap": 0.8, //1.20,
+            "widthIcon": 0.2, //0.39,
+            "width": 300,
+            "people": data
+          }];
+        }
+        /* Initialize tooltip */	
         tip = d3.tip()
         .attr("class", "d3-tip")
         .html(function(d) {
@@ -168,12 +175,21 @@
         
         var item = svg.selectAll(".hc")
           .data(hemicycle);
-        item.enter()
-            .append("svg:g")
-            //.call(hc,1); //agrega 1 banca centrada para el presidente
-            .call(hc,3,3); //agrega 9 bancas centradas en 3 columnas x 3 filas
-        //item.exit().remove();
-            
+        
+        
+        if (benchN == 92){
+          // Configuración para hemiciclo de 91 bancas
+          item.enter()
+              .append("svg:g")
+              .call(hc,1); //agrega 1 banca centrada para el presidente
+          //item.exit().remove();
+        }
+        if (benchN == 9) {
+          // Configuración para 9 bancas en 3x3
+          item.enter()
+              .append("svg:g")
+              .call(hc,3,3); //agrega 9 bancas centradas en 3 columnas x 3 filas
+        }
       /* Invoke the tip in the context of your visualization */
         svg.call(tip);
       
@@ -191,12 +207,18 @@
       var ausentes=0;
       var total=0;
       for(i = 0 ;i < estados.length;i++){
-        data.people[i].state = estados[i];
-        if(estados[i]==1){
-        	presentes++;
-        }else{
-        	ausentes++;
+        if(i < benchN) {
+          data.people[i].state = estados[i];
+          if(estados[i]==1){
+            presentes++;
+          }else{
+            ausentes++;
+          }
         }
+      }
+      // si hay diferencia en cantidad de bancas, contar lo restante como ausente
+      if (estados.length < benchN) {
+        ausentes += benchN - estados.length;
       }
  
        
@@ -209,14 +231,12 @@
       	    )
       	
       if(presentes>ausentes){
-          $('#quorum').append(            	    
-            	        
+          $('#quorum').append(
             	        $('#quorum').text("HAY QUORUM") 
             	    )
             	
       }else{
-          $('#quorum').append(          	    
-          	        
+          $('#quorum').append(
           	        $('#quorum').text("NO HAY QUORUM")  
       )
           	      }; 
