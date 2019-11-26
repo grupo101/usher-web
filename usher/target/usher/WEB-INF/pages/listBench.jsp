@@ -109,6 +109,7 @@
 						<li><a href="bench2">BANCAS</a></li>
 						<li><a href="block2">BLOQUES</a></li>
 						<li><a href="quorumPanel">QUORUM</a></li>
+						<li><a href="statsPanel">ESTADÍSTICAS</a></li>
 						<li><a href="benchAssociation1">ASOCIAR DIPUTADO</a></li>
 						<li><a href="benchAssociation2">DESASOCIAR DIPUTADO</a></li>
 						<li><a href="blockAssociation1">ASOCIAR BLOQUE POLITICO</a></li>

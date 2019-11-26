@@ -57,5 +57,13 @@ public class BenchController {
 
 		return "quorumPanel";
 	}
+	
+	@RequestMapping("/statsPanel")
+	@Transactional
+	protected String statsPanel(Model model)
+			throws ServletException {
+
+		return "statsPanel";
+	}
 		
 }

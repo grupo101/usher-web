@@ -117,6 +117,16 @@ function endSession() {
           console.log(data);
           if (data.succes == true){
             console.log("SESION FINALIZADA");
+            /* GENERA ESTADISTICAS MIEMBROS */
+            $.post('https://usher.sytes.net/usher-api/fill_member_hist?token=48370255gBrgdlpl050588')
+              .done(function(data) {
+                console.log(data);
+                if (data.succes == true){
+                    console.log("ESTADISTICAS DE MIEMBRO CARGADAS");
+                }
+              });
+            
+            /* FINALIZA CAMSERVER */
             $.ajax({
                 Type: 'GET', 
                 url: 'https://usher.sytes.net/usher-api/cnnmanage?id=SVR1&status='+action+'&token=48370255gBrgdlpl050588',
@@ -271,6 +281,7 @@ statusSession();
                       <li><a href="bench2">BANCAS</a></li>
                       <li><a href="block2">BLOQUES</a></li>
                       <li><a href="quorumPanel">QUORUM</a></li>
+                      <li><a href="statsPanel">ESTADÍSTICAS</a></li>
                       <li><a href="benchAssociation1">ASOCIAR DIPUTADO</a></li>
                       <li><a href="benchAssociation2">DESASOCIAR DIPUTADO</a></li>
                       <li><a href="blockAssociation1">ASOCIAR BLOQUE POLITICO</a></li>
