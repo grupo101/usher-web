@@ -2,6 +2,7 @@ package com.team101.dao;
 
 import java.util.List;
 
+import org.hibernate.Query;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -24,6 +25,12 @@ public class UserDao {
 	@Transactional
 	public List<User> getAll(){
 		return this.sessionFactory.getCurrentSession().createQuery("from User order by name asc").list();
+	}
+	
+	@Transactional
+	public User getSpecificUser(Integer id){
+		Query query = this.sessionFactory.getCurrentSession().createQuery("from User where id='"+id+"'");
+		return (User)query.list().get(0);		
 	}
  
 	@Transactional

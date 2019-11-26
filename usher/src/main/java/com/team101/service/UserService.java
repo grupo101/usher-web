@@ -23,6 +23,11 @@ public class UserService {
 	}
 
 	public void modify(User user) {
+		
+		User userToModify = userDao.getSpecificUser(user.getId());
+		if(user.getPassword().equalsIgnoreCase("********")){
+		user.setPassword(userToModify.getPassword());
+		}
 		userDao.modify(user);
 	}
 
@@ -43,5 +48,5 @@ public class UserService {
 		}
 		return false;
 	}
-
+	
 }

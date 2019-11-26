@@ -177,7 +177,7 @@
                    		<th align=left style="background-color: #f6f6f6">Clave:</th>
 				<th style="background-color: white"><form:input id="password"
 						path="password" 
-						readonly="true"/></th>			
+						/></th>			
 				<th align=left style="background-color: #f6f6f6">Alta</th>
 				<th style="background-color: white"><form:input id="grantedAccess"
 						path="grantedAccess" 
