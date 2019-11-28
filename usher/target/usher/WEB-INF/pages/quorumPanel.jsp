@@ -105,7 +105,7 @@
     </style>
 
 
-  <script type="application/javascript">
+  <script type="application/javascript"> 
     const benchN = 9; //92; // hemiciclo diputados HCDP
     //const benchHemi = [0]; //[12,20,28,31]; // hemiciclo 91 (sin presidente) diputados HCDP
     //const benchCenter = [3,3]; // [1,1] hemiciclo diputado 92 1x1
