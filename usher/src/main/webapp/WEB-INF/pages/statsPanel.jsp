@@ -37,9 +37,12 @@
       @media screen and (max-width: 680px) {
         #chart svg { position: relative; left: -8%; }
       }
+      @media screen and (max-width: 990px) {
+        .member-row { width: 100%; }
+      }
       @media screen and (min-width: 990px) {
         /* .column { min-height: 330px;} */
-        .block-web { height: 310px;}
+        .member-row { width: 49%; }
       }
       /*http://www.d3noob.org/2013/01/adding-drop-shadow-to-allow-text-to.html*/
       /* #chart { width:400px;margin-left:10px;margin-top:35px; } */
@@ -85,7 +88,66 @@
       #legend {
         display:none;
       }
-    </style>
+    #svgtrial {
+        z-index: 9999;
+        left: 16px;
+        top: 362px;
+        height: 9px;
+        width: 60px;
+        position: absolute;
+    }
+    #svgtrial rect {
+        fill:rgb(255,255,255);
+        stroke-width:0;
+        height: 9px;
+        width: 60;
+    }
+    .block-member {
+        height: 300px;
+        width: 100%;
+        overflow-y: scroll;
+        background: linear-gradient(white, rgba(255,255,255,0.3));
+    }
+    .member-row {
+        float: left;
+        display: inline-flex;
+        text-align: left;
+        /* width: 100%; */
+        border-radius: 6px;
+        padding: 6px;
+        stroke: gray;
+        stroke-width: 1px;
+        stroke-opacity: 0.2;
+    }
+    .member-row:hover {
+        background: rgba(249, 255, 128, 0.397);
+    }
+    .member-surname, .member-name {
+        font-size: 1.6em;
+    }
+    .member-block {
+        text-transform: uppercase;
+    }
+    div.member-photo {
+        width: max-content;
+        margin-right: 10px;
+    }
+    div.member-photo img{
+        /*position: relative;
+        left: 0px;*/
+        width: 60px;
+        height: 60px;
+        border-radius: 30px;
+    }
+    .pie-container, .div-pie { 
+        height: 60px; 
+        width: 60px;
+    }
+    .pie-container {
+        right: 20px;
+        position: absolute;
+    }
+</style>
 
 
   <script type="application/javascript">
@@ -98,7 +160,7 @@
             zoomType: "x",
             axisY: {
                 valueFormatString: "##0",
-                interval: 5,
+                interval: 2,
 		        title: "Diputados presentes"
             },
             axisX: {
@@ -132,15 +194,16 @@
     
     var _optionsPie = {
             animationEnabled: true,
+            width: 60,
             data: []
         };
     var _pieObj = {
                 type: "pie",
                 startAngle: 270,
-                yValueFormatString: "##0.0\"%\"",
+			    yValueFormatString:"##0%",
                 dataPoints: [
-                    {y: 8, color: 'green'},
-                    {y: 1, color: 'red'},
+                    {y: 10, color: 'green'},
+                    {y: 90, color: 'red'},
                 ]
             };
     
@@ -157,30 +220,38 @@
         var sec = Math.abs(dif) / 1000;
         var secfrac = Math.round(sec / SEP_X);
         var axisX = {
-                valueFormatString: "HH:mm",
-                intervalType: 'second',
-                interval: secfrac, //30
-                title: "Horario"
-            }
+            valueFormatString: "HH:mm",
+            intervalType: 'second',
+            interval: secfrac, //30
+            title: "Horario"
+        }
         // fraccion menor a 1 minuto
         if (secfrac < 60) {
             axisX.valueFormatString = "HH:mm:ss";
             axisX.intervalType = "second";
-            axisX.interval = secfrac*10;
+            axisX.interval = secfrac;
+            console.log("Eje X: ("+t1+","+t2+") "+sec+'" frac:'+secfrac);
         }else{
             var minfrac = Math.round(secfrac / 60);
             axisX.valueFormatString = "HH:mm";
             axisX.intervalType = "minute";
-            axisX.interval = minfrac*10;
+            axisX.interval = minfrac;
+            console.log("Eje X: ("+t1+","+t2+") "+sec+'" frac:'+secfrac+'" frac:'+minfrac+"min");
         }
+        console.log(axisX);
         return axisX;
     }
     function toggleDataSeries(e) {
         if (typeof (e.dataSeries.visible) === "undefined" || e.dataSeries.visible) {
             e.dataSeries.visible = false;
+            // filtrar miembros
+            $(".block"+e.dataSeries.id).hide();
+            
         }
         else {
             e.dataSeries.visible = true;
+            // filtrar miembros
+            $(".block"+e.dataSeries.id).show();
         }
         e.chart.render();
     }
@@ -204,7 +275,9 @@
             var minDate = (sdata.startDate < sdata.data[0].dataPoints[0].x ? sdata.startDate : sdata.data[0].dataPoints[0].x);
             var maxDate = (sdata.endDate > sdata.data[0].dataPoints[sdata.data[0].dataPoints.length - 1].x ? 
                             sdata.endDate : sdata.data[0].dataPoints[sdata.data[0].dataPoints.length - 1].x);
-            sdata.axisX = getAxisX(sdata.axisX.title, sdata.startDate, sdata.endDate);
+            var tit = sdata.axisX.title;
+            sdata.axisX = {};
+            sdata.axisX = getAxisX(tit, minDate, maxDate);
     /*        if (period == ""){
                 sdata.axisX = getAxisX(sdata.axisX.title, sdata.axisX.startDate, sdata.axisX.endDate)
             }else{
@@ -235,6 +308,8 @@
                             sessData[sess].endDate = new Date(value.end);
                             sessData[sess].axisX.title = "Sesión " + value.comment;
                             sessData[sess].data = [];
+                            sessData[sess].blocks = {};
+                            sessData[sess].members = [];
                             
                             // cargar select de sesiones
                             listSess.after('<option value="'+value.session+'" '+
@@ -249,6 +324,96 @@
                 }
             }
         });    
+    }
+    
+
+    function setMemberData(sess,block, sesschange=true){
+        var memberContainer = $("#memberContainer");
+        if (sesschange || !sessData[sess].membersListed) {
+            memberContainer.empty();
+        } 
+        if (sessData[sess].membersLoaded){
+            if (!sessData[sess].membersListed || sesschange) {
+                console.log("START MEMBER LISTING");
+                $.each(sessData[sess].members, function(index,value){
+                    memberContainer.append(
+                        '<div class="member-row block' + value.blockid +' col-md-6 col-xs-12">'+
+                            '<div class="member-photo"><img '+
+                                'src="'+value.photo+'" '+
+                                'alt="Foto de perfil de '+ value.surname+' '+ value.name + '" '+
+                                'onerror="this.onerror=null;this.src=\'http://www.connexis.org.nz/wp-content/uploads/2018/11/Person-icon.png\';">' +
+                            '</div>'+
+                            '<div>'+
+                                '<div><span class="member-name">'+ value.name + '</span> <span class="member-surname">'+ value.surname+'</span></div>'+
+                                '<div><span class="member-block">'+ value.block +'</span></div>'+
+                            '</div>'+
+                            '<div class="pie-container">'+
+                                '<div id="div-pie'+index +'" style="width: 60px; height: 60px;" class="div-pie"></div>'+
+                            '</div>'+
+                        '</div>'
+                    );
+                    console.log("..............\n\n");
+                    console.log(value);
+                    console.log("\n\n..............");
+                    //var pie = $('<div id="div-pie'+index +'" style="width: 60px; height: 60px;" class="div-pie"></div>');
+                    //$("#pie-container").append(pie);
+                    var pie = memberContainer.filter('#div-pie'+index); //$('#div-pie'+index);
+                    //pie = $('#div-pie');
+                    pie.ready(function (){
+                        console.log("READY PIE "+index);
+                        $('#div-pie'+index).CanvasJSChart(sessData[sess].members[index]);
+                    });
+                    console.log(pie);
+                    if(true){
+
+                    }
+
+                });
+                sessData[sess].membersListed = true;
+                console.log("END MEMBER LISTING");
+            }else{
+                console.log("START MEMBER FILTERING");
+                if (block == ""){
+                    $(".member-row").show();
+                }else{
+                    $(".member-row").hide();
+                    $(".block"+block).show();
+                }
+                console.log("END MEMBER FILTERING:"+block);
+            }
+
+/*
+{animationEnabled: true, data: Array(1), surname: "Di Palma", name: "Marcos ", photo: "https://blobwebbrazil.blob.core.windows.net/diputados/marcos-di-palma.png", …}
+absences: 8
+animationEnabled: true
+block: "Movimiento Unido Tutores UNLAM"
+blockid: 4
+data: Array(1)
+0:
+dataPoints: Array(2)
+0: {y: 26, color: "green"}
+1: {y: 8, color: "red"}
+length: 2
+__proto__: Array(0)
+startAngle: 270
+type: "pie"
+yValueFormatString: "##0.0"%""
+__proto__: Object
+length: 1
+__proto__: Array(0)
+name: "Marcos "
+photo: "https://blobwebbrazil.blob.core.windows.net/diputados/marcos-di-palma.png"
+presences: 26
+surname: "Di Palma"
+total: 34
+*/
+            // sessData[sess].membersLoaded = true;
+        }
+    }
+    function setRealBlockNum(sess,blockNum,block){
+        if (typeof sessData[sess].blocks[block] === "undefined") 
+            sessData[sess].blocks[block] = blockNum;
+        return sessData[sess].blocks[block]
     }
     function setChartData(sess, block, period, sesschange=true){
         var ddsess = $("#ddsess"), ddblock = $("#ddblock"); //, ddperiod = $("#ddperiod");
@@ -274,9 +439,15 @@
                         ddblock.append('<option value="'+index+'" '+(block!="" && block==index?'selected=selected':'')+'>'+value.legendText+'</option>');
                     });
                 }
-
+                // cargar listado con datos de miembros 
+                setMemberData(sess, block, sesschange);
+                // Dibujar gráfico
                 drawBlockChart(sdata,block,period);
             } else {
+                sessData[sess].blocks = [];
+                sessData[sess].members = [];
+                sessData[sess].membersLoaded = false;
+                sessData[sess].membersListed = false;
                 // Obtener estadísticas de bloque
                 var sessDate = sessData[sess].startDate;
                 $.post('https://usher.sytes.net/usher-api/block_hist?token=48370255gBrgdlpl050588',
@@ -286,7 +457,7 @@
                     console.log(data);
                     if (data.succes == true){
                         /* DATOS DE ESTADISTICA POR BLOQUE OBTENIDOS */
-                        console.log("Datos de sesion ${sess} obtenidos de API");
+                        console.log("Datos de bloques en sesión "+sess+" obtenidos de API");
 
                         var blockBreak = "", blockNum = -1;
                         $.each(data, function(index, value) {
@@ -297,6 +468,7 @@
                                 if (value.block != blockBreak){
                                     blockBreak = value.block;
                                     blockNum ++;
+                                    blockNum = setRealBlockNum(sess,blockNum, value.block);
                                     console.log("Nuevo bloque: "+ value.block);
                                     
                                     // crea objeto bloque
@@ -306,6 +478,8 @@
                                     sessData[sess].data[blockNum].legendText = value.block;
                                     sessData[sess].data[blockNum].total = value.total;
                                     sessData[sess].data[blockNum].dataPoints = [];
+                                    // almacenar id de bloque
+                                    sessData[sess].blocks[value.block] = blockNum;
                                 }
                                 
                                 // carga dato nuevo
@@ -321,14 +495,96 @@
 
                         // cargar select y gráfico
                         setChartData(sess,"","");
-                    }else{ console.error("Datos de sesion ${sess} no obtenidos") }
+                    }else{ console.error("Datos de bloques en sesión "+sess+" no obtenidos") }
+                });
+
+                // Obtener estadísticas por diputado
+                $.post('https://usher.sytes.net/usher-api/member_hist?token=48370255gBrgdlpl050588',
+                    { username: "webadmin",
+                      session: sess})
+                .done(function(data) {
+                    console.log(data);
+                    if (data.succes == true){
+                        /* DATOS DE ESTADISTICA POR MIEMBRO OBTENIDOS */
+                        console.log("Datos de miembros en sesión "+sess+" obtenidos de API");
+
+                        //dato de 1 miembro recibido de api
+                        //"0" : {session,block,member_surname,member_name,photo,presences,total}
+
+                        var blockBreak = "", blockNum = -1, memberNum = -1;
+                        $.each(data, function(index, value) {
+                            if (index == "succes" || 
+                            typeof (value) === "undefined" || typeof (value.member_name) === "undefined"
+                            || (sessData[sess].members.length > 0 && value.member_surname == sessData[sess].members[memberNum].surname && value.member_name == sessData[sess].members[memberNum].name)){ 
+                                 // evita iteracion
+                            }else{
+                                memberNum++;
+                                // NUEVO BLOQUE identificado //
+                                if (value.block != blockBreak){
+                                    blockBreak = value.block;
+                                    blockNum ++;
+                                    blockNum = setRealBlockNum(sess,blockNum, value.block);
+                                    console.log("Nuevo bloque: "+ blockNum); // value.block                                   
+                                }
+                                console.log("Nuevo miembro: "+ value.member_surname);   
+                                
+                                // crea objeto miembro
+                                sessData[sess].members.push( copyObject(_optionsPie) );
+                                sessData[sess].members[memberNum].data = [ copyObject(_pieObj) ];
+                                sessData[sess].members[memberNum].surname = value.member_surname;
+                                sessData[sess].members[memberNum].name = value.member_name;
+                                sessData[sess].members[memberNum].photo = value.photo;
+                                sessData[sess].members[memberNum].block = value.block;
+                                sessData[sess].members[memberNum].blockid = blockNum;
+                                sessData[sess].members[memberNum].presence = value.presence;
+                                sessData[sess].members[memberNum].presences = value.presences;
+                                sessData[sess].members[memberNum].absences = value.total - value.presences;
+                                sessData[sess].members[memberNum].total = value.total;
+                                sessData[sess].members[memberNum].presence = (value.total==0?0:value.presences/value.total);
+                                sessData[sess].members[memberNum].absence = (1 - sessData[sess].members[memberNum].presence);
+                                sessData[sess].members[memberNum].data[0].dataPoints = [
+                                    {y: sessData[sess].members[memberNum].presence, color: 'green'},
+                                    {y: sessData[sess].members[memberNum].absence, color: 'red'},
+                                ];
+                                //log de objeto construido
+                                console.log(sessData[sess].members[memberNum]);
+                            }
+                        });
+
+                        // flag de miembros obtenidos
+                        sessData[sess].membersLoaded = true;
+                        // cargar listado de miembros
+                        setMemberData(sess,"","");
+                    }else{ console.error("Datos de miembros en sesion "+sess+" no obtenidos") }
                 });
             }
         }
     }
 
     getSessionsList();
-    $(window).load(function() {
+    $(window).load(function() {        
+  /*  var x= copyObject(_optionsPie);
+    x.data=[];
+    x.data= [copyObject(_pieObj)];
+    var x2 = {
+        title: {
+            text: "Website Traffic Source"
+        },width: 70,
+        data: [{
+                type: "pie",
+                startAngle: 270,
+                showInLegend: "true",
+                legendText: "{label}",
+                indexLabel: "{label} ({y})",
+                yValueFormatString:"#,##0.#"%"",
+                dataPoints: [
+                    { label: "Organic", y: 36 },
+                    { label: "Email Marketing", y: 31 }
+                ]
+        }]
+    };
+    var pie = $('#div-pie');
+    pie.CanvasJSChart(x);*/
         $( ".dropdown" ).change(function() {
             var sel = this.id;
             var ddsess = $("#ddsess"), ddblock = $("#ddblock"); //, ddperiod = $("#ddperiod");
@@ -428,18 +684,19 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-md-12 column statpanel"><br/><!-- Just so that JSFiddle's Result label doesn't overlap the Chart -->
+                        <div class="col-md-12 column statpanel"><br/>
                             <div id="chartFilters">
                                 <select class="dropdown" id="ddblock">
                                 </select>
                             </div>
-                            <div id="chartContainer" style="height: 300px; width: 100%;"></div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-12 column statpanel">
-                            <div class="block-web">
+                            <div id="chartContainer" style="height: 300px; width: 100%;">
                             </div>
+                                <!-- Este SVG tapa marga de Trial Version del CanvasJS -->
+                                <svg id="svgtrial">
+                                    <rect width="60" height="20"/>
+                                </svg>
+                            <div id="memberContainer" class="block-member"></div>
+                            <!-- <div id="div-pie" style="height: 100px;width: 100px;"></div> -->
                         </div>
                     </div>
                 </div>
