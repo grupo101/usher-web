@@ -37,16 +37,29 @@
       @media screen and (max-width: 680px) {
         #chart svg { position: relative; left: -8%; }
       }
+      @media screen and (max-width: 990px) {
+        .member-row { width: 100%; }
+      }
       @media screen and (min-width: 990px) {
         /* .column { min-height: 330px;} */
-        .block-web { height: 310px;}
+        .member-row { width: 49%; }
       }
       /*http://www.d3noob.org/2013/01/adding-drop-shadow-to-allow-text-to.html*/
       /* #chart { width:400px;margin-left:10px;margin-top:35px; } */
       .container { width: 100%; }
-      .stream { max-width: 100%; max-height: 100%; padding: 2em; }
       .column { text-align: center; }
-      .contentpanel { background-color: #F6F6F6 }
+      .column h2 { margin-top: 0; }
+      .contentpanel { background-color: #F6F6F6; padding-bottom: 0; }
+      .statpanel { 
+          background-color: #FFF;
+          margin-top: 1.5em;
+      }
+      #chartFilters {
+        height:55px;
+        width: 100%;
+        background: #fff;
+        /*padding-top: 10px;*/
+      }
       text.shadow {
           stroke: gray;
           stroke-width: 1px;
@@ -62,16 +75,6 @@
         fill: yellowgreen;
         fill: lawngreen;
       }
-      /* D3 tips */  
-      .d3-tip {
-        line-height: 1;
-        font-weight: bold;
-        padding: 12px;
-        background: rgba(0, 0, 0, 0.8);
-        color: #fff;
-        border-radius: 2px;
-        display: inline-flex;
-      }
       img.profilephoto {
         position: relative;
         right: -6px;
@@ -79,420 +82,528 @@
         height: 40px;
         border-radius: 20px;
       }
-      /* Creates a small triangle extender for the tooltip */
-      /*.d3-tip:after {
-        box-sizing: border-box;
-        display: inline;
-        font-size: 10px;
-        width: 100%;
-        line-height: 1;
-        color: rgba(0, 0, 0, 0.8);
-        content: "\25BC";
-        position: absolute;
-        text-align: center;
-      }*/
-      /* Style northward tooltips differently */
-      .d3-tip.n:after {
-        margin: -1px 0 0 0;
-        top: 100%;
-        left: 0;
-      }
       .stronger {
         color: yellow;
       }
       #legend {
         display:none;
       }
-    </style>
+    #svgtrial {
+        z-index: 9999;
+        left: 16px;
+        top: 362px;
+        height: 9px;
+        width: 60px;
+        position: absolute;
+    }
+    #svgtrial rect {
+        fill:rgb(255,255,255);
+        stroke-width:0;
+        height: 9px;
+        width: 60;
+    }
+    .block-member {
+        height: 300px;
+        width: 100%;
+        overflow-y: scroll;
+        background: linear-gradient(white, rgba(255,255,255,0.3));
+    }
+    .member-row {
+        float: left;
+        display: inline-flex;
+        text-align: left;
+        /* width: 100%; */
+        border-radius: 6px;
+        padding: 6px;
+        stroke: gray;
+        stroke-width: 1px;
+        stroke-opacity: 0.2;
+    }
+    .member-row:hover {
+        background: rgba(249, 255, 128, 0.397);
+    }
+    .member-surname, .member-name {
+        font-size: 1.6em;
+    }
+    .member-block {
+        text-transform: uppercase;
+    }
+    div.member-photo {
+        width: max-content;
+        margin-right: 10px;
+    }
+    div.member-photo img{
+        /*position: relative;
+        left: 0px;*/
+        width: 60px;
+        height: 60px;
+        border-radius: 30px;
+    }
+    .pie-container, .div-pie { 
+        height: 60px; 
+        width: 60px;
+    }
+    .pie-container {
+        right: 20px;
+        position: absolute;
+    }
+</style>
 
 
   <script type="application/javascript">
-    var hemicycle = null;
-    var hc = null;
-    var svg= null;
-    var w=400, h=205;
-    function drawHemicycle() {
-      d3.csv("csv/benchmembers.csv",function(error,data) {
-
-        /*var json = (function () {
-            var json = null;
-            $.ajax({
-                'async': false,
-                'global': false,
-                'url': "./hemicycle.json",
-                'dataType': "json",
-                'success': function (data) {
-                    json = data;
-                }
-            });
-            return json;
-        })();*/
-        // Configuración para hemiciclo de 91 bancas
-        // hemicycle = [{
-        //   "n": [12,20,28,31], // hemiciclo 91 diputados HCDP
-        //   "gap": 2.0, //1.20,
-        //   "widthIcon": 0.19, //0.39,
-        //   "width": 400,
-        //   "people": data
-        // }];
-        // Configuración para 9 bancas en 3x3
-        hemicycle = [{
-          "n": [0], // hemiciclo vacío
-          "gap": 0.8, //1.20,
-          "widthIcon": 0.2, //0.39,
-          "width": 300,
-          "people": data
-        }];
-      /* Initialize tooltip */	
-        tip = d3.tip()
-        .attr("class", "d3-tip")
-        .html(function(d) {
-          foragaints = "Neutral (ausente)";
-          if (parseInt(d["option_code"]) == 1) foragaints = "A favor";
-          if (parseInt(d["option_code"]) == -1) foragaints = "En contra";
-          
-          return "<div><span class=\'stronger\'>(" + d["id"] + ") " + d["name"] + "</span><br>" + d["party"] + "</div>" +
-                "<div><img class=\"profilephoto\" src=\"" + d["photo"] +"\" alt=\"Foto de "+ d["name"] + "\" "+
-                "onerror=\"this.onerror=null;this.src='http://www.connexis.org.nz/wp-content/uploads/2018/11/Person-icon.png';\"></div>";
-        }); 
-        w=400,h=205,w=300,h=200,
-            svg=d3.select("#chart")
-                .append("svg")
-                .attr("width",w)
-                .attr("height",h);
-        hc = d3.hemicycle()
-                    .n(function(d) {return d.n;})
-                    .gap(function(d) {return d.gap;})
-                    .widthIcon(function(d) {return d.widthIcon;})
-                    .width(function(d) {return d.width;})
-                    .people(function(d) {return d.people;});  
-        
-        var item = svg.selectAll(".hc")
-          .data(hemicycle);
-        item.enter()
-            .append("svg:g")
-            //.call(hc,1); //agrega 1 banca centrada para el presidente
-            .call(hc,3,3); //agrega 9 bancas centradas en 3 columnas x 3 filas
-        //item.exit().remove();
-            
-      /* Invoke the tip in the context of your visualization */
-        svg.call(tip);
-      
-      // Add tooltip div
-        var div = d3.select("body").append("div")
-        .attr("class", "tooltip")
-        .style("opacity", 1e-6);
-      });
-    }
-    function updateHemicycle(estadosStr) {
-      var estados = estadosStr.split('');
-      var item = svg.selectAll("g");
-      var data = item.data()[0];
-      var presentes=0;
-      var ausentes=0;
-      var total=0;
-      for(i = 0 ;i < estados.length;i++){
-        data.people[i].state = estados[i];
-        if(estados[i]==1){
-        	presentes++;
-        }else{
-        	ausentes++;
-        }
-      }
- 
-       
-      $('#presentes').append(      	    
-      	        $('#presentes').text("Presentes: " + presentes) 
-      	    )
-      	
-      $('#ausentes').append(      	        
-      	        $('#ausentes').text("Ausentes: " + ausentes)
-      	    )
-      	
-      if(presentes>ausentes){
-          $('#quorum').append(            	    
-            	        
-            	        $('#quorum').text("HAY QUORUM") 
-            	    )
-            	
-      }else{
-          $('#quorum').append(          	    
-          	        
-          	        $('#quorum').text("NO HAY QUORUM")  
-      )
-          	      }; 
-      //total=  */
-      item = item.call(hc);
-    }
-
-    function getBenchsState(){
-        
-        var listitem = $('#ulEmployees');              
-            $.ajax({
-                Type: 'POST', 
-                url: 'https://usher.sytes.net/usher-api/check_status?token=48370255gBrgdlpl050588&server=SVR1',  
-                success: function (data) {
-                    if (typeof(data) == 'object') {
-                    updateHemicycle(data["status"]);
-                    }else{
-                    console.log("Returned data format unexpected: "+typeof(data));
-                    }
-                        var val;//alert(JSON.stringify(data));
-                        listitem.empty();
-                        
-                        $.each(data, function (index, val) {
-                        var fullname = val;
-                            listitem.append('<li id='+index+' value='+fullname+'>' + fullname + '</li>');                           
-                        });
-                        // draw(); //en desuso
-                }
-            });
-    };
-
-
-    // DATOS DE PRUEBA PARA ESTADISTICAS
-    var jsonData = {
-        "block10": [
-            { "x": new Date("2019-10-11 12:58:52"), "y": 10 },
-            { "x": new Date("2019-10-11 13:14:15"), "y": 34 },
-            { "x": new Date("2019-10-11 13:33:23"), "y": 14 },
-            { "x": new Date("2019-10-11 13:49:18"), "y": 18 },
-            { "x": new Date("2019-10-11 13:55:01"), "y": 5 },
-            { "x": new Date("2019-10-11 14:00:15"), "y": 17 },
-        ],
-        "block12": [
-            { "x": new Date("2019-10-11 12:58:52"), "y": 25 },
-            { "x": new Date("2019-10-11 13:14:15"), "y": 34 },
-            { "x": new Date("2019-10-11 13:33:23"), "y": 11 },
-            { "x": new Date("2019-10-11 13:49:18"), "y": 45 },
-            { "x": new Date("2019-10-11 13:55:01"), "y": 7 },
-            { "x": new Date("2019-10-11 14:00:15"), "y": 26 }
-        ],
-        "block13": [
-            { "x": new Date("2019-10-11 12:58:52"), "y": 13 },
-            { "x": new Date("2019-10-11 13:14:15"), "y": 34 },
-            { "x": new Date("2019-10-11 13:33:23"), "y": 28 },
-            { "x": new Date("2019-10-11 13:49:18"), "y": 3 },
-            { "x": new Date("2019-10-11 13:55:01"), "y": 6 },
-            { "x": new Date("2019-10-11 14:00:15"), "y": 34 }
-        ],
-        "block4": [
-            { "x": new Date("2019-10-11 12:58:52"), "y": 25 },
-            { "x": new Date("2019-10-11 13:14:15"), "y": 34 },
-            { "x": new Date("2019-10-11 13:33:23"), "y": 11 },
-            { "x": new Date("2019-10-11 13:49:18"), "y": 19 },
-            { "x": new Date("2019-10-11 13:55:01"), "y": 9 },
-            { "x": new Date("2019-10-11 14:00:15"), "y": 21 }
-        ],
-        "block5": [
-            { "x": new Date("2019-10-11 12:58:52"), "y": 66 },
-            { "x": new Date("2019-10-11 13:14:15"), "y": 34 },
-            { "x": new Date("2019-10-11 13:33:23"), "y": 20 },
-            { "x": new Date("2019-10-11 13:49:18"), "y": 56 },
-            { "x": new Date("2019-10-11 13:55:01"), "y": 48 },
-            { "x": new Date("2019-10-11 14:00:15"), "y": 62 }
-        ]}
-    
-        var dataPoints = [];
-        var _dataObj = {
-                type: 'stackedArea',
-                showInLegend: true,
-                name: "nombreserie",
-                xValueFormatString:"DD/MM/YYYY HH:mm",
-                xValueType: "dateTime",
-                yValueFormatString:"##0",
-                legendText: "Diputados por Bloque",
-                dataPoints: dataPoints // this should contain only specific serial number data
-            };
-        var dataObj = [{
-                type: 'stackedArea',
-                showInLegend: true,
-                name: "bloque 10",
-                xValueFormatString:"DD/MM/YYYY HH:mm",
-                xValueType: "dateTime",
-                yValueFormatString:"##0",
-                legendText: "Bloque 10",
-                dataPoints: jsonData['block10'] // this should contain only specific serial number data
-            },
-            {
-                type: 'stackedArea',
-                showInLegend: true,
-                name: "bloque 12",
-                xValueFormatString:"DD/MM/YYYY HH:mm",
-                xValueType: "dateTime",
-                yValueFormatString:"##0",
-                dataPoints: jsonData['block12'] // this should contain only specific serial number data
-            },
-            {
-                type: 'stackedArea',
-                showInLegend: true,
-                name: "bloque 13",
-                xValueFormatString:"DD/MM/YYYY HH:mm",
-                xValueType: "dateTime",
-                yValueFormatString:"##0",
-                dataPoints: jsonData['block13'] // this should contain only specific serial number data
-            },
-            {
-                type: 'stackedArea',
-                showInLegend: true,
-                name: "bloque 4",
-                xValueFormatString:"DD/MM/YYYY h:mm",
-                xValueType: "dateTime",
-                yValueFormatString:"##0",
-                dataPoints: jsonData['block4'] // this should contain only specific serial number data
-            },
-            {
-                type: 'stackedArea',
-                showInLegend: true,
-                name: "bloque 5",
-                xValueFormatString:"DD/MM/YYYY HH:mm",
-                xValueType: "dateTime",
-                yValueFormatString:"##0",
-                dataPoints: jsonData['block5'] // this should contain only specific serial number data
-            }];
-        
-        //var chart = new CanvasJS.Chart("chartContainer",
-        var options =
+    var sessData = {};
+    var dataPoints = [];
+    var _options =
         {
             animationEnabled: true,
+            zoomEnabled: true,
+            zoomType: "x",
             axisY: {
                 valueFormatString: "##0",
-                interval: 15,
+                interval: 2,
 		        title: "Diputados presentes"
             },
             axisX: {
                 valueFormatString: "HH:mm",
                 intervalType: 'minute',
-                interval: 10,
+                interval: 45,
 		        title: "Horario"
             },
             toolTip: {
                 shared: true
             },
-            data: dataObj
+            legend: {
+                cursor: "pointer",
+                verticalAlign: "top",
+                fontSize: 14,
+                fontColor: "dimGrey",
+                itemclick: toggleDataSeries
+            },
+            data: []
         }
-        //);
-
-    $(window).load(function() {
-        //setInterval('getBenchsState()',3000);
-        //drawHemicycle();
-        $("#chartContainer").CanvasJSChart(options);
-        $( ".dropdown" ).change(function() {
-            //chart.options.data[0].dataPoints = [];
-            //options.data[0].dataPoints = [];
-            var e = document.getElementById("ddblock");
-            var selected = e.options[e.selectedIndex].value;
-
-            /* dps = jsonData[selected];
-            for(var i in dps) {
-                var xVal = dps[i].x;
-                chart.options.data[0].dataPoints.push({x: new Date(xVal), y: dps[i].y});
+    var _dataObj = {
+            type: 'stackedArea',
+            showInLegend: true,
+            name: "nombreserie",
+            xValueFormatString:"DD/MM/YYYY HH:mm",
+            xValueType: "dateTime",
+            yValueFormatString:"##0",
+            legendText: "Diputados por Bloque",
+            dataPoints: []
+        };
+    
+    var _optionsPie = {
+            animationEnabled: true,
+            width: 60,
+            data: []
+        };
+    var _pieObj = {
+                type: "pie",
+                startAngle: 270,
+			    yValueFormatString:"##0%",
+                dataPoints: [
+                    {y: 10, color: 'green'},
+                    {y: 90, color: 'red'},
+                ]
+            };
+    
+    function copyObject(src) {
+        // esta funcion no copia el contenido de los array, sino la referencia
+        return Object.assign({}, src);
+    }
+    function addMinutesToDate(date, minutes) {
+        return new Date(date.getTime() + (minutes*60000));
+    }
+    const SEP_X = 15;
+    function getAxisX(title,t1,t2) {
+        var dif = t2.getTime() - t1.getTime();
+        var sec = Math.abs(dif) / 1000;
+        var secfrac = Math.round(sec / SEP_X);
+        var axisX = {
+            valueFormatString: "HH:mm",
+            intervalType: 'second',
+            interval: secfrac, //30
+            title: "Horario"
+        }
+        // fraccion menor a 1 minuto
+        if (secfrac < 60) {
+            axisX.valueFormatString = "HH:mm:ss";
+            axisX.intervalType = "second";
+            axisX.interval = secfrac;
+            console.log("Eje X: ("+t1+","+t2+") "+sec+'" frac:'+secfrac);
+        }else{
+            var minfrac = Math.round(secfrac / 60);
+            axisX.valueFormatString = "HH:mm";
+            axisX.intervalType = "minute";
+            axisX.interval = minfrac;
+            console.log("Eje X: ("+t1+","+t2+") "+sec+'" frac:'+secfrac+'" frac:'+minfrac+"min");
+        }
+        console.log(axisX);
+        return axisX;
+    }
+    function toggleDataSeries(e) {
+        if (typeof (e.dataSeries.visible) === "undefined" || e.dataSeries.visible) {
+            e.dataSeries.visible = false;
+            // filtrar miembros
+            $(".block"+e.dataSeries.id).hide();
+            
+        }
+        else {
+            e.dataSeries.visible = true;
+            // filtrar miembros
+            $(".block"+e.dataSeries.id).show();
+        }
+        e.chart.render();
+    }
+    function drawBlockChart(session,block,period){
+        var chart = $("#chartContainer");
+        var sdata = (block == "" && period=="" ? session : copyObject(session));
+        if (!$.isEmptyObject(sdata)) {
+            if (block != ""){
+                sdata.data = [];
+                // solo agregar dato de bloque indicado
+                $.each(session.data, function(index,value){
+                    if (index == block) { //value.id
+                        sdata.data.push(copyObject(value));
+                        
+                        // setear color original
+                        ///sdata.data[0].color = chart._selectedColorSet[index];
+                    }
+                });
             }
-            chart.render(); */
-            ///alert(selected + '  ' + e.selectedIndex);
-            if (e.selectedIndex <= 0) {
-                options.data = dataObj;
-                
-var options2 = {
-	animationEnabled: true,
-	title:{
-		text: "Sales at Different Regions"
-	},
-	axisY :{
-		valueFormatString: "#0,.",
-		prefix: "$",
-		suffix: "k",
-		title: "Sales"
-	},
-	toolTip: {
-		shared: true
-	},
-	data: [{
-		type: "stackedArea",
-		showInLegend: true,
-		name: "Central",
-		xValueFormatString: "MMM YYYY",
-		yValueFormatString: "$#,###",
-		dataPoints: [
-			{ x: new Date(2017, 0), y: 90000 },
-			{ x: new Date(2017, 1), y: 83000 },
-			{ x: new Date(2017, 2), y: 97000 },
-			{ x: new Date(2017, 3), y: 175000 },
-			{ x: new Date(2017, 4), y: 148000 },
-			{ x: new Date(2017, 5), y: 93000 },
-			{ x: new Date(2017, 6), y: 131000 },
-			{ x: new Date(2017, 7), y: 142000 },
-			{ x: new Date(2017, 8), y: 156000 },
-			{ x: new Date(2017, 9), y: 134000 },
-			{ x: new Date(2017, 10), y: 115000 },
-			{ x: new Date(2017, 11), y: 98000 }
-		]
-	}, {
-		type: "stackedArea",  
-		name: "East",
-		showInLegend: true,
-		yValueFormatString: "$#,###",
-		dataPoints: [
-			{ x: new Date(2017, 0), y: 93000 },
-			{ x: new Date(2017, 1), y: 99000 },
-			{ x: new Date(2017, 2), y: 107000 },
-			{ x: new Date(2017, 3), y: 110500 },
-			{ x: new Date(2017, 4), y: 114000 },
-			{ x: new Date(2017, 5), y: 133000 },
-			{ x: new Date(2017, 6), y: 205000 },
-			{ x: new Date(2017, 7), y: 192000 },
-			{ x: new Date(2017, 8), y: 156000 },
-			{ x: new Date(2017, 9), y: 114000 },
-			{ x: new Date(2017, 10), y: 99000 },
-			{ x: new Date(2017, 11), y: 135000 }
-		]
-	}, {
-		type: "stackedArea",  
-		name: "South",
-		showInLegend: true,
-		yValueFormatString: "$#,###",
-		dataPoints: [
-			{ x: new Date(2017, 0), y: 123000 },
-			{ x: new Date(2017, 1), y: 117000 },
-			{ x: new Date(2017, 2), y: 107000 },
-			{ x: new Date(2017, 3), y: 98000 },
-			{ x: new Date(2017, 4), y: 94000 },
-			{ x: new Date(2017, 5), y: 103000 },
-			{ x: new Date(2017, 6), y: 121000 },
-			{ x: new Date(2017, 7), y: 132000 },
-			{ x: new Date(2017, 8), y: 99700 },
-			{ x: new Date(2017, 9), y: 104000 },
-			{ x: new Date(2017, 10), y: 137000 },
-			{ x: new Date(2017, 11), y: 145000 }
-		]
-	}, {
-		type: "stackedArea",  
-		name: "West",
-		//indexLabel: "#total",
-		yValueFormatString: "$#,###",
-		showInLegend: true,
-		dataPoints: [
-			{ x: new Date(2017, 0,23,10), y: 78000 },
-			{ x: new Date(2017, 1), y: 83000 },
-			{ x: new Date(2017, 2), y: 67000 },
-			{ x: new Date(2017, 3), y: 88600 },
-			{ x: new Date(2017, 4), y: 94000 },
-			{ x: new Date(2017, 5), y: 73900 },
-			{ x: new Date(2017, 6), y: 31000 },
-			{ x: new Date(2017, 7), y: 42000 },
-			{ x: new Date(2017, 8), y: 56000 },
-			{ x: new Date(2017, 9), y: 64000 },
-			{ x: new Date(2017, 10), y: 81000 },
-			{ x: new Date(2017, 11), y: 105000 }
-		]
-	}]
-};
-            //    $("#chartContainer").CanvasJSChart(options2);
+            // cambiar escala en eje X
+            var minDate = (sdata.startDate < sdata.data[0].dataPoints[0].x ? sdata.startDate : sdata.data[0].dataPoints[0].x);
+            var maxDate = (sdata.endDate > sdata.data[0].dataPoints[sdata.data[0].dataPoints.length - 1].x ? 
+                            sdata.endDate : sdata.data[0].dataPoints[sdata.data[0].dataPoints.length - 1].x);
+            var tit = sdata.axisX.title;
+            sdata.axisX = {};
+            sdata.axisX = getAxisX(tit, minDate, maxDate);
+    /*        if (period == ""){
+                sdata.axisX = getAxisX(sdata.axisX.title, sdata.axisX.startDate, sdata.axisX.endDate)
             }else{
-                options.data = [dataObj[e.selectedIndex - 1]];
-            //    $("#chartContainer").CanvasJSChart(options);
+                //sdata.axisX = getAxisX(sdata.axisX.title, )
+            }*/
+        }
+        // dibujar chart
+        chart.CanvasJSChart(sdata);
+    }
+    function getSessionsList(){
+        $.ajax({
+            Type: 'POST', 
+            url: 'https://usher.sytes.net/usher-api/sessions?token=48370255gBrgdlpl050588',
+            success: function (data) {
+                listSess = $("#ddsess :nth-child(1)");
+                if (typeof(data) == 'object') {
+                    $.each(data, function(index, value) {
+                        if (index == "succes"){
+                            console.log("Sesiones devueltas:"); 
+                        } else {
+                            console.log(value);
+                            var sess = value.session;
+                            // crea objeto de sesion
+                            sessData[sess] = copyObject(_options);
+                            sessData[sess].id = value.session;
+                            sessData[sess].name = value.comment;
+                            sessData[sess].startDate = new Date(value.start);
+                            sessData[sess].endDate = new Date(value.end);
+                            sessData[sess].axisX.title = "Sesión " + value.comment;
+                            sessData[sess].data = [];
+                            sessData[sess].blocks = {};
+                            sessData[sess].members = [];
+                            
+                            // cargar select de sesiones
+                            listSess.after('<option value="'+value.session+'" '+
+                                'attr-name="'+value.comment+'" '+
+                                'attr-date="'+(new Date(value.start)).toString()+'" '+
+                                '">'+(new Date(value.start)).toLocaleString()+' '+value.comment+'</option>');
+                        }
+                    });
+                    console.log(sessData);
+                }else{
+                    console.log("Returned data format unexpected: "+typeof(data));
+                }
             }
-            $("#chartContainer").CanvasJSChart(options);
+        });    
+    }
+    
+
+    function setMemberData(sess,block, sesschange=true){
+        var memberContainer = $("#memberContainer");
+        if (sesschange || !sessData[sess].membersListed) {
+            memberContainer.empty();
+        } 
+        if (sessData[sess].membersLoaded){
+            if (!sessData[sess].membersListed || sesschange) {
+                console.log("START MEMBER LISTING");
+                $.each(sessData[sess].members, function(index,value){
+                    memberContainer.append(
+                        '<div class="member-row block' + value.blockid +' col-md-6 col-xs-12">'+
+                            '<div class="member-photo"><img '+
+                                'src="'+value.photo+'" '+
+                                'alt="Foto de perfil de '+ value.surname+' '+ value.name + '" '+
+                                'onerror="this.onerror=null;this.src=\'http://www.connexis.org.nz/wp-content/uploads/2018/11/Person-icon.png\';">' +
+                            '</div>'+
+                            '<div>'+
+                                '<div><span class="member-name">'+ value.name + '</span> <span class="member-surname">'+ value.surname+'</span></div>'+
+                                '<div><span class="member-block">'+ value.block +'</span></div>'+
+                            '</div>'+
+                            '<div class="pie-container">'+
+                                '<div id="div-pie'+index +'" style="width: 60px; height: 60px;" class="div-pie"></div>'+
+                            '</div>'+
+                        '</div>'
+                    );
+                    console.log("..............\n\n");
+                    console.log(value);
+                    console.log("\n\n..............");
+                    //var pie = $('<div id="div-pie'+index +'" style="width: 60px; height: 60px;" class="div-pie"></div>');
+                    //$("#pie-container").append(pie);
+                    var pie = memberContainer.filter('#div-pie'+index); //$('#div-pie'+index);
+                    //pie = $('#div-pie');
+                    pie.ready(function (){
+                        console.log("READY PIE "+index);
+                        $('#div-pie'+index).CanvasJSChart(sessData[sess].members[index]);
+                    });
+                    console.log(pie);
+                    if(true){
+
+                    }
+
+                });
+                sessData[sess].membersListed = true;
+                console.log("END MEMBER LISTING");
+            }else{
+                console.log("START MEMBER FILTERING");
+                if (block == ""){
+                    $(".member-row").show();
+                }else{
+                    $(".member-row").hide();
+                    $(".block"+block).show();
+                }
+                console.log("END MEMBER FILTERING:"+block);
+            }
+
+/*
+{animationEnabled: true, data: Array(1), surname: "Di Palma", name: "Marcos ", photo: "https://blobwebbrazil.blob.core.windows.net/diputados/marcos-di-palma.png", …}
+absences: 8
+animationEnabled: true
+block: "Movimiento Unido Tutores UNLAM"
+blockid: 4
+data: Array(1)
+0:
+dataPoints: Array(2)
+0: {y: 26, color: "green"}
+1: {y: 8, color: "red"}
+length: 2
+__proto__: Array(0)
+startAngle: 270
+type: "pie"
+yValueFormatString: "##0.0"%""
+__proto__: Object
+length: 1
+__proto__: Array(0)
+name: "Marcos "
+photo: "https://blobwebbrazil.blob.core.windows.net/diputados/marcos-di-palma.png"
+presences: 26
+surname: "Di Palma"
+total: 34
+*/
+            // sessData[sess].membersLoaded = true;
+        }
+    }
+    function setRealBlockNum(sess,blockNum,block){
+        if (typeof sessData[sess].blocks[block] === "undefined") 
+            sessData[sess].blocks[block] = blockNum;
+        return sessData[sess].blocks[block]
+    }
+    function setChartData(sess, block, period, sesschange=true){
+        var ddsess = $("#ddsess"), ddblock = $("#ddblock"); //, ddperiod = $("#ddperiod");
+        var sdata = {};
+        console.log("setChartData("+sess+","+block+","+period+")")
+        // cargar select de bloques si cambió de sesion
+        if (sesschange) ddblock.empty();
+        drawBlockChart(sdata,"","");
+        if(sess == "") {
+            sdata = _dataObj;
+            drawBlockChart(sdata,"","");
+        }else {
+            // cargar select de bloques - primer elemento
+            if (sesschange)
+                ddblock.append('<option value="" '+(block==''?'selected="selected"':'')+'>Todos los bloques</option>');
+            if (sessData.hasOwnProperty(sess) && sessData[sess].data.length > 0){
+                sdata = sessData[sess];
+                
+                // cargar select de bloques si cambió de sesion
+                if (sesschange) {
+                    $.each( sdata.data, function(index, value) {
+                        console.log("Bloque (" + index+","+value+")");
+                        ddblock.append('<option value="'+index+'" '+(block!="" && block==index?'selected=selected':'')+'>'+value.legendText+'</option>');
+                    });
+                }
+                // cargar listado con datos de miembros 
+                setMemberData(sess, block, sesschange);
+                // Dibujar gráfico
+                drawBlockChart(sdata,block,period);
+            } else {
+                sessData[sess].blocks = [];
+                sessData[sess].members = [];
+                sessData[sess].membersLoaded = false;
+                sessData[sess].membersListed = false;
+                // Obtener estadísticas de bloque
+                var sessDate = sessData[sess].startDate;
+                $.post('https://usher.sytes.net/usher-api/block_hist?token=48370255gBrgdlpl050588',
+                    { username: "webadmin",
+                      session: sess})
+                .done(function(data) {
+                    console.log(data);
+                    if (data.succes == true){
+                        /* DATOS DE ESTADISTICA POR BLOQUE OBTENIDOS */
+                        console.log("Datos de bloques en sesión "+sess+" obtenidos de API");
+
+                        var blockBreak = "", blockNum = -1;
+                        $.each(data, function(index, value) {
+                            if (index == "succes"){ 
+                                 // evita iteracion
+                            }else{
+                                // NUEVO BLOQUE identificado //
+                                if (value.block != blockBreak){
+                                    blockBreak = value.block;
+                                    blockNum ++;
+                                    blockNum = setRealBlockNum(sess,blockNum, value.block);
+                                    console.log("Nuevo bloque: "+ value.block);
+                                    
+                                    // crea objeto bloque
+                                    sessData[sess].data.push( copyObject(_dataObj) );
+                                    sessData[sess].data[blockNum].id = blockNum;
+                                    sessData[sess].data[blockNum].name = value.block;
+                                    sessData[sess].data[blockNum].legendText = value.block;
+                                    sessData[sess].data[blockNum].total = value.total;
+                                    sessData[sess].data[blockNum].dataPoints = [];
+                                    // almacenar id de bloque
+                                    sessData[sess].blocks[value.block] = blockNum;
+                                }
+                                
+                                // carga dato nuevo
+                                sessData[sess].data[blockNum].dataPoints.push(
+                                    {
+                                        'min': value.minutes,
+                                        'x': addMinutesToDate(sessDate,value.minutes),
+                                        'y': value.presents,
+                                    }
+                                );
+                            }
+                        });
+
+                        // cargar select y gráfico
+                        setChartData(sess,"","");
+                    }else{ console.error("Datos de bloques en sesión "+sess+" no obtenidos") }
+                });
+
+                // Obtener estadísticas por diputado
+                $.post('https://usher.sytes.net/usher-api/member_hist?token=48370255gBrgdlpl050588',
+                    { username: "webadmin",
+                      session: sess})
+                .done(function(data) {
+                    console.log(data);
+                    if (data.succes == true){
+                        /* DATOS DE ESTADISTICA POR MIEMBRO OBTENIDOS */
+                        console.log("Datos de miembros en sesión "+sess+" obtenidos de API");
+
+                        //dato de 1 miembro recibido de api
+                        //"0" : {session,block,member_surname,member_name,photo,presences,total}
+
+                        var blockBreak = "", blockNum = -1, memberNum = -1;
+                        $.each(data, function(index, value) {
+                            if (index == "succes" || 
+                            typeof (value) === "undefined" || typeof (value.member_name) === "undefined"
+                            || (sessData[sess].members.length > 0 && value.member_surname == sessData[sess].members[memberNum].surname && value.member_name == sessData[sess].members[memberNum].name)){ 
+                                 // evita iteracion
+                            }else{
+                                memberNum++;
+                                // NUEVO BLOQUE identificado //
+                                if (value.block != blockBreak){
+                                    blockBreak = value.block;
+                                    blockNum ++;
+                                    blockNum = setRealBlockNum(sess,blockNum, value.block);
+                                    console.log("Nuevo bloque: "+ blockNum); // value.block                                   
+                                }
+                                console.log("Nuevo miembro: "+ value.member_surname);   
+                                
+                                // crea objeto miembro
+                                sessData[sess].members.push( copyObject(_optionsPie) );
+                                sessData[sess].members[memberNum].data = [ copyObject(_pieObj) ];
+                                sessData[sess].members[memberNum].surname = value.member_surname;
+                                sessData[sess].members[memberNum].name = value.member_name;
+                                sessData[sess].members[memberNum].photo = value.photo;
+                                sessData[sess].members[memberNum].block = value.block;
+                                sessData[sess].members[memberNum].blockid = blockNum;
+                                sessData[sess].members[memberNum].presence = value.presence;
+                                sessData[sess].members[memberNum].presences = value.presences;
+                                sessData[sess].members[memberNum].absences = value.total - value.presences;
+                                sessData[sess].members[memberNum].total = value.total;
+                                sessData[sess].members[memberNum].presence = (value.total==0?0:value.presences/value.total);
+                                sessData[sess].members[memberNum].absence = (1 - sessData[sess].members[memberNum].presence);
+                                sessData[sess].members[memberNum].data[0].dataPoints = [
+                                    {y: sessData[sess].members[memberNum].presence, color: 'green'},
+                                    {y: sessData[sess].members[memberNum].absence, color: 'red'},
+                                ];
+                                //log de objeto construido
+                                console.log(sessData[sess].members[memberNum]);
+                            }
+                        });
+
+                        // flag de miembros obtenidos
+                        sessData[sess].membersLoaded = true;
+                        // cargar listado de miembros
+                        setMemberData(sess,"","");
+                    }else{ console.error("Datos de miembros en sesion "+sess+" no obtenidos") }
+                });
+            }
+        }
+    }
+
+    getSessionsList();
+    $(window).load(function() {        
+  /*  var x= copyObject(_optionsPie);
+    x.data=[];
+    x.data= [copyObject(_pieObj)];
+    var x2 = {
+        title: {
+            text: "Website Traffic Source"
+        },width: 70,
+        data: [{
+                type: "pie",
+                startAngle: 270,
+                showInLegend: "true",
+                legendText: "{label}",
+                indexLabel: "{label} ({y})",
+                yValueFormatString:"#,##0.#"%"",
+                dataPoints: [
+                    { label: "Organic", y: 36 },
+                    { label: "Email Marketing", y: 31 }
+                ]
+        }]
+    };
+    var pie = $('#div-pie');
+    pie.CanvasJSChart(x);*/
+        $( ".dropdown" ).change(function() {
+            var sel = this.id;
+            var ddsess = $("#ddsess"), ddblock = $("#ddblock"); //, ddperiod = $("#ddperiod");
+            var sess = ddsess.children("option:selected").val(),
+                block = "", 
+                period = "",
+                sesschange = false;
+            // cambio de sesión
+            if (sel == "ddsess") { 
+                sesschange = true;
+            }
+            // cambio de bloque o periodo
+            if (sel == "ddblock" || sel == "ddperiod") {                
+                block = ddblock.children("option:selected").val(), 
+                period = ""; //ddperiod.children("option:selected").val();
+            }
+            
+            // cargar información de sesion seleccionada
+            setChartData(sess, block, period, sesschange=sesschange);
         });    
     }); 
 </script>
@@ -535,6 +646,7 @@ var options2 = {
                             <li><a href="bench2">BANCAS</a></li>
                             <li><a href="block2">BLOQUES</a></li>
                             <li><a href="quorumPanel">QUORUM</a></li>
+                            <li><a href="statsPanel">ESTADÍSTICAS</a></li>
                             <li><a href="benchAssociation1">ASOCIAR DIPUTADO</a></li>
                             <li><a href="benchAssociation2">DESASOCIAR DIPUTADO</a></li>
                             <li><a href="blockAssociation1">ASOCIAR BLOQUE POLITICO</a></li>
@@ -564,72 +676,29 @@ var options2 = {
             <div class="container clear_both padding_fix">
                 <div class="page-content">
                     <div class="row">
-                        <div class="col-md-12 column ui-sortable">
+                        <div class="col-md-12 column">
                             <h2>Estad&iacute;sticas de Sesiones Finalizadas</h2>
                             <select class="dropdown" id="ddsess" style="width: auto;">
                                 <option value="" selected="selected">Seleccione una sesi&oacute;n...</option>
-                                <option value="sess654">11/10/2019 Sarlanga de Emergencia</option>
-                                <option value="sess653">15/08/2019 Sarasa de Diputados</option>
-                                <option value="sess652">10/06/2019 Pindonga Externo</option>
-                                <option value="sess651">16/03/2019 Inicio de actividades 2019</option>
-                                <option value="sess650">20/11/2018 Fin de actividades 2018</option>
                             </select>
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-md-12 column ui-sortable"><br/><!-- Just so that JSFiddle's Result label doesn't overlap the Chart -->
-                            <div id="chartFilters" style="height:55px;width: 100%;background: #fff;padding-top: 10px;">
+                        <div class="col-md-12 column statpanel"><br/>
+                            <div id="chartFilters">
                                 <select class="dropdown" id="ddblock">
-                                    <option value="" selected="selected">Todos los bloques</option>
-                                    <option value="block10">Atrapame si puedes</option>
-                                    <option value="block12">Cambiemos</option>
-                                    <option value="block13">Todos juntos</option>
-                                    <option value="block4">Oime si queres</option>
-                                    <option value="block5">Esta es para vos</option>
-                                </select>
-                                <select class="dropdown" id="ddhour">
-                                    <option value="" selected="selected">Toda la sesi&oacute;n</option>
-                                    <option value="1">12:58 - 13:55</option>
-                                    <option value="2">13:55 - 14:58</option>
                                 </select>
                             </div>
-                            <div id="chartContainer" style="height: 300px; width: 100%;"></div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6 col-xs-12 column ui-sortable">
-                            <div class="block-web">
-                              <img class="stream align-middle" src="http://feed.neuralfix.com.ar/" alt="Video en Vivo"
-                              onerror="this.onerror=null;this.src='https://neuralfix.com.ar/logos/logo-neuralfix5.png';">
+                            <div id="chartContainer" style="height: 300px; width: 100%;">
                             </div>
+                                <!-- Este SVG tapa marga de Trial Version del CanvasJS -->
+                                <svg id="svgtrial">
+                                    <rect width="60" height="20"/>
+                                </svg>
+                            <div id="memberContainer" class="block-member"></div>
+                            <!-- <div id="div-pie" style="height: 100px;width: 100px;"></div> -->
                         </div>
                     </div>
-                    <!-- </div>
-      <div class="container clear_both padding_fix">
-        <div class="block-web" style="display: inline-block;">
-            <div class ="left-panel" style="width:50%; float:left;" >
-
-                <div id="chart"></div>
-                <div id="presentes"> Presentes:   </div> 
-                <div id="ausentes"> Ausentes:  </div>
-                <div id="quorum">  </div>  
-            </div>
-            <div class ="right-panel" style="width:50%; float:right;">
-              <div id="videoScene" style="width:600px; height: 300px" > Video:
-                <img class="stream" src="http://feed.neuralfix.com.ar/">
-              </div>
-            </div>
-        </div> -->
-                    <!-- <div class="container clear_both padding_fix">
-      <div class="block-web">
-            <canvas id="canvas" style="display:none;"  width=620px height=230px></canvas>
-            <div id="chart"></div>
-            <div id="presentes"> Presentes:   </div> 
-
-            <div id="ausentes"> Ausentes:  </div>
-            <div id="quorum">  </div>  
-      </div> -->
-                    <!-- <ul id="ulEmployees" style="display:none"> </ul> -->
                 </div>
             </div>
         </div>

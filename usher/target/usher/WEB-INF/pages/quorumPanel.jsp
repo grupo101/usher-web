@@ -130,6 +130,7 @@
             return json;
         })();*/
         if (benchN == 92){
+          w=400,h=205
           // Configuración para hemiciclo de 92 bancas
           hemicycle = [{
             "n": [12,20,28,31], // hemiciclo 91 diputados HCDP
@@ -140,6 +141,7 @@
           }];
         }
         if (benchN == 9) {
+          w=300,h=200;
           // Configuración para 9 bancas en 3x3
           hemicycle = [{
             "n": [0], // hemiciclo vacío
@@ -161,11 +163,10 @@
                 "<div><img class=\"profilephoto\" src=\"" + d["photo"] +"\" alt=\"Foto de "+ d["name"] + "\" "+
                 "onerror=\"this.onerror=null;this.src='http://www.connexis.org.nz/wp-content/uploads/2018/11/Person-icon.png';\"></div>";
         }); 
-        w=400,h=205,w=300,h=200,
-            svg=d3.select("#chart")
-                .append("svg")
-                .attr("width",w)
-                .attr("height",h);
+        svg=d3.select("#chart")
+            .append("svg")
+            .attr("width",w)
+            .attr("height",h);
         hc = d3.hemicycle()
                     .n(function(d) {return d.n;})
                     .gap(function(d) {return d.gap;})
@@ -242,192 +243,7 @@
           	      }; 
       //total=  */
       item = item.call(hc);
-    }
-/*    function draw() {
-    	if(document.getElementById("estado").value !=null){
-    		var string = $( "#estado" ).text();
-    		var countPresents;
-    		//alert(string);   
-    		var vec=['0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0'];
-    		for(i=0; i<18; i++){
-    			vec[i]= string.charAt(i);
-    			if(vec[i] == 1){
-    				countPresents++;
-    			}
-    		}    		
-    	
-    	}else{ 
-    	var vec=[0,0,0,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0];
-    	}; 
-      var canvas = document.getElementById("canvas");
-      if (canvas.getContext) {
-        var ctx = canvas.getContext("2d");
-		
-    //los tres de la izquierda en diagonal    
-        var j=0;
-    for(i=0; i<3; i++){
-    	j+=30;
-    	ctx.beginPath();
-        var centerX = (canvas.width / 2)+j;
-        var centerY = (canvas.height / 2)+j;
-        var radius = 15;        
-        ctx.arc(centerX, centerY, radius, 0, 2 * Math.PI, false);
-        if(vec[i] == 1){
-       		ctx.fillStyle = 'green';
-        }else{
-        	ctx.fillStyle = 'red';
-        }
-        ctx.fill();
-        ctx.lineWidth = 1;
-    }
-    
-    //los 3 del medio en vertical
-    j=0;
-    for(i=3;i<6;i++){
-    	j+=40;
-    	ctx.beginPath();
-        var centerX = (canvas.width / 2)+125;
-        var centerY = (canvas.height / 2)-40+j;
-        var radius = 15;        
-        ctx.arc(centerX, centerY, radius, 0, 2 * Math.PI, false);
-        if(vec[i] == 1){
-       		ctx.fillStyle = 'green';
-        }else{
-        	ctx.fillStyle = 'red';
-        }
-        ctx.fill();
-        ctx.lineWidth = 1;    
-    }
-    
-    // los 2 siguientes de la izquierda en el medio
-    j=0;
-    for(i=6;i<8;i++){
-    	j+=30;
-    	ctx.beginPath();
-        var centerX = (canvas.width / 2)+30 +j;
-        var centerY = (canvas.height / 2)-15 +j;
-        var radius = 15;        
-        ctx.arc(centerX, centerY, radius, 0, 2 * Math.PI, false);
-        if(vec[i] == 1){
-       		ctx.fillStyle = 'green';
-        }else{
-        	ctx.fillStyle = 'red';
-        }
-        ctx.fill();
-        ctx.lineWidth = 1;    
-    }
-    
-    //el de arriba a la izquierda de los 3 del medio verticales 
-    j=0;
-    for(i=8;i<9;i++){
-    	j+=30;
-    	ctx.beginPath();
-        var centerX = (canvas.width / 2)+92;
-        var centerY = (canvas.height / 2)+5;
-        var radius = 15;        
-        ctx.arc(centerX, centerY, radius, 0, 2 * Math.PI, false);
-        if(vec[i] == 1){
-       		ctx.fillStyle = 'green';
-        }else{
-        	ctx.fillStyle = 'red';
-        }
-        ctx.fill();
-        ctx.lineWidth = 1;    
-    } 
-    
-    j=0;
-    for(i=9;i<12;i++){
-    	j+=40;
-    	ctx.beginPath();
-        var centerX = (canvas.width / 2)+180;
-        var centerY = (canvas.height / 2)-40+j; 
-        var radius = 15;        
-        ctx.arc(centerX, centerY, radius, 0, 2 * Math.PI, false);
-        if(vec[i] == 1){
-       		ctx.fillStyle = 'green';
-        }else{
-        	ctx.fillStyle = 'red';
-        }
-        ctx.fill();
-        ctx.lineWidth = 1;    
-    } 
-    
-    // segunda columna del medio a la derecha
-    j=0;
-    for(i=12;i<15;i++){
-    	j+=40;
-    	ctx.beginPath();
-        var centerX = (canvas.width / 2)+215; 
-        var centerY = (canvas.height / 2)+j-32;  
-        var radius = 15;        
-        ctx.arc(centerX, centerY, radius, 0, 2 * Math.PI, false);
-        if(vec[i] == 1){
-       		ctx.fillStyle = 'green';
-        }else{
-        	ctx.fillStyle = 'red';
-        }
-        ctx.fill();
-        ctx.lineWidth = 1;    
-    }
-    
-    // 2 ante ultimos de la derecha
-    
-    j=0;
-    for(i=15;i<17;i++){
-    	j+=40;
-    	ctx.beginPath();
-        var centerX = (canvas.width / 2)+250; 
-        var centerY = (canvas.height / 2)+j-20 ;  
-        var radius = 15;        
-        ctx.arc(centerX, centerY, radius, 0, 2 * Math.PI, false);
-        if(vec[i] == 1){
-       		ctx.fillStyle = 'green';
-        }else{
-        	ctx.fillStyle = 'red';
-        }
-        ctx.fill();
-        ctx.lineWidth = 1;    
-    }
-    
-    //ultimo de la derecha arriba
-    j=0;
-    for(i=17;i<18;i++){
-    	j+=40;
-    	ctx.beginPath();
-        var centerX = (canvas.width / 2)+280; 
-        var centerY = (canvas.height / 2)+j;  
-        var radius = 15;        
-        ctx.arc(centerX, centerY, radius, 0, 2 * Math.PI, false);
-        if(vec[i] == 1){
-       		ctx.fillStyle = 'green';
-        }else{
-        	ctx.fillStyle = 'red';
-        }
-        ctx.fill();
-        ctx.lineWidth = 1;    
-    }
-    
-//     j=0;
-    // for(i=12;i<15;i++){
-    // 	j+=30;
-    // 	ctx.beginPath();
-    //     var centerX = (canvas.width / 2)-j; 
-    //     var centerY = (canvas.height / 2)-j;  
-    //     var radius = 15;        
-    //     ctx.arc(centerX, centerY, radius, 0, 2 * Math.PI, false);
-    //     if(vec[i] == 1){
-    //    		ctx.fillStyle = 'green';
-    //     }else{
-    //     	ctx.fillStyle = 'red';
-    //     }
-    //     ctx.fill();
-    //     ctx.lineWidth = 1;    
-    // } 
-    
-      }
-
-      }*/
-    
+    }    
   </script>
   <script>  
         function getBenchsState(){
@@ -538,32 +354,6 @@
                             </div>
                         </div>
                     </div>
-                    <!-- </div>
-      <div class="container clear_both padding_fix">
-        <div class="block-web" style="display: inline-block;">
-            <div class ="left-panel" style="width:50%; float:left;" >
-
-                <div id="chart"></div>
-                <div id="presentes"> Presentes:   </div> 
-                <div id="ausentes"> Ausentes:  </div>
-                <div id="quorum">  </div>  
-            </div>
-            <div class ="right-panel" style="width:50%; float:right;">
-              <div id="videoScene" style="width:600px; height: 300px" > Video:
-                <img class="stream" src="http://feed.neuralfix.com.ar/">
-              </div>
-            </div>
-        </div> -->
-                    <!-- <div class="container clear_both padding_fix">
-      <div class="block-web">
-            <canvas id="canvas" style="display:none;"  width=620px height=230px></canvas>
-            <div id="chart"></div>
-            <div id="presentes"> Presentes:   </div> 
-
-            <div id="ausentes"> Ausentes:  </div>
-            <div id="quorum">  </div>  
-      </div> -->
-                    <!-- <ul id="ulEmployees" style="display:none"> </ul> -->
                 </div>
             </div>
         </div>
