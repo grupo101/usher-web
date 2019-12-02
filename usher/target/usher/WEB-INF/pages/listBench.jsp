@@ -41,7 +41,7 @@
 			                    render : function (data, type, row) {
 			                      switch(data) {
 			                         case 'false' : return 'Ausente'; break;
-			                         case 'true' : return 'Presente'; break;                       
+			                         case 'true' : return 'Presente'; break;
 			                      }
 			                    }		                	  
 		                  }
@@ -49,25 +49,42 @@
 		    });		    
 } );
 		
-	    function draw() { 
+//var clearBenches = true;
+	    function draw(newState) { 
 	    	if(document.getElementById("busyState").value !=null){
-	    		var string = $( "#busyState" ).text();
-	    		for(i=0; i<92; i++){
+	    		//var newState = $( "#busyState" ).text();
+				console.log('Estado real: '+newState);
+	    		for(i=0; i<newState.length; i++){
 	    			//alert(table.rows[i].cells[4].value);
-	    			 if($('#manualState'+i+'').html()=="Presente"){
+/*	    			 if($('#manualState'+i+'').html()=="Presente"){
 	    				 $('#busyState'+i+'').html("Presente"); 
 	    			 }else{
 	    				 if($('#manualState'+i+'').html()=="Ausente"){
 	    					 $('#busyState'+i+'').html("Ausente");
-	    				 }else{	    					 
-	    					 if(string.charAt(i) =='0'){
-	    		    				$('#busyState'+i+'').html("Ausente");	    		    				
-	    		    			}else{
-	    		    				$('#busyState'+i+'').html("Presente");
-	    		    			}
+	    				 }else{	    	*/		
+							console.log('Banca ' + i + ' Estado ' + newState.charAt(i));
+							if(newState.charAt(i) =='0'){
+								$('#busyState'+(i+1)+'').html("Ausente");	    		    				
+							}else{
+								$('#busyState'+(i+1)+'').html("Presente");
+							}
+/* 
 	    				 }
-	    			 }
-	    		} 
+	    			 }*/
+				}  
+				/*
+//				if (clearBenches) {
+					$('.busyState').each(function (index, value){
+						if (index >= newState.length) {
+							console.log(value);
+							$(value).html("(inactivo)");
+						}
+						else{
+							console.log(index + " vs " + newState.length);
+						}
+					});
+					//clearBenches = false;
+//				}*/
  	    	}
 	    }
 		</script> 
@@ -75,7 +92,7 @@
 <script src="js/side-chats.js"></script>
 
 </head>
-<body onload="setInterval('getBenchsState()',3000);"  class="light_theme left_nav_fixed atm-spmenu-push" style="">
+<body onload="setInterval('getBenchsState()',1000);"  class="light_theme left_nav_fixed atm-spmenu-push" style="">
 <div class="wrapper">
   <!--\\\\\\\ wrapper Start \\\\\\-->
   <div class="header_bar">
@@ -169,7 +186,7 @@
 						<td>${bench.number}</td>
 						<td>${bench.associatedMember}</td>
 						<td>${bench.associatedBlock}</td> 
-						<td id="busyState${bench.number}">${bench.busyState}</td>			
+						<td id="busyState${bench.number}" class="busyState">${bench.busyState}</td>			
  						<td id="manualState${bench.number}">${bench.manualState}</td>			
 					</tr>
 				</c:forEach>
@@ -334,19 +351,25 @@
 		}
 	</script>
 	<script>		
-    function getBenchsState(){    	
-    
-        var listitem = $('#ulEmployees');              
+    function getBenchsState(){
+    //console.log("getBenchsState");
+        //var listitem = $('#ulEmployees');             
             $.ajax({
                 Type: 'GET',
                 url: 'https://usher.sytes.net/usher-api/check_status?token=48370255gBrgdlpl050588&server=SVR1',                          
                 success: function (data) {
-	                    	listitem.empty();                       
-	                        $.each(data, function (index, val) {
-	                        	var fullname = val;
-	                            listitem.append('<li id='+index+' value='+fullname+'>' + fullname + '</li>');                           
-	                        });
-	                        draw(); 
+							//listitem.empty();              
+							//console.log(data);
+
+	                        //$.each(data, function (index, val) {
+								//var fullname = val;
+							//var fullname = data.status;
+							console.log(data);
+							console.log(data.status);
+							//listitem.append('<li id="2" value="'+fullname+'">' + fullname + '</li>');
+								//listitem.append('<li id='+index+' value='+fullname+'>' + fullname + '</li>');
+	                        //});
+	                        draw(data.status); 
                    		 }
             });
     };

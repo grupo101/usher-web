@@ -106,7 +106,7 @@
 
 
   <script type="application/javascript"> 
-    const benchN = 9; //92; // hemiciclo diputados HCDP
+    const benchN = 92; // hemiciclo diputados HCDP // 9; // recuadro 3x3 
     //const benchHemi = [0]; //[12,20,28,31]; // hemiciclo 91 (sin presidente) diputados HCDP
     //const benchCenter = [3,3]; // [1,1] hemiciclo diputado 92 1x1
     var hemicycle = null;
@@ -141,13 +141,13 @@
           }];
         }
         if (benchN == 9) {
-          w=300,h=200;
+          w=350,h=200;
           // Configuración para 9 bancas en 3x3
           hemicycle = [{
             "n": [0], // hemiciclo vacío
-            "gap": 0.8, //1.20,
-            "widthIcon": 0.2, //0.39,
-            "width": 300,
+            "gap": 2.6, //1.20,
+            "widthIcon": 0.4, //0.39,
+            "width": 350,
             "people": data
           }];
         }
